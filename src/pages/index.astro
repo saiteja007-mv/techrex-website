@@ -43,6 +43,21 @@ const personSchema = {
     "https://github.com/saiteja007-mv"
   ]
 };
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TechRex",
+  "url": "https://techrex.saitejamothukuri.com",
+  "logo": "https://techrex.saitejamothukuri.com/favicon.svg",
+  "description": "AI tools, local models, developer workflows and hardware guides.",
+  "founder": { "@type": "Person", "name": "Saiteja Mothukuri" },
+  "sameAs": [
+    "https://www.youtube.com/@The_TechRex",
+    "https://linkedin.com/in/venkatasaitejam",
+    "https://github.com/saiteja007-mv"
+  ]
+};
 ---
 <BaseLayout
   title="TechRex — Learn. Build. Launch."
@@ -51,6 +66,7 @@ const personSchema = {
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
   </Fragment>
   <!-- Hero -->
   <Hero />

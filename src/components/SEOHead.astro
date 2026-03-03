@@ -42,9 +42,9 @@ const robotsContent = noindex
 <link rel="manifest" href="/site.webmanifest" />
 
 <!-- Search Engine Verification -->
-<meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_VERIFICATION_CODE" />
-<meta name="msvalidate.01" content="REPLACE_WITH_BING_VERIFICATION_CODE" />
-<meta name="yandex-verification" content="REPLACE_WITH_YANDEX_CODE" />
+<meta name="google-site-verification" content="OwuC5DJMr3DnP6Wf_BGDATwnGFlwNnWkbjQmx5XQU-U" />
+{import.meta.env.BING_SITE_VERIFICATION && <meta name="msvalidate.01" content={import.meta.env.BING_SITE_VERIFICATION} />}
+{import.meta.env.YANDEX_SITE_VERIFICATION && <meta name="yandex-verification" content={import.meta.env.YANDEX_SITE_VERIFICATION} />}
 
 <!-- Sitemap -->
 <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
@@ -55,8 +55,11 @@ const robotsContent = noindex
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content={`${fullTitle} — TechRex`} />
 <meta property="og:site_name" content="TechRex" />
+<meta property="og:locale" content="en_US" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
