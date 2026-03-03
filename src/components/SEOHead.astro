@@ -1,0 +1,67 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  canonicalUrl,
+  type = 'website',
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = title.includes('TechRex') ? title : `${title} | TechRex`;
+const canonical = canonicalUrl ?? Astro.url.href;
+const ogImageUrl = ogImage ?? `${Astro.site}og-image.jpg`;
+const robotsContent = noindex
+  ? 'noindex, nofollow'
+  : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
+---
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Robots -->
+<meta name="robots" content={robotsContent} />
+
+<!-- Language -->
+<meta http-equiv="content-language" content="en" />
+
+<!-- Theme & Manifest -->
+<meta name="theme-color" content="#2D9CDB" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Search Engine Verification -->
+<meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_VERIFICATION_CODE" />
+<meta name="msvalidate.01" content="REPLACE_WITH_BING_VERIFICATION_CODE" />
+<meta name="yandex-verification" content="REPLACE_WITH_YANDEX_CODE" />
+
+<!-- Sitemap -->
+<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:alt" content={`${fullTitle} — TechRex`} />
+<meta property="og:site_name" content="TechRex" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@The_TechRex" />
+<meta name="twitter:creator" content="@The_TechRex" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />

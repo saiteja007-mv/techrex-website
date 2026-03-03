@@ -1,0 +1,70 @@
+---
+// Visual form — backend connection added later
+---
+<section class="border-t border-[var(--color-border)] py-16 bg-[var(--color-surface)]">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center">
+    <h2 class="font-heading font-bold text-2xl sm:text-3xl text-[var(--color-text)] mb-3">
+      Stay Ahead of the AI Curve
+    </h2>
+    <p class="text-[var(--color-muted)] mb-8 text-sm sm:text-base leading-relaxed">
+      Get weekly breakdowns of the best AI tools, local model setups, and developer workflows — delivered to your inbox.
+    </p>
+
+    <form
+      class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+      action="#"
+      method="POST"
+    >
+      <label for="newsletter-email" class="sr-only">Email address</label>
+      <input
+        id="newsletter-email"
+        name="email"
+        type="email"
+        required
+        placeholder="your@email.com"
+        autocomplete="email"
+        class="flex-1 px-4 py-2.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)]
+               text-[var(--color-text)] placeholder:text-[var(--color-muted)] text-sm
+               focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors duration-150"
+      />
+      <button
+        type="submit"
+        class="px-5 py-2.5 rounded-lg bg-accent text-white font-medium text-sm
+               hover:bg-accent-hover transition-colors duration-150 cursor-pointer whitespace-nowrap"
+      >
+        Subscribe Free
+      </button>
+    </form>
+    <p class="mt-3 text-xs text-[var(--color-muted)]">No spam. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<script>
+  // Prevent default form submission until backend is connected
+  function initNewsletterForm() {
+    const form = document.querySelector<HTMLFormElement>('form[action="#"]');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[type="email"]');
+      if (!input?.value) return;
+
+      const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (btn) {
+        btn.textContent = 'Coming Soon!';
+        btn.disabled = true;
+        btn.classList.add('opacity-75', 'cursor-not-allowed');
+        setTimeout(() => {
+          btn.textContent = 'Subscribe Free';
+          btn.disabled = false;
+          btn.classList.remove('opacity-75', 'cursor-not-allowed');
+          input.value = '';
+        }, 2500);
+      }
+    });
+  }
+
+  initNewsletterForm();
+  document.addEventListener('astro:page-load', initNewsletterForm);
+</script>

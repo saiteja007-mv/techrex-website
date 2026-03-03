@@ -1,0 +1,156 @@
+{
+  "videos": [
+    {
+      "id": "3LmVGpGCwpc",
+      "title": "How to Know Which AI Models YOUR Computer Can Run | @The_TechRex",
+      "thumbnail": "thumbnails/01-llmfit-guide.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-03-02T21:25:10Z",
+      "description": "Ever wondered if your laptop can run AI models like Llama, Qwen, or Mistral locally? In this video, I show you how to use LLMfit - a free tool that analyzes your hardware and tells you exactly which Large Language Models will work on YOUR device."
+    },
+    {
+      "id": "iMbbXtQGtq8",
+      "title": "Claude Just Got Microsoft Office Integration! Excel + PowerPoint AI",
+      "thumbnail": "thumbnails/02-claude-office.jpg",
+      "category": "AI Tools",
+      "publishedAt": "2026-03-01T18:32:53Z",
+      "description": "Claude launched Claude Cowork and it's a game-changer for desktop users! Now you can chat directly with your Excel files and PowerPoint presentations."
+    },
+    {
+      "id": "7zw4IKx7iPI",
+      "title": "I Connected Qwen 3.5 (35B) to Claude Code for Free Local AI Coding",
+      "thumbnail": "thumbnails/03-qwen-claude.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-03-01T05:53:43Z",
+      "description": "Qwen just released a 35 billion parameter vision + coding model that runs on consumer GPUs with just 24GB RAM! I connected it to Claude Code for local AI coding."
+    },
+    {
+      "id": "Huy6k8aYnME",
+      "title": "This Tool Checks If Your PC Can Run AI Models (Before You Download)",
+      "thumbnail": "thumbnails/04-llmfit-preview.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-02-28T00:24:38Z",
+      "description": "Stop downloading AI models that won't run on your PC! This tool checks your hardware FIRST and tells you exactly what you CAN run."
+    },
+    {
+      "id": "8Iwcx2zQ5Gs",
+      "title": "The Creator of OpenClaw Was Right 80% of Apps will be Dead | @The_TechRex",
+      "thumbnail": "thumbnails/05-openclaw-apps.jpg",
+      "category": "AI Assistants",
+      "publishedAt": "2026-02-26T15:00:14Z",
+      "description": "I spent 3 months using OpenClaw as my personal AI assistant - and it's replaced 80% of my apps. Full review and workflow breakdown."
+    },
+    {
+      "id": "vmIvWfl_pxk",
+      "title": "Why CUDA Became the AI Industry Standard",
+      "thumbnail": "thumbnails/06-cuda-standard.jpg",
+      "category": "Hardware",
+      "publishedAt": "2026-02-09T05:05:13Z",
+      "description": "CUDA wasn't just good timing — it built the entire AI ecosystem. Why researchers built AI tools around CUDA and why switching away is extremely expensive."
+    },
+    {
+      "id": "JaSfVpM0kjE",
+      "title": "Apple M Chips vs NVIDIA | Part 2",
+      "thumbnail": "thumbnails/07-apple-nvidia.jpg",
+      "category": "Hardware",
+      "publishedAt": "2026-02-09T04:47:28Z",
+      "description": "Apple M-series chips are incredibly powerful and efficient. But can they replace NVIDIA GPUs for AI training? Full comparison."
+    },
+    {
+      "id": "rU_KNvgTXVo",
+      "title": "Why AI Companies Use NVIDIA GPUs | Part 1",
+      "thumbnail": "thumbnails/08-why-nvidia.jpg",
+      "category": "Hardware",
+      "publishedAt": "2026-02-09T04:10:12Z",
+      "description": "Why do almost all AI companies use NVIDIA GPUs to train large AI models? The answer is CUDA — NVIDIA's proprietary software platform."
+    },
+    {
+      "id": "Ha1lcfB99yw",
+      "title": "Openclaw is literally Jarvis which can do any kind of task with ease",
+      "thumbnail": "thumbnails/09-openclaw-jarvis.jpg",
+      "category": "AI Assistants",
+      "publishedAt": "2026-02-07T20:42:24Z",
+      "description": "Openclaw - The AI that actually does things. Agent which you can access from anywhere and do tasks."
+    },
+    {
+      "id": "zy2BnC7J2Sc",
+      "title": "AI Models in Windows and MAC",
+      "thumbnail": "thumbnails/10-ai-models-pc.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-01-31T22:05:00Z",
+      "description": "Running AI Models in Windows and MAC, Comparing the results of Performance."
+    },
+    {
+      "id": "BExnbxEQJxs",
+      "title": "Free alternative for Claude Code",
+      "thumbnail": "thumbnails/11-free-claude-code.jpg",
+      "category": "AI Tools",
+      "publishedAt": "2026-01-30T18:00:00Z",
+      "description": "Discover free alternatives to Claude Code for AI-powered coding assistance."
+    },
+    {
+      "id": "dMxJ4zFCZSw",
+      "title": "China's new AI coding model is a game changer in building websites",
+      "thumbnail": "thumbnails/12-china-ai-coding.jpg",
+      "category": "AI Tools",
+      "publishedAt": "2026-01-28T18:00:00Z",
+      "description": "Exploring China's latest AI coding model and its capabilities for website development."
+    },
+    {
+      "id": "0UIXP4qjvZI",
+      "title": "Claude Code is your ultimate coding assistant",
+      "thumbnail": "thumbnails/13-claude-code-assistant.jpg",
+      "category": "AI Tools",
+      "publishedAt": "2026-01-25T18:00:00Z",
+      "description": "Why Claude Code is the ultimate coding assistant for developers."
+    },
+    {
+      "id": "_FCP24CX93c",
+      "title": "Generate Images without Internet",
+      "thumbnail": "thumbnails/14-generate-images-offline.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-01-20T18:00:00Z",
+      "description": "How to generate AI images locally without an internet connection."
+    },
+    {
+      "id": "aazk0T848b4",
+      "title": "Chat with AI without Internet",
+      "thumbnail": "thumbnails/15-chat-ai-offline.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-01-18T18:00:00Z",
+      "description": "Run AI chatbots locally on your machine without internet access."
+    },
+    {
+      "id": "xJhEl0DHZk0",
+      "title": "Use Claude Code Better | @The_TechRex",
+      "thumbnail": "thumbnails/16-use-claude-code.jpg",
+      "category": "AI Tools",
+      "publishedAt": "2026-01-15T18:00:00Z",
+      "description": "Tips and tricks to get the most out of Claude Code for your development workflow."
+    },
+    {
+      "id": "24ImPc3hrkA",
+      "title": "Generate Images and Videos without Internet | @The_TechRex",
+      "thumbnail": "thumbnails/17-generate-offline.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-01-12T18:00:00Z",
+      "description": "Complete guide to generating images and videos locally without internet."
+    },
+    {
+      "id": "Va82ixUEKpw",
+      "title": "Chat with LLMs without Internet | @The_TechRex",
+      "thumbnail": "thumbnails/18-chat-llms-offline.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-01-10T18:00:00Z",
+      "description": "How to chat with Large Language Models completely offline on your local machine."
+    },
+    {
+      "id": "JSKYUcBLYuk",
+      "title": "Welcome to TechRex | @The_TechRex",
+      "thumbnail": "thumbnails/19-welcome-techrex.jpg",
+      "category": "About",
+      "publishedAt": "2025-11-30T18:59:36Z",
+      "description": "Welcome to TechRex! Learn. Build. Launch without the struggle. Evolve or Get Extinct."
+    }
+  ]
+}

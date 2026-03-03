@@ -1,0 +1,14 @@
+# build output
+dist/
+.vercel
+
+# dependencies
+node_modules/
+
+# Astro cache
+.astro/
+
+# env files
+.env
+.env.*
+!.env.example
