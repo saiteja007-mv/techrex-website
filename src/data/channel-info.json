@@ -1,0 +1,42 @@
+{
+  "channel": {
+    "name": "TechRex",
+    "handle": "@The_TechRex",
+    "id": "UCxAGlEdCHFwzComLKy2rxTg",
+    "description": "Welcome to TechRex! 🦖\n\nLearn. Build. Launch without the struggle.\n\nEvolve or Get Extinct 🦖\n\n🎯 THE REX METHOD:\nResources - Tools you need\nExperiments - Projects we build\neXecution - Real implementations\n\n💼 Contact: saiteja.techrex@gmail.com",
+    "customUrl": "@the_techrex",
+    "publishedAt": "2025-11-30T18:59:36.124692Z",
+    "statistics": {
+      "viewCount": "9885",
+      "subscriberCount": "86",
+      "videoCount": "19"
+    },
+    "thumbnails": {
+      "default": "https://yt3.ggpht.com/RroiN1M-mVsz1MEI-f4XpzMoUv0G6Iso700heg-jWq9PEN4_ITA3LigdUz5-7T2sMJrCM0pm=s88-c-k-c0x00ffffff-no-rj",
+      "medium": "https://yt3.ggpht.com/RroiN1M-mVsz1MEI-f4XpzMoUv0G6Iso700heg-jWq9PEN4_ITA3LigdUz5-7T2sMJrCM0pm=s240-c-k-c0x00ffffff-no-rj",
+      "high": "https://yt3.ggpht.com/RroiN1M-mVsz1MEI-f4XpzMoUv0G6Iso700heg-jWq9PEN4_ITA3LigdUz5-7T2sMJrCM0pm=s800-c-k-c0x00ffffff-no-rj"
+    }
+  },
+  "socialLinks": {
+    "youtube": "https://www.youtube.com/@The_TechRex",
+    "instagram": "https://instagram.com/The_TechRex",
+    "medium": "https://medium.com/@saiteja.techrex",
+    "blog": "https://saitejatechrex.blogspot.com",
+    "linkedin": "https://linkedin.com/in/venkatasaitejam",
+    "github": [
+      "https://github.com/thetechrex",
+      "https://github.com/saiteja007-mv"
+    ],
+    "portfolio": "https://saitejamothukuri.com",
+    "email": "saiteja.techrex@gmail.com"
+  },
+  "branding": {
+    "tagline": "Learn. Build. Launch without the struggle.",
+    "catchphrase": "Evolve or Get Extinct 🦖",
+    "rexMethod": {
+      "R": "Resources - Tools you need",
+      "E": "Experiments - Projects we build",
+      "X": "eXecution - Real implementations"
+    }
+  }
+}

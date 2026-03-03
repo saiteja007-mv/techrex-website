@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+import channelInfo from '../data/channel-info.json';
+import avatar from '../assets/channel-avatar.jpg';
+
+const { branding, socialLinks } = channelInfo;
+const stats = channelInfo.channel.statistics;
+
+// Format view count with commas
+const formattedViews = parseInt(stats.viewCount).toLocaleString('en-US');
+---
+<section class="py-24 bg-[var(--color-bg)]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col items-center text-center gap-8">
+
+      <!-- Avatar -->
+      <div class="w-24 h-24 rounded-full overflow-hidden ring-2 ring-[var(--color-border)] flex-shrink-0">
+        <Image
+          src={avatar}
+          alt="TechRex channel avatar"
+          width={96}
+          height={96}
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Text block -->
+      <div class="max-w-2xl">
+        <!-- Channel handle badge -->
+        <p class="text-sm text-[var(--color-muted)] mb-3">@The_TechRex</p>
+
+        <!-- Title -->
+        <h1 class="font-heading font-bold text-5xl sm:text-6xl leading-tight mb-3">
+          <span class="text-[var(--color-text)]">Tech</span><span class="text-accent">Rex</span>
+        </h1>
+
+        <!-- Tagline -->
+        <p class="text-lg text-[var(--color-muted)] max-w-md mx-auto mt-3 mb-8">
+          {branding.tagline}
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a
+            href="/videos"
+            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-medium
+                   hover:bg-primary-hover transition-colors duration-150 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Watch Videos
+          </a>
+          <a
+            href={socialLinks.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg border border-[var(--color-border)]
+                   text-[var(--color-text)] text-sm font-medium hover:border-primary hover:text-primary
+                   transition-colors duration-150 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            Subscribe on YouTube
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="flex items-center gap-8 pt-4">
+        <div class="text-center">
+          <p class="font-heading font-bold text-2xl text-[var(--color-text)]">{formattedViews}+</p>
+          <p class="text-xs text-[var(--color-muted)] uppercase tracking-wide mt-0.5">Total Views</p>
+        </div>
+        <div class="w-px h-10 bg-[var(--color-border)]"></div>
+        <div class="text-center">
+          <p class="font-heading font-bold text-2xl text-[var(--color-text)]">{stats.subscriberCount}+</p>
+          <p class="text-xs text-[var(--color-muted)] uppercase tracking-wide mt-0.5">Subscribers</p>
+        </div>
+        <div class="w-px h-10 bg-[var(--color-border)]"></div>
+        <div class="text-center">
+          <p class="font-heading font-bold text-2xl text-[var(--color-text)]">{stats.videoCount}+</p>
+          <p class="text-xs text-[var(--color-muted)] uppercase tracking-wide mt-0.5">Videos</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

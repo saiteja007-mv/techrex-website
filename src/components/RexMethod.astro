@@ -1,0 +1,63 @@
+---
+const pillars = [
+  {
+    letter: 'R',
+    name: 'Resources',
+    tagline: 'Tools you need',
+    description: 'Curated tools, software, and hardware recommendations that actually work. No fluff, just the essentials to get started.',
+    letterClass: 'text-primary bg-primary/8',
+    iconPath: `<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />`,
+  },
+  {
+    letter: 'E',
+    name: 'Experiments',
+    tagline: 'Projects we build',
+    description: 'Hands-on projects and tutorials where we test the latest AI tools so you know exactly what works before investing your time.',
+    letterClass: 'text-secondary bg-secondary/8',
+    iconPath: `<path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1 1 .03 2.798-1.402 2.798H4.2c-1.432 0-2.402-1.798-1.402-2.798L4.2 15.3" />`,
+  },
+  {
+    letter: 'X',
+    name: 'eXecution',
+    tagline: 'Real implementations',
+    description: 'Step-by-step guides to actually ship. From zero to working implementation — the practical side that most tutorials skip.',
+    letterClass: 'text-accent bg-accent/8',
+    iconPath: `<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />`,
+  },
+] as const;
+---
+<section class="py-20 bg-[var(--color-surface)]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section header -->
+    <div class="text-center mb-14">
+      <h2 class="font-heading font-bold text-3xl sm:text-4xl text-[var(--color-text)] mb-4">
+        The <span class="text-primary">REX</span> Method
+      </h2>
+      <p class="text-[var(--color-muted)] max-w-xl mx-auto text-base leading-relaxed">
+        Every video follows a proven framework designed to take you from curious to capable.
+      </p>
+    </div>
+
+    <!-- Pillars grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {pillars.map((pillar) => (
+        <div class="p-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)]">
+          <!-- Letter badge -->
+          <div class={`inline-flex items-center justify-center w-12 h-12 rounded-lg text-3xl font-bold font-heading mb-5 ${pillar.letterClass}`}>
+            {pillar.letter}
+          </div>
+
+          <h3 class="font-heading font-bold text-lg text-[var(--color-text)] mb-1">
+            {pillar.name}
+          </h3>
+          <p class="text-sm font-medium text-[var(--color-muted)] mb-3">
+            {pillar.tagline}
+          </p>
+          <p class="text-sm text-[var(--color-muted)] leading-relaxed">
+            {pillar.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

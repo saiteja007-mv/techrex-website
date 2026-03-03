@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import VideoGrid from '../components/VideoGrid.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import { getCollection } from 'astro:content';
+
+const allVideos = await getCollection('videos');
+const sortedVideos = allVideos
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .map(v => v.data);
+const latestVideos = sortedVideos.slice(0, 6);
+
+const categories = [
+  { name: 'Local AI', desc: 'Run AI models on your own hardware', count: allVideos.filter(v => v.data.category === 'Local AI').length },
+  { name: 'AI Tools', desc: 'Best tools to supercharge your workflow', count: allVideos.filter(v => v.data.category === 'AI Tools').length },
+  { name: 'AI Assistants', desc: 'Reviews and tutorials on AI agents', count: allVideos.filter(v => v.data.category === 'AI Assistants').length },
+  { name: 'Hardware', desc: 'GPU guides for AI workloads', count: allVideos.filter(v => v.data.category === 'Hardware').length },
+  { name: 'About', desc: 'Channel intro and background', count: allVideos.filter(v => v.data.category === 'About').length },
+];
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "TechRex",
+  "url": "https://techrex.saitejamothukuri.com",
+  "description": "AI tools, local models, developer workflows and hardware guides.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://techrex.saitejamothukuri.com/videos?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Saiteja Mothukuri",
+  "url": "https://saitejamothukuri.com",
+  "sameAs": [
+    "https://www.youtube.com/@The_TechRex",
+    "https://linkedin.com/in/venkatasaitejam",
+    "https://github.com/saiteja007-mv"
+  ]
+};
+---
+<BaseLayout
+  title="TechRex — Learn. Build. Launch."
+  description="AI tools, local models, developer workflows and hardware guides. Learn to build and launch with the latest AI technology."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </Fragment>
+  <!-- Hero -->
+  <Hero />
+
+  <!-- Latest Videos -->
+  <section class="py-20 bg-[var(--color-bg)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <h2 class="font-heading font-bold text-3xl sm:text-4xl text-[var(--color-text)]">
+            Recent Videos
+          </h2>
+        </div>
+        <a
+          href="/videos"
+          class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary-hover transition-colors duration-150 cursor-pointer"
+        >
+          View all
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <VideoGrid videos={latestVideos} columns={3} />
+
+      <!-- Mobile view all -->
+      <div class="mt-8 text-center sm:hidden">
+        <a href="/videos" class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-[var(--color-border)] text-sm font-medium text-[var(--color-text)] hover:border-primary hover:text-primary transition-colors duration-150 cursor-pointer">
+          View all videos
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="py-20 bg-[var(--color-surface)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <h2 class="font-heading font-bold text-3xl sm:text-4xl text-[var(--color-text)]">
+          Explore Categories
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {categories.map(cat => (
+          <a
+            href={`/videos#${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+            class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg p-5
+                   hover:border-primary/50 hover:shadow-sm transition-all duration-150 cursor-pointer"
+          >
+            <p class="font-bold text-2xl text-primary mb-1">{cat.count}</p>
+            <h3 class="font-semibold text-sm text-[var(--color-text)] mb-1">{cat.name}</h3>
+            <p class="text-xs text-[var(--color-muted)] leading-relaxed">{cat.desc}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <NewsletterForm />
+</BaseLayout>

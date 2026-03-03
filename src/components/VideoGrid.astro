@@ -1,0 +1,32 @@
+---
+import VideoCard from './VideoCard.astro';
+
+interface VideoData {
+  id: string;
+  title: string;
+  thumbnail: string;
+  category: 'Local AI' | 'AI Tools' | 'AI Assistants' | 'Hardware';
+  publishedAt: Date;
+  description: string;
+}
+
+interface Props {
+  videos: VideoData[];
+  columns?: 2 | 3;
+}
+const { videos, columns = 3 } = Astro.props;
+const gridClass = columns === 2
+  ? 'grid-cols-1 sm:grid-cols-2'
+  : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+---
+{videos.length > 0 ? (
+  <div class={`grid ${gridClass} gap-6`}>
+    {videos.map((video) => (
+      <VideoCard video={video} />
+    ))}
+  </div>
+) : (
+  <div class="text-center py-16 text-muted dark:text-muted-dark">
+    <p class="text-lg">No videos found in this category.</p>
+  </div>
+)}

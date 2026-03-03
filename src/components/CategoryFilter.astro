@@ -1,0 +1,59 @@
+---
+interface Props {
+  categories: string[];
+  activeCategory?: string;
+}
+const { categories, activeCategory = 'All' } = Astro.props;
+---
+<div class="flex flex-wrap gap-2" id="category-filter" role="group" aria-label="Filter videos by category">
+  {['All', ...categories].map((cat) => (
+    <button
+      data-filter={cat}
+      class={`category-filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer border
+        ${cat === activeCategory
+          ? 'bg-primary text-white border-primary'
+          : 'bg-transparent text-muted dark:text-muted-dark border-border dark:border-border-dark hover:border-primary hover:text-primary'
+        }`}
+      aria-pressed={cat === activeCategory ? 'true' : 'false'}
+    >
+      {cat}
+    </button>
+  ))}
+</div>
+
+<script>
+  function initCategoryFilter() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.category-filter-btn');
+    const cards = document.querySelectorAll<HTMLElement>('[data-category-card]');
+
+    if (!buttons.length) return;
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter ?? 'All';
+
+        // Update button styles
+        buttons.forEach(b => {
+          const isActive = b.dataset.filter === filter;
+          b.classList.toggle('bg-primary', isActive);
+          b.classList.toggle('text-white', isActive);
+          b.classList.toggle('border-primary', isActive);
+          b.classList.toggle('bg-transparent', !isActive);
+          b.classList.toggle('text-muted', !isActive);
+          b.setAttribute('aria-pressed', String(isActive));
+        });
+
+        // Show/hide cards
+        cards.forEach(card => {
+          const category = card.dataset.categoryCard ?? '';
+          const show = filter === 'All' || category === filter;
+          card.style.display = show ? '' : 'none';
+          card.style.opacity = show ? '1' : '0';
+        });
+      });
+    });
+  }
+
+  initCategoryFilter();
+  document.addEventListener('astro:page-load', initCategoryFilter);
+</script>
