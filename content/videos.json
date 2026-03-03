@@ -79,6 +79,78 @@
       "category": "Local AI",
       "publishedAt": "2026-01-31T22:05:00Z",
       "description": "Running AI Models in Windows and MAC, Comparing the results of Performance."
+    },
+    {
+      "id": "BExnbxEQJxs",
+      "title": "Free alternative for Claude Code",
+      "thumbnail": "thumbnails/11-free-claude-code.jpg",
+      "category": "AI Tools",
+      "publishedAt": "2026-01-30T18:00:00Z",
+      "description": "Discover free alternatives to Claude Code for AI-powered coding assistance."
+    },
+    {
+      "id": "dMxJ4zFCZSw",
+      "title": "China's new AI coding model is a game changer in building websites",
+      "thumbnail": "thumbnails/12-china-ai-coding.jpg",
+      "category": "AI Tools",
+      "publishedAt": "2026-01-28T18:00:00Z",
+      "description": "Exploring China's latest AI coding model and its capabilities for website development."
+    },
+    {
+      "id": "0UIXP4qjvZI",
+      "title": "Claude Code is your ultimate coding assistant",
+      "thumbnail": "thumbnails/13-claude-code-assistant.jpg",
+      "category": "AI Tools",
+      "publishedAt": "2026-01-25T18:00:00Z",
+      "description": "Why Claude Code is the ultimate coding assistant for developers."
+    },
+    {
+      "id": "_FCP24CX93c",
+      "title": "Generate Images without Internet",
+      "thumbnail": "thumbnails/14-generate-images-offline.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-01-20T18:00:00Z",
+      "description": "How to generate AI images locally without an internet connection."
+    },
+    {
+      "id": "aazk0T848b4",
+      "title": "Chat with AI without Internet",
+      "thumbnail": "thumbnails/15-chat-ai-offline.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-01-18T18:00:00Z",
+      "description": "Run AI chatbots locally on your machine without internet access."
+    },
+    {
+      "id": "xJhEl0DHZk0",
+      "title": "Use Claude Code Better | @The_TechRex",
+      "thumbnail": "thumbnails/16-use-claude-code.jpg",
+      "category": "AI Tools",
+      "publishedAt": "2026-01-15T18:00:00Z",
+      "description": "Tips and tricks to get the most out of Claude Code for your development workflow."
+    },
+    {
+      "id": "24ImPc3hrkA",
+      "title": "Generate Images and Videos without Internet | @The_TechRex",
+      "thumbnail": "thumbnails/17-generate-offline.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-01-12T18:00:00Z",
+      "description": "Complete guide to generating images and videos locally without internet."
+    },
+    {
+      "id": "Va82ixUEKpw",
+      "title": "Chat with LLMs without Internet | @The_TechRex",
+      "thumbnail": "thumbnails/18-chat-llms-offline.jpg",
+      "category": "Local AI",
+      "publishedAt": "2026-01-10T18:00:00Z",
+      "description": "How to chat with Large Language Models completely offline on your local machine."
+    },
+    {
+      "id": "JSKYUcBLYuk",
+      "title": "Welcome to TechRex | @The_TechRex",
+      "thumbnail": "thumbnails/19-welcome-techrex.jpg",
+      "category": "About",
+      "publishedAt": "2025-11-30T18:59:36Z",
+      "description": "Welcome to TechRex! Learn. Build. Launch without the struggle. Evolve or Get Extinct."
     }
   ]
 }
