@@ -1,0 +1,290 @@
+---
+import Layout from '../layouts/Layout.astro';
+import blogData from '../../content/blog/posts.json';
+
+const { blogPosts } = blogData;
+const pageTitle = "Blog - TechRex";
+---
+
+<Layout title={pageTitle}>
+  <div class="blog-page">
+    <section class="hero-section">
+      <div class="container">
+        <h1>📝 TechRex Blog</h1>
+        <p class="subtitle">
+          In-depth articles, tutorials, and guides based on our YouTube videos.
+          Learn, build, and launch without the struggle.
+        </p>
+      </div>
+    </section>
+
+    <section class="blog-grid-section">
+      <div class="container">
+        <div class="blog-grid">
+          {blogPosts.map(post => (
+            <article class="blog-card">
+              <div class="blog-card-header">
+                <span class="category">{post.category}</span>
+                <span class="date">{new Date(post.date).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'short', 
+                  day: 'numeric' 
+                })}</span>
+              </div>
+              
+              <h2><a href={post.bloggerUrl || `#`} target="_blank" rel="noopener">{post.title}</a></h2>
+              
+              <p class="excerpt">{post.excerpt}</p>
+              
+              <div class="blog-card-footer">
+                <div class="tags">
+                  {post.tags.slice(0, 3).map(tag => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+                
+                <div class="links">
+                  {post.bloggerUrl ? (
+                    <a href={post.bloggerUrl} target="_blank" class="read-more">
+                      Read on Blog →
+                    </a>
+                  ) : (
+                    <span class="coming-soon">Coming Soon</span>
+                  )}
+                  <a 
+                    href={`https://youtube.com/watch?v=${post.youtubeId}`} 
+                    target="_blank" 
+                    class="watch-video"
+                  >
+                    Watch Video 📺
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="subscribe-section">
+      <div class="container">
+        <h2>📬 Stay Updated</h2>
+        <p>Get notified when new tutorials are published.</p>
+        <div class="subscribe-links">
+          <a href="https://saitejatechrex.blogspot.com" target="_blank" class="subscribe-btn">
+            Follow on Blogger
+          </a>
+          <a href="https://www.youtube.com/@The_TechRex?sub_confirmation=1" target="_blank" class="subscribe-btn youtube">
+            Subscribe on YouTube
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .blog-page {
+      min-height: 100vh;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, var(--dark) 0%, #1a1a2e 100%);
+      padding: 80px 0;
+      text-align: center;
+      border-bottom: 3px solid var(--primary);
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      background: linear-gradient(45deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-section .subtitle {
+      font-size: 1.2rem;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .blog-grid-section {
+      padding: 60px 0;
+      background: var(--dark);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .blog-card {
+      background: #252525;
+      border-radius: 12px;
+      padding: 30px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #333;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(39, 174, 96, 0.1);
+    }
+
+    .blog-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .blog-card-header .category {
+      background: var(--primary);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .blog-card-header .date {
+      color: var(--gray);
+      font-size: 0.85rem;
+    }
+
+    .blog-card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .blog-card h2 a {
+      color: var(--light);
+      text-decoration: none;
+    }
+
+    .blog-card h2 a:hover {
+      color: var(--primary);
+    }
+
+    .blog-card .excerpt {
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .blog-card-footer {
+      margin-top: auto;
+    }
+
+    .blog-card-footer .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .blog-card-footer .tag {
+      background: #333;
+      color: var(--gray);
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 0.75rem;
+    }
+
+    .blog-card-footer .links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .blog-card-footer .read-more,
+    .blog-card-footer .watch-video {
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .blog-card-footer .read-more {
+      background: var(--primary);
+      color: white;
+    }
+
+    .blog-card-footer .watch-video {
+      background: #333;
+      color: var(--light);
+    }
+
+    .blog-card-footer .coming-soon {
+      color: var(--gray);
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    .subscribe-section {
+      padding: 80px 0;
+      background: #252525;
+      text-align: center;
+    }
+
+    .subscribe-section h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .subscribe-section p {
+      color: var(--gray);
+      margin-bottom: 30px;
+    }
+
+    .subscribe-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .subscribe-btn {
+      display: inline-block;
+      padding: 15px 30px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .subscribe-btn:hover {
+      background: var(--accent);
+    }
+
+    .subscribe-btn.youtube {
+      background: #FF0000;
+    }
+
+    .subscribe-btn.youtube:hover {
+      background: #cc0000;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 2rem;
+      }
+
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .blog-card-footer .links {
+        flex-direction: column;
+      }
+    }
+  </style>
+</Layout>
