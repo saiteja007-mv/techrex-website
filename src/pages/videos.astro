@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VideoCard from '../components/VideoCard.astro';
+import CategoryFilter from '../components/CategoryFilter.astro';
+import { getCollection } from 'astro:content';
+
+const allVideos = await getCollection('videos');
+const sortedVideos = allVideos
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .map(v => v.data);
+
+const categories = ['Local AI', 'AI Tools', 'AI Assistants', 'Hardware', 'About'];
+const counts: Record<string, number> = {};
+categories.forEach(cat => {
+  counts[cat] = allVideos.filter(v => v.data.category === cat).length;
+});
+---
+<BaseLayout
+  title="All Videos — TechRex"
+  description="Browse all TechRex videos on AI tools, local AI models, AI assistants, and hardware guides. Filter by category."
+>
+  <section class="py-16 bg-[var(--color-bg)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Page header -->
+      <div class="mb-10">
+        <h1 class="font-heading font-bold text-4xl sm:text-5xl text-[var(--color-text)] mb-3">
+          Videos
+        </h1>
+        <p class="text-[var(--color-muted)] text-base max-w-xl">
+          {allVideos.length} videos covering AI tools, local models, developer workflows, and hardware.
+        </p>
+      </div>
+
+      <!-- Category stats bar -->
+      <div class="flex flex-wrap gap-2 mb-8 pb-8 border-b border-[var(--color-border)]">
+        {categories.map(cat => (
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]">
+            <span class="text-xs text-[var(--color-muted)]">{cat}</span>
+            <span class="text-xs font-bold text-[var(--color-text)]">{counts[cat]}</span>
+          </div>
+        ))}
+      </div>
+
+      <!-- Filter -->
+      <div class="mb-8">
+        <CategoryFilter categories={categories} />
+      </div>
+
+      <!-- Grid — VideoCard already has data-category-card on its <article> for filter JS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sortedVideos.map(video => (
+          <VideoCard video={video} />
+        ))}
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>

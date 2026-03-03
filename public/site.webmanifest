@@ -1,0 +1,17 @@
+{
+  "name": "TechRex",
+  "short_name": "TechRex",
+  "description": "AI tools, local AI, developer workflows",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#2D9CDB",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    }
+  ]
+}

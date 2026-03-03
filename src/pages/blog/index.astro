@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Blog — TechRex"
+  description="Written tutorials, deep dives, and guides on AI tools and local models. Coming soon from TechRex."
+>
+  <section class="py-32 bg-bg dark:bg-bg-dark">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center">
+      <!-- Icon -->
+      <div class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6">
+        <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+        </svg>
+      </div>
+
+      <span class="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium mb-4">Coming Soon</span>
+      <h1 class="font-heading font-bold text-4xl sm:text-5xl text-text dark:text-text-dark mb-4">Blog</h1>
+      <p class="text-muted dark:text-muted-dark text-base leading-relaxed mb-8">
+        Written deep-dives, step-by-step guides, and tutorials are on the way. In the meantime, all the content you need is in the videos.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/videos" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-primary-hover active:scale-95 transition-all duration-200 cursor-pointer shadow-lg shadow-primary/25">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Watch Videos
+        </a>
+        <a href="/about" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-border dark:border-border-dark text-sm font-medium text-text dark:text-text-dark hover:border-primary hover:text-primary transition-all duration-200 cursor-pointer">
+          Learn About TechRex
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
