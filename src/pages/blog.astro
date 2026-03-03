@@ -1,9 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import blogData from '../../content/blog/posts.json';
+import { getEmbedData } from '../utils/youtube-embeds.ts';
 
 const { blogPosts } = blogData;
 const pageTitle = "Blog - TechRex";
+
+// Add embed data to each post
+const postsWithEmbeds = blogPosts.map(post => ({
+  ...post,
+  embed: getEmbedData(post.youtubeId, post.title)
+}));
 ---
 
 <Layout title={pageTitle}>
@@ -21,43 +28,57 @@ const pageTitle = "Blog - TechRex";
     <section class="blog-grid-section">
       <div class="container">
         <div class="blog-grid">
-          {blogPosts.map(post => (
+          {postsWithEmbeds.map(post => (
             <article class="blog-card">
-              <div class="blog-card-header">
-                <span class="category">{post.category}</span>
-                <span class="date">{new Date(post.date).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'short', 
-                  day: 'numeric' 
-                })}</span>
+              <div class="video-embed">
+                <iframe 
+                  width="100%" 
+                  height="200" 
+                  src={post.embed.embedUrl}
+                  title={post.title}
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
               </div>
               
-              <h2><a href={post.bloggerUrl || `#`} target="_blank" rel="noopener">{post.title}</a></h2>
-              
-              <p class="excerpt">{post.excerpt}</p>
-              
-              <div class="blog-card-footer">
-                <div class="tags">
-                  {post.tags.slice(0, 3).map(tag => (
-                    <span class="tag">{tag}</span>
-                  ))}
+              <div class="blog-card-content">
+                <div class="blog-card-header">
+                  <span class="category">{post.category}</span>
+                  <span class="date">{new Date(post.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                  })}</span>
                 </div>
                 
-                <div class="links">
-                  {post.bloggerUrl ? (
-                    <a href={post.bloggerUrl} target="_blank" class="read-more">
-                      Read on Blog →
+                <h2><a href={post.bloggerUrl || `#`} target="_blank" rel="noopener">{post.title}</a></h2>
+                
+                <p class="excerpt">{post.excerpt}</p>
+                
+                <div class="blog-card-footer">
+                  <div class="tags">
+                    {post.tags.slice(0, 3).map(tag => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                  
+                  <div class="links">
+                    {post.bloggerUrl ? (
+                      <a href={post.bloggerUrl} target="_blank" class="read-more">
+                        Read on Blog →
+                      </a>
+                    ) : (
+                      <span class="coming-soon">Coming Soon</span>
+                    )}
+                    <a 
+                      href={post.embed.watchUrl}
+                      target="_blank" 
+                      class="watch-video"
+                    >
+                      Watch on YouTube 📺
                     </a>
-                  ) : (
-                    <span class="coming-soon">Coming Soon</span>
-                  )}
-                  <a 
-                    href={`https://youtube.com/watch?v=${post.youtubeId}`} 
-                    target="_blank" 
-                    class="watch-video"
-                  >
-                    Watch Video 📺
-                  </a>
+                  </div>
                 </div>
               </div>
             </article>
@@ -123,14 +144,33 @@ const pageTitle = "Blog - TechRex";
     .blog-card {
       background: #252525;
       border-radius: 12px;
-      padding: 30px;
+      overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
       border: 1px solid #333;
+      display: flex;
+      flex-direction: column;
     }
 
     .blog-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 30px rgba(39, 174, 96, 0.1);
+    }
+
+    .video-embed {
+      width: 100%;
+      background: #000;
+    }
+
+    .video-embed iframe {
+      display: block;
+      border: none;
+    }
+
+    .blog-card-content {
+      padding: 25px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .blog-card-header {
@@ -156,7 +196,7 @@ const pageTitle = "Blog - TechRex";
     }
 
     .blog-card h2 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       margin-bottom: 12px;
       line-height: 1.4;
     }
@@ -175,6 +215,7 @@ const pageTitle = "Blog - TechRex";
       font-size: 0.95rem;
       line-height: 1.6;
       margin-bottom: 20px;
+      flex: 1;
     }
 
     .blog-card-footer {
