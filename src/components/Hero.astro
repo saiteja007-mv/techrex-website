@@ -70,17 +70,17 @@ const formattedViews = parseInt(stats.viewCount).toLocaleString('en-US');
       <!-- Stats row -->
       <div class="flex items-center gap-8 pt-4">
         <div class="text-center">
-          <p id="stat-views" class="font-heading font-bold text-2xl text-[var(--color-text)]">{formattedViews}+</p>
+          <p id="stat-views" class="font-heading font-bold text-2xl text-[var(--color-text)]">{formattedViews}</p>
           <p class="text-xs text-[var(--color-muted)] uppercase tracking-wide mt-0.5">Total Views</p>
         </div>
         <div class="w-px h-10 bg-[var(--color-border)]"></div>
         <div class="text-center">
-          <p id="stat-subs" class="font-heading font-bold text-2xl text-[var(--color-text)]">{stats.subscriberCount}+</p>
+          <p id="stat-subs" class="font-heading font-bold text-2xl text-[var(--color-text)]">{stats.subscriberCount}</p>
           <p class="text-xs text-[var(--color-muted)] uppercase tracking-wide mt-0.5">Subscribers</p>
         </div>
         <div class="w-px h-10 bg-[var(--color-border)]"></div>
         <div class="text-center">
-          <p id="stat-videos" class="font-heading font-bold text-2xl text-[var(--color-text)]">{stats.videoCount}+</p>
+          <p id="stat-videos" class="font-heading font-bold text-2xl text-[var(--color-text)]">{stats.videoCount}</p>
           <p class="text-xs text-[var(--color-muted)] uppercase tracking-wide mt-0.5">Videos</p>
         </div>
       </div>
@@ -98,9 +98,9 @@ const formattedViews = parseInt(stats.viewCount).toLocaleString('en-US');
       const views = document.getElementById('stat-views');
       const subs  = document.getElementById('stat-subs');
       const vids  = document.getElementById('stat-videos');
-      if (views) views.textContent = parseInt(data.viewCount).toLocaleString('en-US') + '+';
-      if (subs)  subs.textContent  = parseInt(data.subscriberCount).toLocaleString('en-US') + '+';
-      if (vids)  vids.textContent  = parseInt(data.videoCount).toLocaleString('en-US') + '+';
+      if (views) views.textContent = parseInt(data.viewCount).toLocaleString('en-US');
+      if (subs)  subs.textContent  = parseInt(data.subscriberCount).toLocaleString('en-US');
+      if (vids)  vids.textContent  = parseInt(data.videoCount).toLocaleString('en-US');
     })
     .catch(() => { /* silently keep static fallback on network error */ });
 </script>
