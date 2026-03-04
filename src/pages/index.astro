@@ -58,6 +58,59 @@ const organizationSchema = {
     "https://github.com/saiteja007-mv"
   ]
 };
+
+const siteNavigationSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "TechRex Site Navigation",
+  "itemListElement": [
+    {
+      "@type": "SiteLinksSearchBox",
+      "url": "https://techrex.saitejamothukuri.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://techrex.saitejamothukuri.com/videos?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+};
+
+const navLinksSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://techrex.saitejamothukuri.com/#website",
+  "url": "https://techrex.saitejamothukuri.com",
+  "name": "TechRex",
+  "isPartOf": { "@id": "https://techrex.saitejamothukuri.com/#website" },
+  "about": { "@type": "Thing", "name": "AI Tools and Local AI Models" },
+  "hasPart": [
+    {
+      "@type": "WebPage",
+      "name": "Videos",
+      "url": "https://techrex.saitejamothukuri.com/videos",
+      "description": "AI tools, local models, and hardware tutorial videos"
+    },
+    {
+      "@type": "WebPage",
+      "name": "About",
+      "url": "https://techrex.saitejamothukuri.com/about",
+      "description": "About TechRex and the REX Method"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Resources",
+      "url": "https://techrex.saitejamothukuri.com/resources",
+      "description": "Curated AI tools and resources"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Blog",
+      "url": "https://techrex.saitejamothukuri.com/blog",
+      "description": "Articles on AI, local models and developer workflows"
+    }
+  ]
+};
 ---
 <BaseLayout
   title="TechRex — Learn. Build. Launch."
@@ -67,6 +120,7 @@ const organizationSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(navLinksSchema)} />
   </Fragment>
   <!-- Hero -->
   <Hero />

@@ -1,104 +1,22 @@
 {
   "categories": [
     {
-      "name": "Local AI Tools",
-      "icon": "cpu",
-      "items": [
-        {
-          "name": "LLMfit",
-          "url": "https://github.com/simonw/llm",
-          "description": "Check which AI models your hardware can actually run before downloading.",
-          "tags": ["free", "tool"]
-        },
-        {
-          "name": "Ollama",
-          "url": "https://ollama.ai",
-          "description": "Run large language models locally on your machine with one command.",
-          "tags": ["free", "local"]
-        },
-        {
-          "name": "LM Studio",
-          "url": "https://lmstudio.ai",
-          "description": "GUI app to download, run and chat with local AI models.",
-          "tags": ["free", "gui"]
-        },
-        {
-          "name": "Qwen 3.5",
-          "url": "https://huggingface.co/Qwen",
-          "description": "Alibaba's powerful 35B parameter coding and vision model.",
-          "tags": ["free", "model"]
-        }
-      ]
-    },
-    {
-      "name": "AI Assistants",
-      "icon": "bot",
-      "items": [
-        {
-          "name": "OpenClaw",
-          "url": "https://openclaw.ai",
-          "description": "AI agent that replaces 80% of your apps — your personal Jarvis.",
-          "tags": ["agent", "productivity"]
-        },
-        {
-          "name": "Claude",
-          "url": "https://claude.ai",
-          "description": "Anthropic's AI assistant — powerful for coding, writing and analysis.",
-          "tags": ["ai", "assistant"]
-        },
-        {
-          "name": "Claude Code",
-          "url": "https://claude.ai/code",
-          "description": "Claude's CLI for agentic coding and software development.",
-          "tags": ["coding", "cli"]
-        }
-      ]
-    },
-    {
-      "name": "Developer Tools",
+      "name": "Open Source Projects",
       "icon": "code",
       "items": [
         {
-          "name": "Claude Cowork",
-          "url": "https://claude.ai",
-          "description": "Chat directly with Excel and PowerPoint files using Claude AI.",
-          "tags": ["productivity", "office"]
+          "name": "Local AI Memory",
+          "url": "https://github.com/saiteja007-mv/local-ai-memory",
+          "description": "Give your local LLMs persistent long-term memory. A RAG-based proxy that works with LM Studio, Ollama, llama.cpp and any OpenAI-compatible backend. Built with Python, FastAPI, ChromaDB and Next.js.",
+          "tags": ["Local AI", "Python", "RAG", "FastAPI", "Privacy"]
         },
         {
-          "name": "Cursor",
-          "url": "https://cursor.sh",
-          "description": "AI-first code editor built on VS Code.",
-          "tags": ["editor", "coding"]
-        },
-        {
-          "name": "Continue.dev",
-          "url": "https://continue.dev",
-          "description": "Open-source AI code assistant for VS Code and JetBrains.",
-          "tags": ["free", "coding"]
-        }
-      ]
-    },
-    {
-      "name": "Hardware Guides",
-      "icon": "chip",
-      "items": [
-        {
-          "name": "NVIDIA CUDA",
-          "url": "https://developer.nvidia.com/cuda-toolkit",
-          "description": "NVIDIA's parallel computing platform — the AI industry standard.",
-          "tags": ["gpu", "nvidia"]
-        },
-        {
-          "name": "Apple Silicon",
-          "url": "https://www.apple.com/mac/",
-          "description": "Apple M-series chips for efficient local AI on Mac.",
-          "tags": ["mac", "gpu"]
-        },
-        {
-          "name": "GPU Benchmarks",
-          "url": "https://www.techpowerup.com/gpu-specs/",
-          "description": "Compare GPU specs to understand AI model performance.",
-          "tags": ["research", "hardware"]
+          "name": "gblog — Blogger CLI Skill",
+          "url": "https://github.com/saiteja007-mv/gblog-skill",
+          "altUrl": "https://clawhub.ai/saiteja007-mv/gblog",
+          "altLabel": "ClawhHub",
+          "description": "Manage your Google Blogger blog from your AI assistant. Publish, edit, delete and monitor posts through natural language. Available as an OpenClaw skill on ClawhHub.",
+          "tags": ["OpenClaw", "Blogger", "CLI", "Python", "Automation"]
         }
       ]
     }

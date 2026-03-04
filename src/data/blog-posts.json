@@ -1,0 +1,84 @@
+{
+  "blogPosts": [
+    {
+      "id": "01-llmfit-guide",
+      "title": "How to Know Which AI Models YOUR Computer Can Run (LLMfit Complete Guide)",
+      "date": "2026-03-02",
+      "category": "Local AI",
+      "youtubeId": "3LmVGpGCwpc",
+      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/how-to-know-which-ai-models-your.html",
+      "slug": "how-to-know-which-ai-models-your-computer-can-run",
+      "excerpt": "Discover how to use LLMfit to check AI model compatibility with your hardware before downloading. Perfect for laptops with normal GPU, CPU, or no GPU at all.",
+      "tags": [
+        "LLMfit",
+        "Local AI",
+        "LLM Compatibility",
+        "AI Models"
+      ]
+    },
+    {
+      "id": "03-qwen-claude",
+      "title": "I Connected Qwen 3.5 (35B) to Claude Code for Free Local AI Coding",
+      "date": "2026-03-01",
+      "category": "Local AI",
+      "youtubeId": "7zw4IKx7iPI",
+      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/i-connected-qwen-35-35b-to-claude-code.html",
+      "slug": "qwen-3-5-claude-code-local-ai-coding",
+      "excerpt": "Qwen just released a 35 billion parameter vision + coding model that runs on consumer GPUs. Learn how to connect it to Claude Code for free local AI coding.",
+      "tags": [
+        "Qwen",
+        "Claude Code",
+        "Local AI",
+        "AI Coding"
+      ]
+    },
+    {
+      "id": "05-openclaw-apps",
+      "title": "OpenClaw Review: 80% of My Apps Replaced After 3 Months",
+      "date": "2026-02-26",
+      "category": "AI Assistants",
+      "youtubeId": "8Iwcx2zQ5Gs",
+      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/openclaw-review-80-of-my-apps-replaced.html",
+      "slug": "openclaw-review-80-percent-apps-replaced",
+      "excerpt": "I spent 3 months using OpenClaw as my personal AI assistant. Here's my honest review and how it replaced 80% of my daily apps.",
+      "tags": [
+        "OpenClaw",
+        "AI Assistant",
+        "Productivity",
+        "App Review"
+      ]
+    },
+    {
+      "id": "16-use-claude-code",
+      "title": "Use Claude Code Better: Tips and Tricks for Maximum Productivity",
+      "date": "2026-01-15",
+      "category": "AI Tools",
+      "youtubeId": "xJhEl0DHZk0",
+      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/use-claude-code-better-tips-and-tricks.html",
+      "slug": "use-claude-code-better-tips-tricks",
+      "excerpt": "Tips and tricks to get the most out of Claude Code for your development workflow. Boost productivity with these techniques.",
+      "tags": [
+        "Claude Code",
+        "Productivity",
+        "Coding Tips",
+        "Developer Workflow"
+      ]
+    },
+    {
+      "id": "17-generate-offline",
+      "title": "Generate Images and Videos Without Internet: Complete Guide",
+      "date": "2026-01-12",
+      "category": "Local AI",
+      "youtubeId": "24ImPc3hrkA",
+      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/generate-images-and-videos-without.html",
+      "slug": "generate-images-videos-without-internet",
+      "excerpt": "Complete guide to generating images and videos locally without internet. Tools, setup, and best practices.",
+      "tags": [
+        "Local AI",
+        "Image Generation",
+        "Video Generation",
+        "Offline AI"
+      ]
+    }
+  ]
+}
