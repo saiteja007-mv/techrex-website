@@ -8,7 +8,7 @@ const posts = blogData.blogPosts.sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );
 
-const liveUrls = new Set(liveData.map((b: { url: string }) => b.url));
+const liveUrls = new Set(liveData.map((b: { url: string }) => b.url.replace('http://', 'https://')));
 const categories = ['All', ...Array.from(new Set(posts.map(p => p.category)))];
 
 function thumbUrl(youtubeId: string) {

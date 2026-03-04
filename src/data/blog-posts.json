@@ -17,22 +17,6 @@
       ]
     },
     {
-      "id": "02-claude-office",
-      "title": "Claude Just Got Microsoft Office Integration! Excel + PowerPoint AI",
-      "date": "2026-03-01",
-      "category": "AI Tools",
-      "youtubeId": "iMbbXtQGtq8",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/claude-just-got-microsoft-office.html",
-      "slug": "claude-microsoft-office-integration",
-      "excerpt": "Anthropic launched Claude Cowork \u2014 a game-changer for desktop users. Now you can chat directly with your Excel files and PowerPoint presentations using AI.",
-      "tags": [
-        "Claude",
-        "Claude Cowork",
-        "Microsoft Office",
-        "Excel AI"
-      ]
-    },
-    {
       "id": "03-qwen-claude",
       "title": "I Connected Qwen 3.5 (35B) to Claude Code for Free Local AI Coding",
       "date": "2026-03-01",
@@ -49,22 +33,6 @@
       ]
     },
     {
-      "id": "04-llmfit-preview",
-      "title": "This Tool Checks If Your PC Can Run AI Models (Before You Download)",
-      "date": "2026-02-28",
-      "category": "Local AI",
-      "youtubeId": "Huy6k8aYnME",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/this-tool-checks-if-your-pc-can-run-ai.html",
-      "slug": "tool-checks-pc-can-run-ai-models",
-      "excerpt": "Stop downloading AI models that won't run on your PC! This tool checks your hardware FIRST and tells you exactly what you CAN run.",
-      "tags": [
-        "LLMfit",
-        "AI Models",
-        "Hardware Check",
-        "Local AI"
-      ]
-    },
-    {
       "id": "05-openclaw-apps",
       "title": "OpenClaw Review: 80% of My Apps Replaced After 3 Months",
       "date": "2026-02-26",
@@ -78,171 +46,6 @@
         "AI Assistant",
         "Productivity",
         "App Review"
-      ]
-    },
-    {
-      "id": "06-cuda-standard",
-      "title": "Why CUDA Became the AI Industry Standard",
-      "date": "2026-02-09",
-      "category": "Hardware",
-      "youtubeId": "vmIvWfl_pxk",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/why-cuda-became-ai-industry-standard.html",
-      "slug": "why-cuda-became-ai-industry-standard",
-      "excerpt": "CUDA wasn't just good timing \u2014 it built the entire AI ecosystem. Learn why researchers built AI tools around CUDA and why switching is expensive.",
-      "tags": [
-        "CUDA",
-        "NVIDIA",
-        "AI Hardware",
-        "GPU"
-      ]
-    },
-    {
-      "id": "07-apple-nvidia",
-      "title": "Apple M Chips vs NVIDIA GPUs: Can M-Series Replace NVIDIA for AI?",
-      "date": "2026-02-09",
-      "category": "Hardware",
-      "youtubeId": "JaSfVpM0kjE",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/apple-m-chips-vs-nvidia-gpus-can-m.html",
-      "slug": "apple-m-chips-vs-nvidia-gpus-ai",
-      "excerpt": "Apple M-series chips are incredibly powerful and efficient. But can they replace NVIDIA GPUs for AI training? Full comparison inside.",
-      "tags": [
-        "Apple Silicon",
-        "M1",
-        "M2",
-        "M3",
-        "NVIDIA",
-        "AI Training"
-      ]
-    },
-    {
-      "id": "08-why-nvidia",
-      "title": "Why AI Companies Use NVIDIA GPUs (Part 1)",
-      "date": "2026-02-09",
-      "category": "Hardware",
-      "youtubeId": "rU_KNvgTXVo",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/why-ai-companies-use-nvidia-gpus-part-1.html",
-      "slug": "why-ai-companies-use-nvidia-gpus",
-      "excerpt": "Why do almost all AI companies use NVIDIA GPUs to train large AI models? The answer is CUDA \u2014 NVIDIA's proprietary software platform.",
-      "tags": [
-        "NVIDIA",
-        "CUDA",
-        "AI Training",
-        "GPU Computing"
-      ]
-    },
-    {
-      "id": "09-openclaw-jarvis",
-      "title": "OpenClaw is Literally Jarvis: AI That Does Any Task With Ease",
-      "date": "2026-02-07",
-      "category": "AI Assistants",
-      "youtubeId": "Ha1lcfB99yw",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/openclaw-is-literally-jarvis-ai-that.html",
-      "slug": "openclaw-is-literally-jarvis",
-      "excerpt": "Openclaw - The AI that actually does things. An agent you can access from anywhere to accomplish tasks effortlessly.",
-      "tags": [
-        "OpenClaw",
-        "AI Agent",
-        "Jarvis",
-        "AI Assistant"
-      ]
-    },
-    {
-      "id": "10-ai-models-pc",
-      "title": "AI Models in Windows vs MAC: Performance Comparison",
-      "date": "2026-01-31",
-      "category": "Local AI",
-      "youtubeId": "zy2BnC7J2Sc",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/ai-models-in-windows-vs-mac-performance.html",
-      "slug": "ai-models-windows-vs-mac-performance",
-      "excerpt": "Running AI Models in Windows and MAC, comparing the results of performance. Which platform is better for local AI?",
-      "tags": [
-        "Windows",
-        "macOS",
-        "Local AI",
-        "AI Models",
-        "Performance"
-      ]
-    },
-    {
-      "id": "11-free-claude-code",
-      "title": "Free Alternative for Claude Code: Budget-Friendly AI Coding",
-      "date": "2026-01-30",
-      "category": "AI Tools",
-      "youtubeId": "BExnbxEQJxs",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/free-alternative-for-claude-code-budget.html",
-      "slug": "free-alternative-claude-code",
-      "excerpt": "Discover free alternatives to Claude Code for AI-powered coding assistance without breaking the bank.",
-      "tags": [
-        "Claude Code",
-        "Free AI",
-        "Coding Assistant",
-        "Open Source"
-      ]
-    },
-    {
-      "id": "12-china-ai-coding",
-      "title": "China's New AI Coding Model: Game Changer for Web Development",
-      "date": "2026-01-28",
-      "category": "AI Tools",
-      "youtubeId": "dMxJ4zFCZSw",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/chinas-new-ai-coding-model-game-changer.html",
-      "slug": "china-new-ai-coding-model-website-development",
-      "excerpt": "Exploring China's latest AI coding model and its capabilities for website development. Is it better than Western alternatives?",
-      "tags": [
-        "China AI",
-        "Qwen",
-        "Coding Model",
-        "Web Development"
-      ]
-    },
-    {
-      "id": "13-claude-code-assistant",
-      "title": "Claude Code: The Ultimate Coding Assistant for Developers",
-      "date": "2026-01-25",
-      "category": "AI Tools",
-      "youtubeId": "0UIXP4qjvZI",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/claude-code-ultimate-coding-assistant.html",
-      "slug": "claude-code-ultimate-coding-assistant",
-      "excerpt": "Why Claude Code is the ultimate coding assistant for developers. Features, use cases, and productivity tips.",
-      "tags": [
-        "Claude Code",
-        "AI Coding",
-        "Developer Tools",
-        "Productivity"
-      ]
-    },
-    {
-      "id": "14-generate-images-offline",
-      "title": "Generate AI Images Without Internet: Complete Local Setup Guide",
-      "date": "2026-01-20",
-      "category": "Local AI",
-      "youtubeId": "_FCP24CX93c",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/generate-ai-images-without-internet.html",
-      "slug": "generate-ai-images-without-internet",
-      "excerpt": "How to generate AI images locally without an internet connection. Privacy-focused image generation on your own hardware.",
-      "tags": [
-        "Local AI",
-        "Image Generation",
-        "Stable Diffusion",
-        "Privacy",
-        "Offline AI"
-      ]
-    },
-    {
-      "id": "15-chat-ai-offline",
-      "title": "Chat With AI Without Internet: Run LLMs Locally",
-      "date": "2026-01-18",
-      "category": "Local AI",
-      "youtubeId": "aazk0T848b4",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/chat-with-ai-without-internet-run-llms.html",
-      "slug": "chat-with-ai-without-internet",
-      "excerpt": "Run AI chatbots locally on your machine without internet access. Complete privacy, no data sent to cloud.",
-      "tags": [
-        "Local AI",
-        "Offline AI",
-        "LLM",
-        "Privacy",
-        "Chatbot"
       ]
     },
     {
@@ -275,39 +78,6 @@
         "Image Generation",
         "Video Generation",
         "Offline AI"
-      ]
-    },
-    {
-      "id": "18-chat-llms-offline",
-      "title": "Chat With LLMs Without Internet: Privacy-First AI Setup",
-      "date": "2026-01-10",
-      "category": "Local AI",
-      "youtubeId": "Va82ixUEKpw",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/chat-with-llms-without-internet-privacy.html",
-      "slug": "chat-with-llms-without-internet-privacy",
-      "excerpt": "How to chat with Large Language Models completely offline on your local machine. Maximum privacy, zero cloud dependency.",
-      "tags": [
-        "Local AI",
-        "LLM",
-        "Privacy",
-        "Offline",
-        "AI Chat"
-      ]
-    },
-    {
-      "id": "19-welcome-techrex",
-      "title": "Welcome to TechRex: Learn, Build, Launch Without The Struggle",
-      "date": "2025-11-30",
-      "category": "About",
-      "youtubeId": "JSKYUcBLYuk",
-      "bloggerUrl": "https://saitejatechrex.blogspot.com/2026/03/welcome-to-techrex-learn-build-launch.html",
-      "slug": "welcome-to-techrex",
-      "excerpt": "Welcome to TechRex! Learn about the REX Method, our mission, and what to expect from this channel.",
-      "tags": [
-        "TechRex",
-        "Introduction",
-        "REX Method",
-        "About"
       ]
     }
   ]
