@@ -38,7 +38,7 @@ const videoListSchema = {
       "@type": "VideoObject",
       "name": video.title,
       "description": video.description,
-      "thumbnailUrl": `https://techrex.saitejamothukuri.com/thumbnails/${video.thumbnail.split('/').pop()}`,
+      "thumbnailUrl": `https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`,
       "uploadDate": video.publishedAt.toISOString(),
       "url": `https://www.youtube.com/watch?v=${video.id}`,
       "embedUrl": `https://www.youtube.com/embed/${video.id}`,

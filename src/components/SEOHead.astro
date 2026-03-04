@@ -6,6 +6,9 @@ interface Props {
   canonicalUrl?: string;
   type?: 'website' | 'article';
   noindex?: boolean;
+  author?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
 }
 
 const {
@@ -15,6 +18,9 @@ const {
   canonicalUrl,
   type = 'website',
   noindex = false,
+  author = 'Saiteja Mothukuri',
+  publishedTime,
+  modifiedTime,
 } = Astro.props;
 
 const fullTitle = title.includes('TechRex') ? title : `${title} | TechRex`;
@@ -30,6 +36,9 @@ const robotsContent = noindex
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Author -->
+<meta name="author" content={author} />
 
 <!-- Robots -->
 <meta name="robots" content={robotsContent} />
@@ -49,7 +58,6 @@ const robotsContent = noindex
 <!-- Sitemap -->
 <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
 
-<!-- Open Graph -->
 <meta property="og:type" content={type} />
 <meta property="og:url" content={canonical} />
 <meta property="og:title" content={fullTitle} />
@@ -60,6 +68,9 @@ const robotsContent = noindex
 <meta property="og:image:alt" content={`${fullTitle} — TechRex`} />
 <meta property="og:site_name" content="TechRex" />
 <meta property="og:locale" content="en_US" />
+{type === 'article' && author && <meta property="article:author" content={author} />}
+{type === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{type === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
