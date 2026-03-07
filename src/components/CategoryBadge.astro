@@ -6,15 +6,25 @@ interface Props {
 const { category, size = 'sm' } = Astro.props;
 
 const colorMap: Record<string, string> = {
-  'Local AI':      'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800',
-  'AI Tools':      'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-800',
-  'AI Assistants': 'bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-950 dark:text-purple-400 dark:border-purple-800',
-  'Hardware':      'bg-orange-50 text-orange-700 border border-orange-200 dark:bg-orange-950 dark:text-orange-400 dark:border-orange-800',
-  'About':         'bg-gray-50 text-gray-600 border border-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-700',
+  'Local AI':      'bg-[#34D399]/15 text-emerald-700 border-2 border-[#34D399]',
+  'AI Tools':      'bg-[#8B5CF6]/15 text-violet-700 border-2 border-[#8B5CF6]',
+  'AI Assistants': 'bg-[#F472B6]/15 text-pink-700 border-2 border-[#F472B6]',
+  'Hardware':      'bg-[#FBBF24]/15 text-amber-700 border-2 border-[#FBBF24]',
+  'About':         'bg-[#94A3B8]/15 text-slate-600 border-2 border-[#94A3B8]',
 };
+
+const darkColorMap: Record<string, string> = {
+  'Local AI':      'dark:bg-[#34D399]/10 dark:text-emerald-400',
+  'AI Tools':      'dark:bg-[#8B5CF6]/10 dark:text-violet-400',
+  'AI Assistants': 'dark:bg-[#F472B6]/10 dark:text-pink-400',
+  'Hardware':      'dark:bg-[#FBBF24]/10 dark:text-amber-400',
+  'About':         'dark:bg-[#94A3B8]/10 dark:text-slate-400',
+};
+
 const sizeClass = size === 'sm' ? 'text-xs px-2 py-0.5' : 'text-sm px-3 py-1';
 const colors = colorMap[category] ?? colorMap['About'];
+const darkColors = darkColorMap[category] ?? darkColorMap['About'];
 ---
-<span class={`inline-flex items-center rounded-md font-medium ${sizeClass} ${colors}`}>
+<span class={`inline-flex items-center rounded-full font-bold ${sizeClass} ${colors} ${darkColors}`}>
   {category}
 </span>

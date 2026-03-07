@@ -1,101 +1,175 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import resourcesData from '../data/resources.json';
 
-const { categories } = resourcesData;
+const projects = [
+  {
+    name: 'Local AI Memory',
+    description: 'A local memory system for AI assistants that runs entirely on your own hardware. Store and retrieve context without cloud dependencies — full privacy, zero latency.',
+    githubUrl: 'https://github.com/saiteja007-mv/local-ai-memory',
+    clawUrl: null,
+    tags: ['Local AI', 'Memory', 'Privacy', 'Open Source'],
+    color: 'mint' as const,
+    status: 'Active',
+    emoji: '🧠',
+  },
+  {
+    name: 'GBlog Skill',
+    description: 'A Claude Code skill for generating and publishing blog posts directly to Google Blogger. Automate your blogging workflow with AI. Also available as a Claude skill on Clawhub.',
+    githubUrl: 'https://github.com/saiteja007-mv/gblog-skill',
+    clawUrl: 'https://clawhub.ai/saiteja007-mv/gblog',
+    tags: ['Claude', 'Blogging', 'Automation', 'AI Skill'],
+    color: 'violet' as const,
+    status: 'Active',
+    emoji: '✍️',
+  },
+];
 
-const iconPaths: Record<string, string> = {
-  cpu: 'M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18',
-  bot: 'M12 2a2 2 0 0 1 2 2c0 .74-.4 1.38-1 1.72V7h1a7 7 0 0 1 7 7H3a7 7 0 0 1 7-7h1V5.72A2 2 0 0 1 10 4a2 2 0 0 1 2-2zM3 16v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2H3zm6-4a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z',
-  code: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
-  chip: 'M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m16-6h-2m2 6h-2M7 19H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m10 14h2a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 9h6v6H9V9z',
+const shadowMap = {
+  mint: 'shadow-hard-mint',
+  violet: 'shadow-hard-violet',
+  pink: 'shadow-hard-pink',
+  amber: 'shadow-hard-amber',
 };
 
-const categoryColors: Record<string, string> = {
-  'Local AI Tools': 'text-secondary',
-  'AI Assistants': 'text-purple-500',
-  'Developer Tools': 'text-primary',
-  'Hardware Guides': 'text-accent',
+const accentMap = {
+  mint: { bg: '#34D399', text: 'text-emerald-700', border: '#34D399' },
+  violet: { bg: '#8B5CF6', text: 'text-violet-700', border: '#8B5CF6' },
+  pink: { bg: '#F472B6', text: 'text-pink-700', border: '#F472B6' },
+  amber: { bg: '#FBBF24', text: 'text-amber-700', border: '#FBBF24' },
 };
 ---
 <BaseLayout
-  title="Resources — TechRex"
-  description="Curated tools, AI assistants, developer utilities, and hardware guides recommended by TechRex. Everything you need to build with AI."
+  title="Projects — TechRex"
+  description="Personal open-source projects by Saiteja Mothukuri — TechRex. Local AI memory, Claude skills, and developer automation tools."
 >
-  <!-- Header -->
-  <section class="py-16 bg-bg dark:bg-bg-dark border-b border-border dark:border-border-dark">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="inline-block px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-medium mb-4">Curated Picks</span>
-      <h1 class="font-heading font-bold text-4xl sm:text-5xl text-text dark:text-text-dark mb-3">Resources</h1>
-      <p class="text-muted dark:text-muted-dark text-base max-w-xl leading-relaxed">
-        The tools and references featured across TechRex videos. All tested and recommended.
+  <!-- Hero -->
+  <section class="py-20 bg-[var(--color-bg)] border-b-2 border-[var(--color-border)] relative overflow-hidden">
+    <div class="absolute inset-0 pattern-dots opacity-[0.04] pointer-events-none"></div>
+    <!-- Decorative shapes -->
+    <div class="absolute top-10 right-16 w-10 h-10 rounded-full bg-primary/20 border-2 border-primary hidden lg:block"></div>
+    <div class="absolute bottom-10 left-12 w-8 h-8 bg-[var(--color-mint)] border-2 border-[var(--color-border)] rotate-12 hidden lg:block" style="box-shadow: 3px 3px 0px 0px var(--color-border)"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+      <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-6 shadow-hard-sm">
+        Open Source
+      </span>
+      <h1 class="font-heading font-extrabold text-4xl sm:text-5xl text-[var(--color-text)] mb-4 tracking-tight">
+        My Projects
+      </h1>
+      <p class="text-[var(--color-muted)] text-lg max-w-2xl leading-relaxed">
+        Tools and skills I'm building in public. Everything open-source, everything practical.
       </p>
     </div>
   </section>
 
-  <!-- Resource categories -->
-  <section class="py-16 bg-surface dark:bg-surface-dark">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-      {categories.map(category => (
-        <div>
-          <!-- Category header -->
-          <div class="flex items-center gap-3 mb-8">
-            <div class={`w-10 h-10 rounded-xl bg-card dark:bg-card-dark border border-border dark:border-border-dark flex items-center justify-center ${categoryColors[category.name] ?? 'text-primary'}`}>
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d={iconPaths[category.icon] ?? iconPaths.code} />
-              </svg>
-            </div>
-            <div>
-              <h2 class={`font-heading font-bold text-xl text-text dark:text-text-dark`}>{category.name}</h2>
-              <p class="text-xs text-muted dark:text-muted-dark">{category.items.length} resources</p>
-            </div>
-          </div>
-
-          <!-- Resource cards grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {category.items.map(item => (
-              <a
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group p-5 rounded-xl bg-card dark:bg-card-dark border border-border dark:border-border-dark
-                       hover:shadow-lg hover:shadow-black/10 dark:hover:shadow-black/40 hover:-translate-y-0.5
-                       hover:border-primary/50 transition-all duration-200 cursor-pointer flex flex-col gap-3"
-              >
-                <div class="flex items-start justify-between gap-3">
-                  <h3 class="font-heading font-semibold text-sm text-text dark:text-text-dark group-hover:text-primary transition-colors duration-200">
-                    {item.name}
-                  </h3>
-                  <svg class="w-4 h-4 text-muted dark:text-muted-dark flex-shrink-0 group-hover:text-primary transition-colors duration-200 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-                  </svg>
-                </div>
-                <p class="text-xs text-muted dark:text-muted-dark leading-relaxed flex-1">{item.description}</p>
-                <div class="flex flex-wrap gap-1.5">
-                  {item.tags.map(tag => (
-                    <span class="text-xs px-2 py-0.5 rounded-full bg-surface dark:bg-surface-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark">
-                      {tag}
+  <!-- Projects Grid -->
+  <section class="py-16 bg-[var(--color-bg)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        {projects.map((project) => {
+          const accent = accentMap[project.color];
+          const shadow = shadowMap[project.color];
+          return (
+            <article class={`bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] ${shadow} p-7 flex flex-col gap-5 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200`}>
+              <!-- Header -->
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl">{project.emoji}</span>
+                  <div>
+                    <h2 class="font-heading font-extrabold text-xl text-[var(--color-text)] leading-tight">{project.name}</h2>
+                    <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-xs font-bold border-2"
+                          style={`color: ${accent.bg}; border-color: ${accent.border}; background: ${accent.bg}18`}>
+                      ● {project.status}
                     </span>
-                  ))}
+                  </div>
                 </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
+              </div>
 
-  <!-- CTA -->
-  <section class="py-16 bg-bg dark:bg-bg-dark border-t border-border dark:border-border-dark">
-    <div class="max-w-2xl mx-auto px-4 text-center">
-      <h2 class="font-heading font-bold text-2xl text-text dark:text-text-dark mb-3">See These Tools in Action</h2>
-      <p class="text-sm text-muted dark:text-muted-dark mb-6">Watch the TechRex videos to see how each tool is used in real workflows.</p>
-      <a href="/videos" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-primary-hover active:scale-95 transition-all duration-200 cursor-pointer shadow-lg shadow-primary/25">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        Watch Videos
-      </a>
+              <!-- Description -->
+              <p class="text-sm text-[var(--color-muted)] leading-relaxed flex-1">
+                {project.description}
+              </p>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-2">
+                {project.tags.map(tag => (
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--color-surface)] border-2 border-[var(--color-border)] text-[var(--color-muted)]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <!-- Actions -->
+              <div class="flex items-center gap-3 mt-auto flex-wrap">
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                >
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                  </svg>
+                  View on GitHub
+                </a>
+                {project.clawUrl && (
+                  <a
+                    href={project.clawUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold border-2 border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                  >
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                      <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                    Use on Clawhub
+                  </a>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      <!-- Coming Soon Banner -->
+      <div class="rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface)] p-8 text-center mb-16 relative overflow-hidden">
+        <div class="absolute inset-0 pattern-dots opacity-[0.04] pointer-events-none"></div>
+        <div class="relative z-10">
+          <span class="text-3xl mb-3 block">🚀</span>
+          <h3 class="font-heading font-extrabold text-xl text-[var(--color-text)] mb-2">More Projects Coming Soon</h3>
+          <p class="text-sm text-[var(--color-muted)] max-w-md mx-auto">
+            Building more tools and skills in public. Follow on GitHub to stay updated.
+          </p>
+          <a
+            href="https://github.com/saiteja007-mv"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 mt-5 px-5 py-2.5 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] text-sm font-bold border-2 border-[var(--color-border)] shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+            Follow on GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- AI Prompts Teaser -->
+      <div class="rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-8 shadow-hard-violet flex flex-col md:flex-row items-center gap-6">
+        <div class="flex-shrink-0 w-16 h-16 rounded-2xl bg-primary/10 border-2 border-primary flex items-center justify-center text-3xl" style="box-shadow: 3px 3px 0px 0px #8B5CF6">
+          ✨
+        </div>
+        <div class="flex-1 text-center md:text-left">
+          <h3 class="font-heading font-extrabold text-lg text-[var(--color-text)] mb-1">Curated AI Prompts — Coming Soon</h3>
+          <p class="text-sm text-[var(--color-muted)] leading-relaxed">
+            A hand-picked collection of prompts for local AI, coding, content creation, and more. Stay tuned.
+          </p>
+        </div>
+        <span class="px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold border-2 border-primary flex-shrink-0">
+          In Progress
+        </span>
+      </div>
     </div>
   </section>
 </BaseLayout>

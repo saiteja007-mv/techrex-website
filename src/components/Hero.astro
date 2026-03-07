@@ -6,45 +6,58 @@ import avatar from '../assets/channel-avatar.jpg';
 const { branding, socialLinks } = channelInfo;
 const stats = channelInfo.channel.statistics;
 
-// Format view count with commas
 const formattedViews = parseInt(stats.viewCount).toLocaleString('en-US');
 ---
-<section class="py-24 bg-[var(--color-bg)]">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-24 bg-[var(--color-bg)] relative overflow-hidden">
+
+  <!-- Polka dot background (subtle) -->
+  <div class="absolute inset-0 pattern-dots opacity-[0.04] pointer-events-none"></div>
+
+  <!-- Decorative geometric shapes -->
+  <div class="absolute top-12 left-8 w-10 h-10 rounded-full bg-secondary/25 border-2 border-secondary hidden lg:block"></div>
+  <div class="absolute top-24 right-12 w-6 h-6 bg-[var(--color-accent)] border-2 border-[var(--color-border)] rotate-45 hidden lg:block" style="box-shadow: 2px 2px 0px 0px var(--color-border)"></div>
+  <div class="absolute bottom-16 left-16 w-8 h-8 bg-[var(--color-mint)] border-2 border-[var(--color-border)] rounded-lg rotate-12 hidden lg:block" style="box-shadow: 3px 3px 0px 0px var(--color-border)"></div>
+  <div class="absolute bottom-20 right-20 w-12 h-4 bg-primary/20 border-2 border-primary rounded-full hidden lg:block"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="flex flex-col items-center text-center gap-8">
 
-      <!-- Avatar -->
-      <div class="w-24 h-24 rounded-full overflow-hidden ring-2 ring-[var(--color-border)] flex-shrink-0">
+      <!-- Avatar with hard border -->
+      <div class="w-28 h-28 rounded-2xl overflow-hidden border-4 border-[var(--color-border)] flex-shrink-0 bg-[var(--color-card)]" style="box-shadow: 6px 6px 0px 0px var(--color-border)">
         <Image
           src={avatar}
           alt="TechRex channel avatar"
-          width={96}
-          height={96}
+          width={112}
+          height={112}
           class="w-full h-full object-cover"
         />
       </div>
 
       <!-- Text block -->
       <div class="max-w-2xl">
-        <!-- Channel handle badge -->
-        <p class="text-sm text-[var(--color-muted)] mb-3">@The_TechRex</p>
+        <!-- Handle badge -->
+        <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-surface)] border-2 border-[var(--color-border)] text-xs font-semibold text-[var(--color-muted)] mb-4 shadow-hard-sm">
+          @The_TechRex
+        </span>
 
         <!-- Title -->
-        <h1 class="font-heading font-bold text-5xl sm:text-6xl leading-tight mb-3">
-          <span class="text-[var(--color-text)]">Tech</span><span class="text-accent">Rex</span>
+        <h1 class="font-heading font-extrabold text-6xl sm:text-7xl leading-none tracking-tight mb-4">
+          <span class="text-[var(--color-text)]">Tech</span><span class="text-primary">Rex</span>
         </h1>
 
         <!-- Tagline -->
-        <p class="text-lg text-[var(--color-muted)] max-w-md mx-auto mt-3 mb-8">
+        <p class="text-lg text-[var(--color-muted)] max-w-md mx-auto leading-relaxed mb-8">
           {branding.tagline}
         </p>
 
-        <!-- CTAs -->
+        <!-- Candy CTAs -->
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href="/videos"
-            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-medium
-                   hover:bg-primary-hover transition-colors duration-150 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full bg-primary text-white text-sm font-bold border-2 border-[var(--color-border)] shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+            style="box-shadow: 4px 4px 0px 0px var(--color-border);"
+            onmouseover="this.style.boxShadow='6px 6px 0px 0px var(--color-border)'"
+            onmouseout="this.style.boxShadow='4px 4px 0px 0px var(--color-border)'"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
@@ -55,9 +68,10 @@ const formattedViews = parseInt(stats.viewCount).toLocaleString('en-US');
             href={socialLinks.youtube}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg border border-[var(--color-border)]
-                   text-[var(--color-text)] text-sm font-medium hover:border-primary hover:text-primary
-                   transition-colors duration-150 cursor-pointer"
+            class="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm font-bold border-2 border-[var(--color-border)] shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+            style="box-shadow: 4px 4px 0px 0px var(--color-border);"
+            onmouseover="this.style.boxShadow='6px 6px 0px 0px var(--color-border)'"
+            onmouseout="this.style.boxShadow='4px 4px 0px 0px var(--color-border)'"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -67,19 +81,17 @@ const formattedViews = parseInt(stats.viewCount).toLocaleString('en-US');
         </div>
       </div>
 
-      <!-- Stats row -->
-      <div class="flex items-center gap-8 pt-4">
-        <div class="text-center">
+      <!-- Stats row: hard border boxes -->
+      <div class="flex items-center gap-3 pt-2 flex-wrap justify-center">
+        <div class="px-6 py-3 bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-xl shadow-hard text-center min-w-[100px]">
           <p class="font-heading font-bold text-2xl text-[var(--color-text)]">{formattedViews}+</p>
           <p class="text-xs text-[var(--color-muted)] uppercase tracking-wide mt-0.5">Total Views</p>
         </div>
-        <div class="w-px h-10 bg-[var(--color-border)]"></div>
-        <div class="text-center">
+        <div class="px-6 py-3 bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-xl shadow-hard text-center min-w-[100px]">
           <p class="font-heading font-bold text-2xl text-[var(--color-text)]">{stats.subscriberCount}+</p>
           <p class="text-xs text-[var(--color-muted)] uppercase tracking-wide mt-0.5">Subscribers</p>
         </div>
-        <div class="w-px h-10 bg-[var(--color-border)]"></div>
-        <div class="text-center">
+        <div class="px-6 py-3 bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-xl shadow-hard text-center min-w-[100px]">
           <p class="font-heading font-bold text-2xl text-[var(--color-text)]">{stats.videoCount}+</p>
           <p class="text-xs text-[var(--color-muted)] uppercase tracking-wide mt-0.5">Videos</p>
         </div>
