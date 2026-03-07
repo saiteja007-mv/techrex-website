@@ -24,20 +24,23 @@ const dateStr = video.publishedAt.toLocaleDateString('en-US', { year: 'numeric',
 const shortDesc = video.description.length > 120 ? video.description.slice(0, 117) + '...' : video.description;
 ---
 <article
-  class="group bg-[var(--color-card)] rounded-lg border border-[var(--color-border)] hover:border-primary/40
-         transition-all duration-150 cursor-pointer flex flex-col overflow-hidden"
+  class="group bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] shadow-hard
+         hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col overflow-hidden"
+  style="box-shadow: 4px 4px 0px 0px var(--color-border);"
+  onmouseover="this.style.boxShadow='6px 6px 0px 0px var(--color-border)'"
+  onmouseout="this.style.boxShadow='4px 4px 0px 0px var(--color-border)'"
   data-category-card={video.category}
 >
   <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" class="block" aria-label={`Watch: ${video.title}`}>
     <!-- Thumbnail -->
-    <div class="relative aspect-video overflow-hidden rounded-t-lg bg-[var(--color-surface)]">
+    <div class="relative aspect-video overflow-hidden rounded-t-xl bg-[var(--color-surface)]">
       {imgSrc ? (
         <Image
           src={imgSrc}
           alt={video.title}
           width={400}
           height={225}
-          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       ) : (
         <div class="w-full h-full bg-[var(--color-surface)] flex items-center justify-center">
@@ -48,8 +51,8 @@ const shortDesc = video.description.length > 120 ? video.description.slice(0, 11
       )}
       <!-- Play overlay on hover -->
       <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-150 flex items-center justify-center">
-        <div class="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-          <svg class="w-4 h-4 text-gray-900 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+        <div class="w-12 h-12 rounded-full bg-white border-2 border-[var(--color-border)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150" style="box-shadow: 3px 3px 0px 0px var(--color-border)">
+          <svg class="w-5 h-5 text-gray-900 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
             <path d="M8 5v14l11-7z"/>
           </svg>
         </div>
@@ -61,14 +64,14 @@ const shortDesc = video.description.length > 120 ? video.description.slice(0, 11
   <div class="p-4 flex flex-col flex-1 gap-2">
     <div class="flex items-center justify-between gap-2">
       <CategoryBadge category={video.category} />
-      <time class="text-xs text-[var(--color-muted)]" datetime={video.publishedAt.toISOString()}>
+      <time class="text-xs text-[var(--color-muted)] font-medium" datetime={video.publishedAt.toISOString()}>
         {dateStr}
       </time>
     </div>
 
     <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" class="cursor-pointer">
-      <h3 class="font-semibold text-sm text-[var(--color-text)] leading-snug line-clamp-2
-                 hover:text-primary transition-colors duration-150">
+      <h3 class="font-heading font-bold text-sm text-[var(--color-text)] leading-snug line-clamp-2
+                 group-hover:text-primary transition-colors duration-150">
         {video.title}
       </h3>
     </a>
@@ -81,7 +84,8 @@ const shortDesc = video.description.length > 120 ? video.description.slice(0, 11
       href={youtubeUrl}
       target="_blank"
       rel="noopener noreferrer"
-      class="inline-flex items-center gap-1 text-xs font-medium text-primary hover:text-primary-hover transition-colors duration-150 cursor-pointer mt-auto w-fit"
+      class="inline-flex items-center gap-1.5 text-xs font-bold text-primary transition-colors duration-150 cursor-pointer mt-auto w-fit
+             px-3 py-1.5 rounded-full border-2 border-primary hover:bg-primary hover:text-white"
     >
       Watch
       <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">

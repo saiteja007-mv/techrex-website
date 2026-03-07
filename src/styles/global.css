@@ -1,35 +1,43 @@
 @import "tailwindcss";
-@import "@fontsource/poppins/400.css";
-@import "@fontsource/poppins/600.css";
-@import "@fontsource/poppins/700.css";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
+@import "@fontsource/outfit/400.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
 @import "@fontsource-variable/jetbrains-mono";
 
+/* Enable class-based dark mode for dark: Tailwind variants */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --color-primary: #2D9CDB;
-  --color-primary-hover: #1a8bc9;
-  --color-secondary: #27AE60;
-  --color-accent: #F2994A;
-  --color-accent-hover: #e08830;
+  /* === Playful Geometric Palette === */
+  --color-primary: #8B5CF6;        /* violet */
+  --color-primary-hover: #7C3AED;
+  --color-secondary: #F472B6;      /* pink */
+  --color-accent: #FBBF24;         /* amber */
+  --color-accent-hover: #F59E0B;
+  --color-mint: #34D399;           /* mint */
 
-  --color-bg: #FFFFFF;
-  --color-bg-dark: #0A0A0A;
-  --color-surface: #F8F9FA;
-  --color-surface-dark: #111111;
-  --color-surface-2: #F1F3F5;
-  --color-surface-2-dark: #1A1A1A;
+  /* Light mode (warm cream) */
+  --color-bg: #FFFDF5;
+  --color-bg-dark: #0E0C17;
+  --color-surface: #F5F0E8;
+  --color-surface-dark: #160E24;
+  --color-surface-2: #EDE8DC;
+  --color-surface-2-dark: #1A1030;
   --color-card: #FFFFFF;
-  --color-card-dark: #161616;
-  --color-text: #111111;
-  --color-text-dark: #F0F0F0;
-  --color-muted: #6B7280;
-  --color-muted-dark: #888888;
-  --color-border: #E5E7EB;
-  --color-border-dark: #222222;
+  --color-card-dark: #1A1030;
+  --color-text: #1E293B;
+  --color-text-dark: #F1EDF8;
+  --color-muted: #64748B;
+  --color-muted-dark: #9E8BB5;
+  --color-border: #1E293B;         /* hard dark border (light mode) */
+  --color-border-dark: #5B21B6;    /* violet border (dark mode) */
 
-  --font-heading: 'Poppins', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono Variable', monospace;
 }
 
@@ -76,5 +84,38 @@ body { margin: 0; }
   overflow: hidden;
 }
 
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .font-heading { font-family: var(--font-heading); }
 .font-mono { font-family: var(--font-mono); }
+
+/* === Hard Shadow Utilities === */
+.shadow-hard {
+  box-shadow: 4px 4px 0px 0px var(--color-border);
+}
+.shadow-hard-sm {
+  box-shadow: 2px 2px 0px 0px var(--color-border);
+}
+.shadow-hard-violet {
+  box-shadow: 4px 4px 0px 0px #8B5CF6;
+}
+.shadow-hard-pink {
+  box-shadow: 4px 4px 0px 0px #F472B6;
+}
+.shadow-hard-amber {
+  box-shadow: 4px 4px 0px 0px #FBBF24;
+}
+.shadow-hard-mint {
+  box-shadow: 4px 4px 0px 0px #34D399;
+}
+
+/* === Polka dot decorative pattern === */
+.pattern-dots {
+  background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
