@@ -114,7 +114,7 @@ const navLinksSchema = {
 };
 ---
 <BaseLayout
-  title="TechRex — Learn. Build. Launch."
+  title="TechRex"
   description="AI tools, local models, developer workflows and hardware guides. Learn to build and launch with the latest AI technology."
 >
   <Fragment slot="head">
@@ -125,6 +125,40 @@ const navLinksSchema = {
   </Fragment>
   <!-- Hero -->
   <Hero />
+
+  <!-- Resources Callout -->
+  <section class="py-12 bg-[var(--color-surface)] border-b-2 border-[var(--color-border)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+
+      <!-- Left: text -->
+      <div class="flex items-center gap-4">
+        <span class="text-3xl select-none">🦖</span>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)] mb-0.5">Check out the Resources page for</p>
+          <div class="h-8 relative w-72 sm:w-96">
+            <MorphingText
+              texts={["Cool Projects", "Open Source Gems", "Desktop Apps", "Local AI Tools", "Electron Magic", "Things That Actually Work"]}
+              class="text-xl sm:text-2xl font-extrabold text-primary h-8"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: CTA -->
+      <a
+        href="/resources"
+        class="shrink-0 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] text-sm font-bold border-2 border-[var(--color-border)] shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+        style="box-shadow: 4px 4px 0px 0px var(--color-border);"
+        onmouseover="this.style.boxShadow='6px 6px 0px 0px var(--color-border)'"
+        onmouseout="this.style.boxShadow='4px 4px 0px 0px var(--color-border)'"
+      >
+        Take me there
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </section>
 
   <!-- Latest Videos -->
   <section class="py-20 bg-[var(--color-bg)]">
@@ -180,49 +214,6 @@ const navLinksSchema = {
           </a>
         ))}
       </div>
-    </div>
-  </section>
-
-  <!-- Resources Callout -->
-  <section class="py-20 bg-[var(--color-bg)] border-t-2 border-[var(--color-border)] overflow-hidden">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-
-      <!-- Eyebrow -->
-      <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-surface)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-6 shadow-hard-sm">
-        👀 Psst — over here
-      </span>
-
-      <!-- Funny headline -->
-      <p class="font-heading font-extrabold text-2xl sm:text-3xl text-[var(--color-text)] mb-3 leading-snug">
-        Warning: The Resources page contains<br class="hidden sm:block" />
-        <span class="text-primary">dangerously cool projects.</span>
-      </p>
-      <p class="text-[var(--color-muted)] text-base mb-8 max-w-xl mx-auto">
-        Side effects include staying up till 3 AM, accidentally learning Electron, and building a desktop app you never planned.
-        Don't say we didn't warn you. 🦖
-      </p>
-
-      <!-- Morphing text: cycles through what's inside -->
-      <div class="h-12 mb-8 relative">
-        <MorphingText
-          texts={["Open WebUI Desktop", "Local AI Apps", "Cool Open Source", "Desktop Wrappers", "Electron Magic", "Things That Actually Work"]}
-          class="text-2xl sm:text-3xl text-primary h-12"
-        />
-      </div>
-
-      <!-- CTA button -->
-      <a
-        href="/resources"
-        class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] text-sm font-bold border-2 border-[var(--color-border)] shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-        style="box-shadow: 4px 4px 0px 0px var(--color-border);"
-        onmouseover="this.style.boxShadow='6px 6px 0px 0px var(--color-border)'"
-        onmouseout="this.style.boxShadow='4px 4px 0px 0px var(--color-border)'"
-      >
-        Take me to the danger zone
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </a>
     </div>
   </section>
 
