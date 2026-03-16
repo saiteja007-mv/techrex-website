@@ -8,53 +8,8 @@ const posts = blogData.blogPosts.sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );
 
-const liveUrls = new Set(liveData.map((b: { url: string }) => b.url.replace('http://', 'https://')));
+const liveUrls = new Set(liveData.map((b: { url: string }) => b.url));
 const categories = ['All', ...Array.from(new Set(posts.map(p => p.category)))];
-
-const AUTHOR = {
-  "@type": "Person",
-  "name": "Saiteja Mothukuri",
-  "url": "https://saitejamothukuri.com"
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://techrex.saitejamothukuri.com" },
-    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://techrex.saitejamothukuri.com/blog" }
-  ]
-};
-
-const blogSchema = {
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "TechRex Blog",
-  "url": "https://techrex.saitejamothukuri.com/blog",
-  "description": "In-depth guides, tutorials and comparisons on AI tools, local models and developer workflows.",
-  "author": AUTHOR,
-  "publisher": {
-    "@type": "Organization",
-    "name": "TechRex",
-    "url": "https://techrex.saitejamothukuri.com"
-  },
-  "blogPost": posts.map(post => ({
-    "@type": "BlogPosting",
-    "headline": post.title,
-    "description": post.excerpt,
-    "url": post.bloggerUrl,
-    "datePublished": new Date(post.date).toISOString(),
-    "image": `https://img.youtube.com/vi/${post.youtubeId}/maxresdefault.jpg`,
-    "keywords": post.tags.join(", "),
-    "articleSection": post.category,
-    "author": AUTHOR,
-    "publisher": {
-      "@type": "Organization",
-      "name": "TechRex",
-      "url": "https://techrex.saitejamothukuri.com"
-    }
-  }))
-};
 
 function thumbUrl(youtubeId: string) {
   return `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
@@ -70,10 +25,6 @@ function formatDate(dateStr: string) {
   title="Blog — TechRex"
   description="Written tutorials, deep dives and guides on AI tools, local models and developer workflows from TechRex."
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
-  </Fragment>
   <!-- Hero -->
   <section class="py-20 bg-[var(--color-surface)] border-b border-[var(--color-border)]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
