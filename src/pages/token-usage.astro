@@ -1,0 +1,419 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airline-payroll-apt.trycloudflare.com';
+---
+<BaseLayout
+  title="Token Usage — TechRex"
+  description="Real-time AI token consumption dashboard tracking usage across devices and models."
+>
+  <!-- Hero -->
+  <section class="py-20 bg-[var(--color-bg)] border-b-2 border-[var(--color-border)] relative overflow-hidden">
+    <div class="absolute inset-0 pattern-dots opacity-[0.04] pointer-events-none"></div>
+    <div class="absolute top-10 right-16 w-10 h-10 rounded-full bg-primary/20 border-2 border-primary hidden lg:block"></div>
+    <div class="absolute bottom-10 left-12 w-8 h-8 bg-[var(--color-mint)] border-2 border-[var(--color-border)] rotate-12 hidden lg:block" style="box-shadow: 3px 3px 0px 0px var(--color-border)"></div>
+    <div class="absolute top-20 left-20 w-6 h-6 bg-[var(--color-accent)] border-2 border-[var(--color-border)] rotate-45 hidden lg:block" style="box-shadow: 2px 2px 0px 0px var(--color-border)"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+      <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-6 shadow-hard-sm">
+        Live Dashboard
+      </span>
+      <h1 class="font-heading font-extrabold text-4xl sm:text-5xl text-[var(--color-text)] mb-4 tracking-tight">
+        Token Usage
+      </h1>
+      <p class="text-[var(--color-muted)] text-lg max-w-2xl leading-relaxed mb-4">
+        Real-time AI token consumption across all devices and models.
+      </p>
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-2">
+          <span class="relative flex h-3 w-3">
+            <span class="absolute inline-flex h-full w-full rounded-full bg-[var(--color-mint)] opacity-75 animate-ping"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-[var(--color-mint)]"></span>
+          </span>
+          <span class="text-sm font-semibold text-[var(--color-mint)]">Live</span>
+        </span>
+        <span id="updated-at" class="text-xs text-[var(--color-muted)]"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Error Banner (hidden by default) -->
+  <div id="error-banner" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface)] p-8 text-center">
+      <svg class="w-10 h-10 mx-auto mb-3 text-[var(--color-accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <p class="font-heading font-bold text-lg text-[var(--color-text)] mb-2">Unable to reach the token tracker</p>
+      <p class="text-sm text-[var(--color-muted)] mb-4">The server may be offline — check back soon.</p>
+      <button id="retry-btn" class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary text-white text-sm font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+        Retry
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <section class="py-16 bg-[var(--color-surface)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- Total Tokens -->
+        <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 shadow-hard">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl border-2 border-[var(--color-border)] flex items-center justify-center" style="background: rgba(139,92,246,0.1); box-shadow: 2px 2px 0px 0px var(--color-border)">
+              <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+            </div>
+            <span class="text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide">Total Tokens</span>
+          </div>
+          <p id="stat-tokens" class="font-heading font-extrabold text-3xl text-[var(--color-text)]">
+            <span class="inline-block h-8 w-28 bg-[var(--color-surface)] rounded-lg animate-pulse"></span>
+          </p>
+        </div>
+
+        <!-- Total Cost -->
+        <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 shadow-hard">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl border-2 border-[var(--color-border)] flex items-center justify-center" style="background: rgba(244,114,182,0.1); box-shadow: 2px 2px 0px 0px var(--color-border)">
+              <svg class="w-5 h-5 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <span class="text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide">Total Cost</span>
+          </div>
+          <p id="stat-cost" class="font-heading font-extrabold text-3xl text-[var(--color-text)]">
+            <span class="inline-block h-8 w-24 bg-[var(--color-surface)] rounded-lg animate-pulse"></span>
+          </p>
+        </div>
+
+        <!-- Devices -->
+        <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 shadow-hard">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl border-2 border-[var(--color-border)] flex items-center justify-center" style="background: rgba(52,211,153,0.1); box-shadow: 2px 2px 0px 0px var(--color-border)">
+              <svg class="w-5 h-5 text-[var(--color-mint)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <span class="text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide">Devices</span>
+          </div>
+          <p id="stat-devices" class="font-heading font-extrabold text-3xl text-[var(--color-text)]">
+            <span class="inline-block h-8 w-12 bg-[var(--color-surface)] rounded-lg animate-pulse"></span>
+          </p>
+        </div>
+
+        <!-- Models -->
+        <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 shadow-hard">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl border-2 border-[var(--color-border)] flex items-center justify-center" style="background: rgba(251,191,36,0.1); box-shadow: 2px 2px 0px 0px var(--color-border)">
+              <svg class="w-5 h-5 text-[var(--color-accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <span class="text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide">Models</span>
+          </div>
+          <p id="stat-models" class="font-heading font-extrabold text-3xl text-[var(--color-text)]">
+            <span class="inline-block h-8 w-12 bg-[var(--color-surface)] rounded-lg animate-pulse"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Daily Usage Chart -->
+  <section class="py-16 bg-[var(--color-bg)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3 mb-8">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold shadow-hard-sm text-primary">
+          Last 7 Days
+        </span>
+        <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Daily Usage</h2>
+      </div>
+
+      <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 shadow-hard">
+        <div id="daily-chart" class="flex items-end gap-3 h-64">
+          <!-- Skeleton bars -->
+          {[65, 40, 80, 55, 90, 35, 70].map(h => (
+            <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+              <div class="w-full rounded-t-xl bg-[var(--color-surface)] animate-pulse" style={`height: ${h}%`}></div>
+              <span class="text-xs text-[var(--color-muted)]">---</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Device Breakdown -->
+  <section class="py-16 bg-[var(--color-surface)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3 mb-8">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold shadow-hard-sm text-[var(--color-mint)]">
+          By Device
+        </span>
+        <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Device Breakdown</h2>
+      </div>
+
+      <div id="device-cards" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Skeleton cards -->
+        <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 shadow-hard">
+          <div class="h-6 w-40 bg-[var(--color-surface)] rounded-lg animate-pulse mb-4"></div>
+          <div class="h-8 w-28 bg-[var(--color-surface)] rounded-lg animate-pulse mb-2"></div>
+          <div class="h-4 w-20 bg-[var(--color-surface)] rounded-lg animate-pulse"></div>
+        </div>
+        <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 shadow-hard">
+          <div class="h-6 w-40 bg-[var(--color-surface)] rounded-lg animate-pulse mb-4"></div>
+          <div class="h-8 w-28 bg-[var(--color-surface)] rounded-lg animate-pulse mb-2"></div>
+          <div class="h-4 w-20 bg-[var(--color-surface)] rounded-lg animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Model Table -->
+  <section class="py-16 bg-[var(--color-bg)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3 mb-8">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold shadow-hard-sm text-[var(--color-accent)]">
+          By Model
+        </span>
+        <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Model Breakdown</h2>
+      </div>
+
+      <div class="overflow-x-auto rounded-2xl border-2 border-[var(--color-border)] shadow-hard">
+        <table class="w-full text-left">
+          <thead>
+            <tr>
+              <th class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)]">Model</th>
+              <th data-sort="tokens" class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)] cursor-pointer hover:text-primary transition-colors">
+                Tokens <span class="sort-arrow"></span>
+              </th>
+              <th data-sort="cost" class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)] cursor-pointer hover:text-primary transition-colors">
+                Cost <span class="sort-arrow"></span>
+              </th>
+              <th data-sort="records" class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)] cursor-pointer hover:text-primary transition-colors">
+                Records <span class="sort-arrow"></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="model-table-body">
+            <!-- Skeleton rows -->
+            {[1,2,3,4,5].map(() => (
+              <tr class="border-b border-[var(--color-border)]">
+                <td class="px-6 py-4"><span class="inline-block h-4 w-40 bg-[var(--color-surface)] rounded animate-pulse"></span></td>
+                <td class="px-6 py-4"><span class="inline-block h-4 w-20 bg-[var(--color-surface)] rounded animate-pulse"></span></td>
+                <td class="px-6 py-4"><span class="inline-block h-4 w-16 bg-[var(--color-surface)] rounded animate-pulse"></span></td>
+                <td class="px-6 py-4"><span class="inline-block h-4 w-10 bg-[var(--color-surface)] rounded animate-pulse"></span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data attribute for API URL -->
+  <div id="token-dashboard" class="hidden" data-api-url={apiUrl}></div>
+</BaseLayout>
+
+<script>
+  function initTokenDashboard() {
+    const API_BASE = document.getElementById('token-dashboard')?.dataset.apiUrl || 'https://supervisor-airline-payroll-apt.trycloudflare.com';
+    const REFRESH_INTERVAL = 30000;
+
+    let modelData: any[] = [];
+    let currentSort = { col: 'cost', dir: 'desc' };
+    let refreshTimer: ReturnType<typeof setInterval>;
+
+    function formatTokens(n: number): string {
+      if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1) + 'B';
+      if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
+      if (n >= 1_000) return (n / 1_000).toFixed(1) + 'K';
+      return n.toString();
+    }
+
+    function formatCost(n: number): string {
+      return '$' + n.toFixed(2);
+    }
+
+    function formatDate(dateStr: string): string {
+      return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+
+    async function fetchJSON(path: string) {
+      const res = await fetch(API_BASE + path);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    }
+
+    function renderStats(data: any) {
+      const s = data.data.summary;
+      const el = (id: string) => document.getElementById(id);
+      const tokens = el('stat-tokens');
+      const cost = el('stat-cost');
+      const devices = el('stat-devices');
+      const models = el('stat-models');
+      if (tokens) tokens.textContent = formatTokens(s.total_tokens);
+      if (cost) cost.textContent = formatCost(s.total_cost);
+      if (devices) devices.textContent = s.device_count;
+      if (models) models.textContent = s.model_count;
+
+      const updatedEl = document.getElementById('updated-at');
+      if (updatedEl && data.data.updated_at) {
+        updatedEl.textContent = 'Updated ' + new Date(data.data.updated_at).toLocaleTimeString();
+      }
+    }
+
+    function renderDailyChart(data: any) {
+      const days = data.data as any[];
+      if (!days.length) return;
+      const maxTokens = Math.max(...days.map((d: any) => d.tokens_total));
+      const container = document.getElementById('daily-chart');
+      if (!container) return;
+
+      const reversed = [...days].reverse();
+      container.innerHTML = reversed.map((d: any) => {
+        const pct = maxTokens > 0 ? Math.max((d.tokens_total / maxTokens) * 100, 4) : 4;
+        return `
+          <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
+            <div class="relative w-full">
+              <div class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 rounded-lg bg-[var(--color-text)] text-[var(--color-bg)] text-[10px] font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                ${formatTokens(d.tokens_total)} / ${formatCost(d.cost_usd)}
+              </div>
+            </div>
+            <div class="w-full rounded-t-xl border-2 border-[var(--color-border)] bg-primary animate-grow-up cursor-pointer" style="height: ${pct}%" title="${formatTokens(d.tokens_total)} tokens / ${formatCost(d.cost_usd)}"></div>
+            <div class="text-center">
+              <p class="text-xs font-semibold text-[var(--color-text)]">${formatDate(d.date)}</p>
+              <p class="text-[10px] text-[var(--color-muted)]">${formatCost(d.cost_usd)}</p>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderDevices(data: any) {
+      const devices = data.data as any[];
+      const totalTokens = devices.reduce((sum: number, d: any) => sum + d.tokens, 0);
+      const container = document.getElementById('device-cards');
+      if (!container) return;
+
+      const icons: Record<string, { svg: string; shadow: string; accent: string }> = {
+        'ubuntu-server': {
+          svg: '<svg class="w-6 h-6 text-[var(--color-mint)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>',
+          shadow: 'shadow-hard-mint',
+          accent: 'var(--color-mint)',
+        },
+        'windows-laptop': {
+          svg: '<svg class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
+          shadow: 'shadow-hard-violet',
+          accent: 'var(--color-primary)',
+        },
+      };
+
+      container.innerHTML = devices.map((d: any) => {
+        const pct = totalTokens > 0 ? ((d.tokens / totalTokens) * 100).toFixed(1) : '0';
+        const info = icons[d.device] || icons['windows-laptop'];
+        return `
+          <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 ${info.shadow}">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-xl border-2 border-[var(--color-border)] flex items-center justify-center bg-[var(--color-surface)]" style="box-shadow: 2px 2px 0px 0px var(--color-border)">
+                ${info.svg}
+              </div>
+              <div>
+                <h3 class="font-heading font-bold text-lg text-[var(--color-text)]">${d.device}</h3>
+                <span class="text-xs text-[var(--color-muted)]">${d.records} records</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex justify-between items-baseline">
+                <span class="font-heading font-extrabold text-2xl text-[var(--color-text)]">${formatTokens(d.tokens)}</span>
+                <span class="font-bold text-sm" style="color: ${info.accent}">${formatCost(d.cost)}</span>
+              </div>
+              <div class="w-full h-3 bg-[var(--color-surface)] rounded-full border border-[var(--color-border)] overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-500" style="width: ${pct}%; background: ${info.accent}"></div>
+              </div>
+              <p class="text-xs text-[var(--color-muted)]">${pct}% of total usage</p>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderModels(data?: any) {
+      if (data) modelData = data.data;
+      const sorted = [...modelData].sort((a: any, b: any) => {
+        const dir = currentSort.dir === 'asc' ? 1 : -1;
+        return (a[currentSort.col] - b[currentSort.col]) * dir;
+      });
+
+      const tbody = document.getElementById('model-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = sorted.map((m: any) => `
+        <tr class="border-b border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-colors">
+          <td class="px-6 py-4 text-sm font-mono font-semibold text-[var(--color-text)]">${m.model}</td>
+          <td class="px-6 py-4 text-sm text-[var(--color-text)]">${formatTokens(m.tokens)}</td>
+          <td class="px-6 py-4 text-sm font-semibold text-[var(--color-text)]">${formatCost(m.cost)}</td>
+          <td class="px-6 py-4 text-sm text-[var(--color-muted)]">${m.records}</td>
+        </tr>`).join('');
+
+      // Update sort arrows
+      document.querySelectorAll('[data-sort]').forEach(th => {
+        const arrow = th.querySelector('.sort-arrow') as HTMLElement;
+        if (!arrow) return;
+        const col = (th as HTMLElement).dataset.sort;
+        if (col === currentSort.col) {
+          arrow.textContent = currentSort.dir === 'asc' ? ' \u2191' : ' \u2193';
+        } else {
+          arrow.textContent = '';
+        }
+      });
+    }
+
+    // Sort click handlers
+    document.querySelectorAll('[data-sort]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = (th as HTMLElement).dataset.sort!;
+        if (currentSort.col === col) {
+          currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+        } else {
+          currentSort = { col, dir: 'desc' };
+        }
+        renderModels();
+      });
+    });
+
+    async function loadAll() {
+      try {
+        const [statsRes, dailyRes, deviceRes, modelRes] = await Promise.all([
+          fetchJSON('/api/public/stats'),
+          fetchJSON('/api/usage/daily'),
+          fetchJSON('/api/usage/by-device'),
+          fetchJSON('/api/usage/by-model'),
+        ]);
+        renderStats(statsRes);
+        renderDailyChart(dailyRes);
+        renderDevices(deviceRes);
+        renderModels(modelRes);
+        document.getElementById('error-banner')?.classList.add('hidden');
+      } catch (err) {
+        console.error('Token usage fetch failed:', err);
+        document.getElementById('error-banner')?.classList.remove('hidden');
+      }
+    }
+
+    // Retry button
+    document.getElementById('retry-btn')?.addEventListener('click', loadAll);
+
+    // Initial load
+    loadAll();
+
+    // Auto-refresh
+    if (refreshTimer) clearInterval(refreshTimer);
+    refreshTimer = setInterval(loadAll, REFRESH_INTERVAL);
+  }
+
+  initTokenDashboard();
+  document.addEventListener('astro:page-load', initTokenDashboard);
+</script>
+
+<style>
+  @keyframes grow-up {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+  .animate-grow-up {
+    animation: grow-up 0.6s ease-out forwards;
+    transform-origin: bottom;
+  }
+</style>
