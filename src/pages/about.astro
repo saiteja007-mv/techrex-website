@@ -12,8 +12,8 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://techrex.saitejamothukuri.com" },
-    { "@type": "ListItem", "position": 2, "name": "About", "item": "https://techrex.saitejamothukuri.com/about" }
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://techrex.saitejamothukuri.com/" },
+    { "@type": "ListItem", "position": 2, "name": "About", "item": "https://techrex.saitejamothukuri.com/about/" }
   ]
 };
 
@@ -124,6 +124,28 @@ const personSchema = {
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         {socialLinks.email}
       </a>
+    </div>
+  </section>
+
+  <section class="py-16 bg-[var(--color-bg)] border-t border-[var(--color-border)]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-8 shadow-hard">
+        <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-4">
+          Where to go next
+        </span>
+        <h2 class="font-heading font-bold text-2xl text-[var(--color-text)] mb-3">Keep exploring the practical side of the channel</h2>
+        <p class="text-sm text-[var(--color-muted)] leading-relaxed mb-6 max-w-2xl">
+          If you want the hands-on implementation, go straight to <a href="/videos/" class="font-semibold text-primary hover:text-primary-hover transition-colors">Videos</a>. If you want the tools, open-source projects, and builds referenced across the channel, start with <a href="/resources/" class="font-semibold text-primary hover:text-primary-hover transition-colors">Resources</a>.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="/videos/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
+            Browse videos
+          </a>
+          <a href="/resources/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
+            Explore resources
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

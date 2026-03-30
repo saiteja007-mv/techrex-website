@@ -24,11 +24,11 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "TechRex",
-  "url": "https://techrex.saitejamothukuri.com",
+  "url": "https://techrex.saitejamothukuri.com/",
   "description": "AI tools, local models, developer workflows and hardware guides.",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://techrex.saitejamothukuri.com/videos?q={search_term_string}",
+    "target": "https://techrex.saitejamothukuri.com/videos/?q={search_term_string}",
     "query-input": "required name=search_term_string"
   }
 };
@@ -49,7 +49,7 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "TechRex",
-  "url": "https://techrex.saitejamothukuri.com",
+  "url": "https://techrex.saitejamothukuri.com/",
   "logo": "https://techrex.saitejamothukuri.com/favicon.svg",
   "description": "AI tools, local models, developer workflows and hardware guides.",
   "founder": { "@type": "Person", "name": "Saiteja Mothukuri" },
@@ -67,10 +67,10 @@ const siteNavigationSchema = {
   "itemListElement": [
     {
       "@type": "SiteLinksSearchBox",
-      "url": "https://techrex.saitejamothukuri.com",
+      "url": "https://techrex.saitejamothukuri.com/",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://techrex.saitejamothukuri.com/videos?q={search_term_string}",
+        "target": "https://techrex.saitejamothukuri.com/videos/?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     }
@@ -81,7 +81,7 @@ const navLinksSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
   "@id": "https://techrex.saitejamothukuri.com/#website",
-  "url": "https://techrex.saitejamothukuri.com",
+  "url": "https://techrex.saitejamothukuri.com/",
   "name": "TechRex",
   "isPartOf": { "@id": "https://techrex.saitejamothukuri.com/#website" },
   "about": { "@type": "Thing", "name": "AI Tools and Local AI Models" },
@@ -89,19 +89,19 @@ const navLinksSchema = {
     {
       "@type": "WebPage",
       "name": "Videos",
-      "url": "https://techrex.saitejamothukuri.com/videos",
+      "url": "https://techrex.saitejamothukuri.com/videos/",
       "description": "AI tools, local models, and hardware tutorial videos"
     },
     {
       "@type": "WebPage",
       "name": "About",
-      "url": "https://techrex.saitejamothukuri.com/about",
+      "url": "https://techrex.saitejamothukuri.com/about/",
       "description": "About TechRex and the REX Method"
     },
     {
       "@type": "WebPage",
       "name": "Resources",
-      "url": "https://techrex.saitejamothukuri.com/resources",
+      "url": "https://techrex.saitejamothukuri.com/resources/",
       "description": "Curated AI tools and resources"
     }
   ]
@@ -119,6 +119,54 @@ const navLinksSchema = {
   </Fragment>
   <!-- Hero -->
   <Hero />
+
+  <section class="py-16 bg-[var(--color-bg)] border-b-2 border-[var(--color-border)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-8">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] shadow-hard-sm">
+          Start Here
+        </span>
+        <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-[var(--color-text)] mt-4 mb-3">
+          Pick the path that matches what you want to build
+        </h2>
+        <p class="text-[var(--color-muted)] leading-relaxed">
+          Watch tutorials on the <a href="/videos/" class="font-semibold text-primary hover:text-primary-hover transition-colors">Videos</a> page, browse practical tools on <a href="/resources/" class="font-semibold text-primary hover:text-primary-hover transition-colors">Resources</a>, or learn how TechRex approaches AI workflows on the <a href="/about/" class="font-semibold text-primary hover:text-primary-hover transition-colors">About</a> page.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          {
+            href: '/videos/',
+            label: 'Watch the workflow',
+            title: 'Tutorial videos',
+            description: 'Hands-on walkthroughs for local AI, hardware, agents, and developer tools.'
+          },
+          {
+            href: '/resources/',
+            label: 'Browse the stack',
+            title: 'Projects and resources',
+            description: 'Open-source projects, desktop tools, and practical things worth testing.'
+          },
+          {
+            href: '/about/',
+            label: 'Understand the method',
+            title: 'How TechRex works',
+            description: 'Context on the channel, the REX Method, and what problems these guides solve.'
+          }
+        ].map((item) => (
+          <a
+            href={item.href}
+            class="rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-6 shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary mb-3">{item.label}</p>
+            <h3 class="font-heading font-bold text-xl text-[var(--color-text)] mb-2">{item.title}</h3>
+            <p class="text-sm text-[var(--color-muted)] leading-relaxed">{item.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <!-- Resources Callout -->
   <section class="py-12 bg-[var(--color-surface)] border-b-2 border-[var(--color-border)]">
@@ -140,7 +188,7 @@ const navLinksSchema = {
 
       <!-- Right: CTA -->
       <a
-        href="/resources"
+        href="/resources/"
         class="shrink-0 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] text-sm font-bold border-2 border-[var(--color-border)] shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
         style="box-shadow: 4px 4px 0px 0px var(--color-border);"
         onmouseover="this.style.boxShadow='6px 6px 0px 0px var(--color-border)'"
@@ -164,7 +212,7 @@ const navLinksSchema = {
           </h2>
         </div>
         <a
-          href="/videos"
+          href="/videos/"
           class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary-hover transition-colors duration-150 cursor-pointer"
         >
           View all
@@ -178,7 +226,7 @@ const navLinksSchema = {
 
       <!-- Mobile view all -->
       <div class="mt-8 text-center sm:hidden">
-        <a href="/videos" class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-[var(--color-border)] text-sm font-medium text-[var(--color-text)] hover:border-primary hover:text-primary transition-colors duration-150 cursor-pointer">
+        <a href="/videos/" class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-[var(--color-border)] text-sm font-medium text-[var(--color-text)] hover:border-primary hover:text-primary transition-colors duration-150 cursor-pointer">
           View all videos
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -198,7 +246,7 @@ const navLinksSchema = {
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {categories.map(cat => (
           <a
-            href={`/videos#${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+            href={`/videos/#${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
             class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg p-5
                    hover:border-primary/50 hover:shadow-sm transition-all duration-150 cursor-pointer"
           >

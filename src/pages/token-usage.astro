@@ -209,9 +209,8 @@ const totalTableRecords = models.reduce((s, m) => s + m.records, 0);
       </div>
     </div>
   </section>
-</BaseLayout>
 
-<script>
+  <script>
   function initSortableTable() {
     const models = [
       { model: 'claude-sonnet-4-6', tokens: 429766075, cost: 194.97, records: 23 },
@@ -316,3 +315,4 @@ const totalTableRecords = models.reduce((s, m) => s + m.records, 0);
   initSortableTable();
   document.addEventListener('astro:page-load', initSortableTable);
 </script>
+</BaseLayout>

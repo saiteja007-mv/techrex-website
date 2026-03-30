@@ -6,6 +6,7 @@ import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   site: 'https://techrex.saitejamothukuri.com',
+  trailingSlash: 'always',
   output: 'static',
   vite: {
     plugins: [tailwindcss()]

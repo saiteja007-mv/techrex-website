@@ -3,13 +3,13 @@ import ThemeToggle from './ThemeToggle.astro';
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/videos', label: 'Videos' },
-  { href: '/about', label: 'About' },
-  { href: '/resources', label: 'Resources' },
-  { href: '/token-usage', label: 'Token Usage' },
+  { href: '/videos/', label: 'Videos' },
+  { href: '/about/', label: 'About' },
+  { href: '/resources/', label: 'Resources' },
+  { href: '/token-usage/', label: 'Token Usage' },
 ];
 
-const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const pathname = Astro.url.pathname === '/' ? '/' : `${Astro.url.pathname.replace(/\/$/, '')}/`;
 ---
 <header class="sticky top-0 z-50 w-full border-b-2 border-[var(--color-border)] bg-[var(--color-bg)]">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

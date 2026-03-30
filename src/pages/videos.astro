@@ -19,8 +19,8 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://techrex.saitejamothukuri.com" },
-    { "@type": "ListItem", "position": 2, "name": "Videos", "item": "https://techrex.saitejamothukuri.com/videos" }
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://techrex.saitejamothukuri.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Videos", "item": "https://techrex.saitejamothukuri.com/videos/" }
   ]
 };
 
@@ -29,7 +29,7 @@ const videoListSchema = {
   "@type": "ItemList",
   "name": "TechRex Videos",
   "description": "AI tools, local models, developer workflows, and hardware guides.",
-  "url": "https://techrex.saitejamothukuri.com/videos",
+  "url": "https://techrex.saitejamothukuri.com/videos/",
   "numberOfItems": sortedVideos.length,
   "itemListElement": sortedVideos.map((video, index) => ({
     "@type": "ListItem",
@@ -45,7 +45,7 @@ const videoListSchema = {
       "publisher": {
         "@type": "Organization",
         "name": "TechRex",
-        "url": "https://techrex.saitejamothukuri.com"
+        "url": "https://techrex.saitejamothukuri.com/"
       }
     }
   }))
@@ -69,6 +69,9 @@ const videoListSchema = {
         </h1>
         <p class="text-[var(--color-muted)] text-base max-w-xl">
           {allVideos.length} videos covering AI tools, local models, developer workflows, and hardware.
+        </p>
+        <p class="text-sm text-[var(--color-muted)] leading-relaxed max-w-2xl mt-4">
+          Each tutorial is paired with practical context from the <a href="/resources/" class="font-semibold text-primary hover:text-primary-hover transition-colors">Resources</a> page and the channel background on <a href="/about/" class="font-semibold text-primary hover:text-primary-hover transition-colors">About</a>, so you can move from ideas to implementation faster.
         </p>
       </div>
 
