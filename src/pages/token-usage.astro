@@ -1,11 +1,75 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airline-payroll-apt.trycloudflare.com';
+const stats = {
+  total_tokens: 734_766_646,
+  total_cost: 280.18,
+  model_count: 36,
+  total_records: 158,
+  updated_at: '2026-03-21',
+};
+
+const models = [
+  { model: 'claude-sonnet-4-6', tokens: 429766075, cost: 194.97, records: 23 },
+  { model: 'claude-sonnet-4-5', tokens: 33758610, cost: 20.01, records: 16 },
+  { model: 'k2p5', tokens: 99000047, cost: 18.60, records: 4 },
+  { model: 'gpt-5.4', tokens: 19998932, cost: 13.64, records: 1 },
+  { model: 'gpt-5-codex', tokens: 52180755, cost: 11.89, records: 4 },
+  { model: 'gpt-5', tokens: 10013034, cost: 5.49, records: 6 },
+  { model: 'gpt-5.1-codex-max', tokens: 10809849, cost: 4.77, records: 8 },
+  { model: 'claude-haiku-4-5', tokens: 14179588, cost: 3.51, records: 15 },
+  { model: 'gpt-5.1-codex', tokens: 3630735, cost: 1.91, records: 1 },
+  { model: 'gpt-5.2-codex', tokens: 2664969, cost: 1.81, records: 3 },
+  { model: 'gpt-5.3-codex', tokens: 3282570, cost: 1.66, records: 2 },
+  { model: 'kimi-for-coding', tokens: 3849259, cost: 0.99, records: 5 },
+  { model: 'claude-opus-4-5', tokens: 145591, cost: 0.77, records: 2 },
+  { model: 'unsloth/qwen3.5-35b-a3b', tokens: 738960, cost: 0.09, records: 2 },
+  { model: 'qwen/qwen3.5-35b-a3b', tokens: 432213, cost: 0.06, records: 3 },
+  { model: 'kimi-coding/k2-thinking', tokens: 22350, cost: 0.01, records: 3 },
+  { model: 'qwen/qwen3.5-9b', tokens: 94896, cost: 0.005, records: 1 },
+  { model: '<synthetic>', tokens: 0, cost: 0, records: 20 },
+  { model: 'claude sonnet 4-5', tokens: 716068, cost: 0, records: 1 },
+  { model: 'claude-opus-4-6', tokens: 40585989, cost: 0, records: 11 },
+  { model: 'gemini-2.5-flash', tokens: 14450, cost: 0, records: 1 },
+  { model: 'gemini-2.5-pro', tokens: 376414, cost: 0, records: 2 },
+  { model: 'gemini-3-flash-preview', tokens: 1627500, cost: 0, records: 4 },
+  { model: 'gemini-3-pro-preview', tokens: 3010170, cost: 0, records: 3 },
+  { model: 'gpt-5.1', tokens: 1701179, cost: 0, records: 3 },
+  { model: 'gpt-5.2-chat-latest', tokens: 0, cost: 0, records: 1 },
+  { model: 'heartbeat', tokens: 0, cost: 0, records: 2 },
+  { model: 'huihui_ai/orchestrator-abliterated:8b', tokens: 0, cost: 0, records: 1 },
+  { model: 'lfm2-1.2b-tool', tokens: 73848, cost: 0, records: 1 },
+  { model: 'liquid/lfm2-24b-a2b', tokens: 71676, cost: 0, records: 2 },
+  { model: 'nvidia/nemotron-3-nano-4b', tokens: 1913448, cost: 0, records: 1 },
+  { model: 'openai/gpt-oss-20b', tokens: 0, cost: 0, records: 1 },
+  { model: 'openrouter/pony-alpha', tokens: 99191, cost: 0, records: 1 },
+  { model: 'qwen/qwen3-30b-a3b-2507', tokens: 0, cost: 0, records: 1 },
+  { model: 'qwen3.5:27b', tokens: 8280, cost: 0, records: 2 },
+  { model: 'qwen3.5:35b-a3b', tokens: 0, cost: 0, records: 1 },
+];
+
+function formatTokens(n: number): string {
+  if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1) + 'B';
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
+  if (n >= 1_000) return (n / 1_000).toFixed(1) + 'K';
+  return n.toString();
+}
+
+function formatCost(n: number): string {
+  return '$' + n.toFixed(2);
+}
+
+const sortedByCost = [...models].sort((a, b) => b.cost - a.cost);
+const topModels = sortedByCost.filter(m => m.cost > 0).slice(0, 10);
+const maxCost = topModels[0]?.cost || 1;
+
+const totalTableTokens = models.reduce((s, m) => s + m.tokens, 0);
+const totalTableCost = models.reduce((s, m) => s + m.cost, 0);
+const totalTableRecords = models.reduce((s, m) => s + m.records, 0);
 ---
 <BaseLayout
   title="Token Usage — TechRex"
-  description="Real-time AI token consumption dashboard tracking usage across devices and models."
+  description="AI token consumption dashboard tracking usage across models."
 >
   <!-- Hero -->
   <section class="py-20 bg-[var(--color-bg)] border-b-2 border-[var(--color-border)] relative overflow-hidden">
@@ -16,41 +80,17 @@ const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airli
 
     <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
       <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-6 shadow-hard-sm">
-        Live Dashboard
+        Dashboard
       </span>
       <h1 class="font-heading font-extrabold text-4xl sm:text-5xl text-[var(--color-text)] mb-4 tracking-tight">
         Token Usage
       </h1>
       <p class="text-[var(--color-muted)] text-lg max-w-2xl leading-relaxed mb-4">
-        Real-time AI token consumption across all devices and models.
+        AI token consumption across all models — {stats.total_records} records tracked.
       </p>
-      <div class="flex items-center gap-3">
-        <span class="inline-flex items-center gap-2">
-          <span class="relative flex h-3 w-3">
-            <span class="absolute inline-flex h-full w-full rounded-full bg-[var(--color-mint)] opacity-75 animate-ping"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-[var(--color-mint)]"></span>
-          </span>
-          <span class="text-sm font-semibold text-[var(--color-mint)]">Live</span>
-        </span>
-        <span id="updated-at" class="text-xs text-[var(--color-muted)]"></span>
-      </div>
+      <span class="text-xs text-[var(--color-muted)]">Last updated: {stats.updated_at}</span>
     </div>
   </section>
-
-  <!-- Error Banner (hidden by default) -->
-  <div id="error-banner" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-    <div class="rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface)] p-8 text-center">
-      <svg class="w-10 h-10 mx-auto mb-3 text-[var(--color-accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-      </svg>
-      <p class="font-heading font-bold text-lg text-[var(--color-text)] mb-2">Unable to reach the token tracker</p>
-      <p class="text-sm text-[var(--color-muted)] mb-4">The server may be offline — check back soon.</p>
-      <button id="retry-btn" class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary text-white text-sm font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
-        Retry
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-      </button>
-    </div>
-  </div>
 
   <!-- Summary Cards -->
   <section class="py-16 bg-[var(--color-surface)]">
@@ -65,9 +105,7 @@ const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airli
             </div>
             <span class="text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide">Total Tokens</span>
           </div>
-          <p id="stat-tokens" class="font-heading font-extrabold text-3xl text-[var(--color-text)]">
-            <span class="inline-block h-8 w-28 bg-[var(--color-surface)] rounded-lg animate-pulse"></span>
-          </p>
+          <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">{formatTokens(stats.total_tokens)}</p>
         </div>
 
         <!-- Total Cost -->
@@ -78,9 +116,7 @@ const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airli
             </div>
             <span class="text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide">Total Cost</span>
           </div>
-          <p id="stat-cost" class="font-heading font-extrabold text-3xl text-[var(--color-text)]">
-            <span class="inline-block h-8 w-24 bg-[var(--color-surface)] rounded-lg animate-pulse"></span>
-          </p>
+          <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">{formatCost(stats.total_cost)}</p>
         </div>
 
         <!-- Models -->
@@ -91,34 +127,38 @@ const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airli
             </div>
             <span class="text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide">Models</span>
           </div>
-          <p id="stat-models" class="font-heading font-extrabold text-3xl text-[var(--color-text)]">
-            <span class="inline-block h-8 w-12 bg-[var(--color-surface)] rounded-lg animate-pulse"></span>
-          </p>
+          <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">{stats.model_count}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Daily Usage Chart -->
+  <!-- Top Models by Cost -->
   <section class="py-16 bg-[var(--color-bg)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center gap-3 mb-8">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold shadow-hard-sm text-primary">
-          Last 7 Days
+          Top 10
         </span>
-        <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Daily Usage</h2>
+        <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Models by Cost</h2>
       </div>
 
-      <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 shadow-hard">
-        <div id="daily-chart" class="flex items-end gap-3 h-64">
-          <!-- Skeleton bars -->
-          {[65, 40, 80, 55, 90, 35, 70].map(h => (
-            <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
-              <div class="w-full rounded-t-xl bg-[var(--color-surface)] animate-pulse" style={`height: ${h}%`}></div>
-              <span class="text-xs text-[var(--color-muted)]">---</span>
+      <div class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 shadow-hard space-y-4">
+        {topModels.map((m) => {
+          const pct = Math.max((m.cost / maxCost) * 100, 2);
+          return (
+            <div class="flex items-center gap-4">
+              <span class="text-xs font-mono font-semibold text-[var(--color-text)] w-44 sm:w-52 truncate shrink-0" title={m.model}>{m.model}</span>
+              <div class="flex-1 h-8 bg-[var(--color-surface)] rounded-lg border border-[var(--color-border)] overflow-hidden relative">
+                <div
+                  class="h-full bg-primary rounded-lg"
+                  style={`width: ${pct}%`}
+                ></div>
+              </div>
+              <span class="text-sm font-bold text-[var(--color-text)] w-20 text-right shrink-0">{formatCost(m.cost)}</span>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -128,7 +168,7 @@ const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airli
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center gap-3 mb-8">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold shadow-hard-sm text-[var(--color-accent)]">
-          By Model
+          All {stats.model_count}
         </span>
         <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Model Breakdown</h2>
       </div>
@@ -142,7 +182,7 @@ const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airli
                 Tokens <span class="sort-arrow"></span>
               </th>
               <th data-sort="cost" class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)] cursor-pointer hover:text-primary transition-colors">
-                Cost <span class="sort-arrow"></span>
+                Cost <span class="sort-arrow">&darr;</span>
               </th>
               <th data-sort="records" class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)] cursor-pointer hover:text-primary transition-colors">
                 Records <span class="sort-arrow"></span>
@@ -150,33 +190,69 @@ const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airli
             </tr>
           </thead>
           <tbody id="model-table-body">
-            <!-- Skeleton rows -->
-            {[1,2,3,4,5].map(() => (
-              <tr class="border-b border-[var(--color-border)]">
-                <td class="px-6 py-4"><span class="inline-block h-4 w-40 bg-[var(--color-surface)] rounded animate-pulse"></span></td>
-                <td class="px-6 py-4"><span class="inline-block h-4 w-20 bg-[var(--color-surface)] rounded animate-pulse"></span></td>
-                <td class="px-6 py-4"><span class="inline-block h-4 w-16 bg-[var(--color-surface)] rounded animate-pulse"></span></td>
-                <td class="px-6 py-4"><span class="inline-block h-4 w-10 bg-[var(--color-surface)] rounded animate-pulse"></span></td>
+            {sortedByCost.map((m) => (
+              <tr class="border-b border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-colors">
+                <td class="px-6 py-4 text-sm font-mono font-semibold text-[var(--color-text)]">{m.model}</td>
+                <td class="px-6 py-4 text-sm text-[var(--color-text)]">{formatTokens(m.tokens)}</td>
+                <td class="px-6 py-4 text-sm font-semibold text-[var(--color-text)]">{formatCost(m.cost)}</td>
+                <td class="px-6 py-4 text-sm text-[var(--color-muted)]">{m.records}</td>
               </tr>
             ))}
+            <tr class="bg-[var(--color-surface)] border-t-2 border-[var(--color-border)]">
+              <td class="px-6 py-4 text-sm font-bold text-[var(--color-text)]">Total ({models.length} models)</td>
+              <td class="px-6 py-4 text-sm font-bold text-[var(--color-text)]">{formatTokens(totalTableTokens)}</td>
+              <td class="px-6 py-4 text-sm font-bold text-primary">{formatCost(totalTableCost)}</td>
+              <td class="px-6 py-4 text-sm font-bold text-[var(--color-muted)]">{totalTableRecords}</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
-
-  <!-- Data attribute for API URL -->
-  <div id="token-dashboard" class="hidden" data-api-url={apiUrl}></div>
 </BaseLayout>
 
 <script>
-  function initTokenDashboard() {
-    const API_BASE = document.getElementById('token-dashboard')?.dataset.apiUrl || 'https://supervisor-airline-payroll-apt.trycloudflare.com';
-    const REFRESH_INTERVAL = 30000;
+  function initSortableTable() {
+    const models = [
+      { model: 'claude-sonnet-4-6', tokens: 429766075, cost: 194.97, records: 23 },
+      { model: 'claude-sonnet-4-5', tokens: 33758610, cost: 20.01, records: 16 },
+      { model: 'k2p5', tokens: 99000047, cost: 18.60, records: 4 },
+      { model: 'gpt-5.4', tokens: 19998932, cost: 13.64, records: 1 },
+      { model: 'gpt-5-codex', tokens: 52180755, cost: 11.89, records: 4 },
+      { model: 'gpt-5', tokens: 10013034, cost: 5.49, records: 6 },
+      { model: 'gpt-5.1-codex-max', tokens: 10809849, cost: 4.77, records: 8 },
+      { model: 'claude-haiku-4-5', tokens: 14179588, cost: 3.51, records: 15 },
+      { model: 'gpt-5.1-codex', tokens: 3630735, cost: 1.91, records: 1 },
+      { model: 'gpt-5.2-codex', tokens: 2664969, cost: 1.81, records: 3 },
+      { model: 'gpt-5.3-codex', tokens: 3282570, cost: 1.66, records: 2 },
+      { model: 'kimi-for-coding', tokens: 3849259, cost: 0.99, records: 5 },
+      { model: 'claude-opus-4-5', tokens: 145591, cost: 0.77, records: 2 },
+      { model: 'unsloth/qwen3.5-35b-a3b', tokens: 738960, cost: 0.09, records: 2 },
+      { model: 'qwen/qwen3.5-35b-a3b', tokens: 432213, cost: 0.06, records: 3 },
+      { model: 'kimi-coding/k2-thinking', tokens: 22350, cost: 0.01, records: 3 },
+      { model: 'qwen/qwen3.5-9b', tokens: 94896, cost: 0.005, records: 1 },
+      { model: '<synthetic>', tokens: 0, cost: 0, records: 20 },
+      { model: 'claude sonnet 4-5', tokens: 716068, cost: 0, records: 1 },
+      { model: 'claude-opus-4-6', tokens: 40585989, cost: 0, records: 11 },
+      { model: 'gemini-2.5-flash', tokens: 14450, cost: 0, records: 1 },
+      { model: 'gemini-2.5-pro', tokens: 376414, cost: 0, records: 2 },
+      { model: 'gemini-3-flash-preview', tokens: 1627500, cost: 0, records: 4 },
+      { model: 'gemini-3-pro-preview', tokens: 3010170, cost: 0, records: 3 },
+      { model: 'gpt-5.1', tokens: 1701179, cost: 0, records: 3 },
+      { model: 'gpt-5.2-chat-latest', tokens: 0, cost: 0, records: 1 },
+      { model: 'heartbeat', tokens: 0, cost: 0, records: 2 },
+      { model: 'huihui_ai/orchestrator-abliterated:8b', tokens: 0, cost: 0, records: 1 },
+      { model: 'lfm2-1.2b-tool', tokens: 73848, cost: 0, records: 1 },
+      { model: 'liquid/lfm2-24b-a2b', tokens: 71676, cost: 0, records: 2 },
+      { model: 'nvidia/nemotron-3-nano-4b', tokens: 1913448, cost: 0, records: 1 },
+      { model: 'openai/gpt-oss-20b', tokens: 0, cost: 0, records: 1 },
+      { model: 'openrouter/pony-alpha', tokens: 99191, cost: 0, records: 1 },
+      { model: 'qwen/qwen3-30b-a3b-2507', tokens: 0, cost: 0, records: 1 },
+      { model: 'qwen3.5:27b', tokens: 8280, cost: 0, records: 2 },
+      { model: 'qwen3.5:35b-a3b', tokens: 0, cost: 0, records: 1 },
+    ];
 
-    let modelData: any[] = [];
     let currentSort = { col: 'cost', dir: 'desc' };
-    let refreshTimer: ReturnType<typeof setInterval>;
 
     function formatTokens(n: number): string {
       if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1) + 'B';
@@ -189,95 +265,41 @@ const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airli
       return '$' + n.toFixed(2);
     }
 
-    function formatDate(dateStr: string): string {
-      return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-    }
-
-    async function fetchJSON(path: string) {
-      const res = await fetch(API_BASE + path);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
-    }
-
-    function renderStats(statsData: any, models: any[]) {
-      const s = statsData.data.summary;
-      const el = (id: string) => document.getElementById(id);
-      const tokensEl = el('stat-tokens');
-      const costEl = el('stat-cost');
-      const modelsEl = el('stat-models');
-
-      // Compute totals from model data for accuracy
-      const totalTokens = models.reduce((sum: number, m: any) => sum + m.tokens, 0);
-      const totalCost = models.reduce((sum: number, m: any) => sum + m.cost, 0);
-
-      if (tokensEl) tokensEl.textContent = formatTokens(totalTokens);
-      if (costEl) costEl.textContent = formatCost(totalCost);
-      if (modelsEl) modelsEl.textContent = String(models.length);
-
-      const updatedEl = document.getElementById('updated-at');
-      if (updatedEl && statsData.data.updated_at) {
-        updatedEl.textContent = 'Updated ' + new Date(statsData.data.updated_at).toLocaleTimeString();
-      }
-    }
-
-    function renderDailyChart(data: any) {
-      const days = data.data as any[];
-      if (!days.length) return;
-      const maxTokens = Math.max(...days.map((d: any) => d.tokens_total));
-      const container = document.getElementById('daily-chart');
-      if (!container) return;
-
-      const reversed = [...days].reverse();
-      container.innerHTML = reversed.map((d: any) => {
-        const pct = maxTokens > 0 ? Math.max((d.tokens_total / maxTokens) * 100, 4) : 4;
-        return `
-          <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
-            <div class="relative w-full">
-              <div class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 rounded-lg bg-[var(--color-text)] text-[var(--color-bg)] text-[10px] font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                ${formatTokens(d.tokens_total)} / ${formatCost(d.cost_usd)}
-              </div>
-            </div>
-            <div class="w-full rounded-t-xl border-2 border-[var(--color-border)] bg-primary animate-grow-up cursor-pointer" style="height: ${pct}%" title="${formatTokens(d.tokens_total)} tokens / ${formatCost(d.cost_usd)}"></div>
-            <div class="text-center">
-              <p class="text-xs font-semibold text-[var(--color-text)]">${formatDate(d.date)}</p>
-              <p class="text-[10px] text-[var(--color-muted)]">${formatCost(d.cost_usd)}</p>
-            </div>
-          </div>`;
-      }).join('');
-    }
-
-    function renderModels(data?: any) {
-      if (data) modelData = data.data;
-      const sorted = [...modelData].sort((a: any, b: any) => {
+    function renderTable() {
+      const sorted = [...models].sort((a: any, b: any) => {
         const dir = currentSort.dir === 'asc' ? 1 : -1;
         return (a[currentSort.col] - b[currentSort.col]) * dir;
       });
 
+      const totalTokens = models.reduce((s, m) => s + m.tokens, 0);
+      const totalCost = models.reduce((s, m) => s + m.cost, 0);
+      const totalRecords = models.reduce((s, m) => s + m.records, 0);
+
       const tbody = document.getElementById('model-table-body');
       if (!tbody) return;
 
-      tbody.innerHTML = sorted.map((m: any) => `
+      tbody.innerHTML = sorted.map(m => `
         <tr class="border-b border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-colors">
           <td class="px-6 py-4 text-sm font-mono font-semibold text-[var(--color-text)]">${m.model}</td>
           <td class="px-6 py-4 text-sm text-[var(--color-text)]">${formatTokens(m.tokens)}</td>
           <td class="px-6 py-4 text-sm font-semibold text-[var(--color-text)]">${formatCost(m.cost)}</td>
           <td class="px-6 py-4 text-sm text-[var(--color-muted)]">${m.records}</td>
-        </tr>`).join('');
+        </tr>`).join('') + `
+        <tr class="bg-[var(--color-surface)] border-t-2 border-[var(--color-border)]">
+          <td class="px-6 py-4 text-sm font-bold text-[var(--color-text)]">Total (${sorted.length} models)</td>
+          <td class="px-6 py-4 text-sm font-bold text-[var(--color-text)]">${formatTokens(totalTokens)}</td>
+          <td class="px-6 py-4 text-sm font-bold text-primary">${formatCost(totalCost)}</td>
+          <td class="px-6 py-4 text-sm font-bold text-[var(--color-muted)]">${totalRecords}</td>
+        </tr>`;
 
-      // Update sort arrows
       document.querySelectorAll('[data-sort]').forEach(th => {
         const arrow = th.querySelector('.sort-arrow') as HTMLElement;
         if (!arrow) return;
         const col = (th as HTMLElement).dataset.sort;
-        if (col === currentSort.col) {
-          arrow.textContent = currentSort.dir === 'asc' ? ' \u2191' : ' \u2193';
-        } else {
-          arrow.textContent = '';
-        }
+        arrow.textContent = col === currentSort.col ? (currentSort.dir === 'asc' ? ' \u2191' : ' \u2193') : '';
       });
     }
 
-    // Sort click handlers
     document.querySelectorAll('[data-sort]').forEach(th => {
       th.addEventListener('click', () => {
         const col = (th as HTMLElement).dataset.sort!;
@@ -286,49 +308,11 @@ const apiUrl = import.meta.env.PUBLIC_TOKEN_API_URL || 'https://supervisor-airli
         } else {
           currentSort = { col, dir: 'desc' };
         }
-        renderModels();
+        renderTable();
       });
     });
-
-    async function loadAll() {
-      try {
-        const [statsRes, dailyRes, modelRes] = await Promise.all([
-          fetchJSON('/api/public/stats'),
-          fetchJSON('/api/usage/daily'),
-          fetchJSON('/api/usage/by-model'),
-        ]);
-        renderStats(statsRes, modelRes.data);
-        renderDailyChart(dailyRes);
-        renderModels(modelRes);
-        document.getElementById('error-banner')?.classList.add('hidden');
-      } catch (err) {
-        console.error('Token usage fetch failed:', err);
-        document.getElementById('error-banner')?.classList.remove('hidden');
-      }
-    }
-
-    // Retry button
-    document.getElementById('retry-btn')?.addEventListener('click', loadAll);
-
-    // Initial load
-    loadAll();
-
-    // Auto-refresh
-    if (refreshTimer) clearInterval(refreshTimer);
-    refreshTimer = setInterval(loadAll, REFRESH_INTERVAL);
   }
 
-  initTokenDashboard();
-  document.addEventListener('astro:page-load', initTokenDashboard);
+  initSortableTable();
+  document.addEventListener('astro:page-load', initSortableTable);
 </script>
-
-<style>
-  @keyframes grow-up {
-    from { transform: scaleY(0); }
-    to { transform: scaleY(1); }
-  }
-  .animate-grow-up {
-    animation: grow-up 0.6s ease-out forwards;
-    transform-origin: bottom;
-  }
-</style>
