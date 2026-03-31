@@ -18,6 +18,7 @@ const projects = [
     description: 'A local memory system for AI assistants that runs entirely on your own hardware. Store and retrieve context without cloud dependencies — full privacy, zero latency.',
     githubUrl: 'https://github.com/saiteja007-mv/local-ai-memory',
     clawUrl: null,
+    liveUrl: null,
     tags: ['Local AI', 'Memory', 'Privacy', 'Open Source'],
     color: 'mint' as const,
     status: 'Active',
@@ -28,10 +29,22 @@ const projects = [
     description: 'A Claude Code skill for generating and publishing blog posts directly to Google Blogger. Automate your blogging workflow with AI. Also available as a Claude skill on Clawhub.',
     githubUrl: 'https://github.com/saiteja007-mv/gblog-skill',
     clawUrl: 'https://clawhub.ai/saiteja007-mv/gblog',
+    liveUrl: null,
     tags: ['Claude', 'Blogging', 'Automation', 'AI Skill'],
     color: 'violet' as const,
     status: 'Active',
     emoji: '✍️',
+  },
+  {
+    name: 'IPL 2026 Predictor',
+    description: 'An XGBoost-powered IPL match winner predictor trained on 18 seasons of historical data. Includes a Streamlit app with interactive team selection, impact-player logic, and live win probabilities.',
+    githubUrl: 'https://github.com/saiteja007-mv/IPL-2026-Predictor',
+    clawUrl: null,
+    liveUrl: 'https://techrex-ipl-prediction.streamlit.app/',
+    tags: ['Machine Learning', 'XGBoost', 'Streamlit', 'Cricket Analytics'],
+    color: 'pink' as const,
+    status: 'Live',
+    emoji: '🏏',
   },
 ];
 
@@ -204,6 +217,21 @@ const breadcrumbSchema = {
                   </svg>
                   View on GitHub
                 </a>
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold border-2 border-[var(--color-border)] bg-primary text-white shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                  >
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14 3h7v7"/>
+                      <path d="M10 14L21 3"/>
+                      <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+                    </svg>
+                    Open Live App
+                  </a>
+                )}
                 {project.clawUrl && (
                   <a
                     href={project.clawUrl}
