@@ -2,17 +2,29 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const featuredProject = {
-  name: 'Open WebUI Desktop',
-  description: 'Electron desktop app for Open WebUI — pure black UI, venv installer, and system tray integration. Run your local AI chat interface as a native desktop app without touching the terminal every time.',
-  githubUrl: 'https://github.com/saiteja007-mv/open-webui-desktop',
-  tags: ['Electron', 'Desktop App', 'Open WebUI', 'Local AI', 'JavaScript'],
-  color: 'amber' as const,
-  status: 'Active',
-  emoji: '🖥️',
-  language: 'JavaScript',
+  name: 'IPL 2026 Predictor',
+  description: 'An XGBoost-powered IPL match winner predictor trained on 18 seasons of historical data. Includes a Streamlit app with interactive team selection, impact-player logic, and live win probabilities.',
+  githubUrl: 'https://github.com/saiteja007-mv/IPL-2026-Predictor',
+  liveUrl: 'https://techrex-ipl-prediction.streamlit.app/',
+  tags: ['Machine Learning', 'XGBoost', 'Streamlit', 'Cricket Analytics'],
+  color: 'pink' as const,
+  status: 'Live',
+  emoji: '🏏',
+  language: 'Python',
 };
 
 const projects = [
+  {
+    name: 'Open WebUI Desktop',
+    description: 'Electron desktop app for Open WebUI — pure black UI, venv installer, and system tray integration. Run your local AI chat interface as a native desktop app without touching the terminal every time.',
+    githubUrl: 'https://github.com/saiteja007-mv/open-webui-desktop',
+    clawUrl: null,
+    liveUrl: null,
+    tags: ['Electron', 'Desktop App', 'Open WebUI', 'Local AI', 'JavaScript'],
+    color: 'amber' as const,
+    status: 'Active',
+    emoji: '🖥️',
+  },
   {
     name: 'Local AI Memory',
     description: 'A local memory system for AI assistants that runs entirely on your own hardware. Store and retrieve context without cloud dependencies — full privacy, zero latency.',
@@ -34,17 +46,6 @@ const projects = [
     color: 'violet' as const,
     status: 'Active',
     emoji: '✍️',
-  },
-  {
-    name: 'IPL 2026 Predictor',
-    description: 'An XGBoost-powered IPL match winner predictor trained on 18 seasons of historical data. Includes a Streamlit app with interactive team selection, impact-player logic, and live win probabilities.',
-    githubUrl: 'https://github.com/saiteja007-mv/IPL-2026-Predictor',
-    clawUrl: null,
-    liveUrl: 'https://techrex-ipl-prediction.streamlit.app/',
-    tags: ['Machine Learning', 'XGBoost', 'Streamlit', 'Cricket Analytics'],
-    color: 'pink' as const,
-    status: 'Live',
-    emoji: '🏏',
   },
 ];
 
@@ -112,7 +113,7 @@ const breadcrumbSchema = {
         <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Project Spotlight</h2>
       </div>
 
-      <article class="bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] shadow-hard-amber p-8 flex flex-col lg:flex-row gap-8 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
+      <article class={`bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] ${shadowMap[featuredProject.color]} p-8 flex flex-col lg:flex-row gap-8 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200`}>
         <!-- Left: Icon + Meta -->
         <div class="flex-shrink-0 flex flex-col items-start gap-4">
           <div class="w-20 h-20 rounded-2xl border-2 border-[var(--color-border)] flex items-center justify-center text-4xl"
@@ -149,7 +150,7 @@ const breadcrumbSchema = {
             ))}
           </div>
 
-          <div class="mt-auto">
+          <div class="mt-auto flex flex-wrap gap-3">
             <a
               href={featuredProject.githubUrl}
               target="_blank"
@@ -161,6 +162,21 @@ const breadcrumbSchema = {
               </svg>
               View on GitHub
             </a>
+            {featuredProject.liveUrl && (
+              <a
+                href={featuredProject.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold border-2 border-[var(--color-border)] bg-primary text-white shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 3h7v7"/>
+                  <path d="M10 14L21 3"/>
+                  <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+                </svg>
+                Open Live App
+              </a>
+            )}
           </div>
         </div>
       </article>

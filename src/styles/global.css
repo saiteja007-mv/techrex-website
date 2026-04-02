@@ -22,19 +22,19 @@
 
   /* Light mode (warm cream) */
   --color-bg: #FFFDF5;
-  --color-bg-dark: #0E0C17;
+  --color-bg-dark: #000000;
   --color-surface: #F5F0E8;
-  --color-surface-dark: #160E24;
+  --color-surface-dark: #0A0A0A;
   --color-surface-2: #EDE8DC;
-  --color-surface-2-dark: #1A1030;
+  --color-surface-2-dark: #111111;
   --color-card: #FFFFFF;
-  --color-card-dark: #1A1030;
+  --color-card-dark: #0F0F0F;
   --color-text: #1E293B;
-  --color-text-dark: #F1EDF8;
+  --color-text-dark: #F5F5F5;
   --color-muted: #64748B;
-  --color-muted-dark: #9E8BB5;
+  --color-muted-dark: #888888;
   --color-border: #1E293B;         /* hard dark border (light mode) */
-  --color-border-dark: #5B21B6;    /* violet border (dark mode) */
+  --color-border-dark: #333333;    /* dark gray border (dark mode) */
 
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
