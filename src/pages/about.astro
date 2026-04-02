@@ -20,15 +20,36 @@ const breadcrumbSchema = {
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://techrex.saitejamothukuri.com/#person",
   "name": "Saiteja Mothukuri",
+  "alternateName": "Sai Teja Mothukuri",
   "url": "https://saitejamothukuri.com",
-  "jobTitle": "Content Creator & Developer",
+  "jobTitle": "Content Creator & AI Developer",
   "description": "AI educator and developer behind TechRex. Covers local AI models, developer tools, and hardware for AI workloads.",
+  "worksFor": {
+    "@type": "Organization",
+    "@id": "https://techrex.saitejamothukuri.com/#organization",
+    "name": "TechRex"
+  },
+  "knowsAbout": ["Local AI", "AI Tools", "Developer Workflows", "Hardware for AI", "Open Source", "Machine Learning"],
   "sameAs": [
     "https://www.youtube.com/@The_TechRex",
     "https://linkedin.com/in/venkatasaitejam",
-    "https://github.com/saiteja007-mv"
+    "https://github.com/saiteja007-mv",
+    "https://saitejamothukuri.com"
   ]
+};
+
+const aboutPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "@id": "https://techrex.saitejamothukuri.com/about/",
+  "url": "https://techrex.saitejamothukuri.com/about/",
+  "name": "About — TechRex",
+  "description": "Learn about TechRex, the REX Method, and the mission to help developers build and launch with AI tools without the struggle.",
+  "isPartOf": { "@id": "https://techrex.saitejamothukuri.com/#website" },
+  "about": { "@id": "https://techrex.saitejamothukuri.com/#person" },
+  "mainEntity": { "@id": "https://techrex.saitejamothukuri.com/#person" }
 };
 ---
 <BaseLayout
@@ -38,6 +59,7 @@ const personSchema = {
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(aboutPageSchema)} />
   </Fragment>
 
   <!-- Hero header -->

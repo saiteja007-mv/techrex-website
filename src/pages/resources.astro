@@ -73,6 +73,17 @@ const breadcrumbSchema = {
     { "@type": "ListItem", "position": 2, "name": "Resources", "item": "https://techrex.saitejamothukuri.com/resources/" }
   ]
 };
+
+const collectionPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://techrex.saitejamothukuri.com/resources/",
+  "url": "https://techrex.saitejamothukuri.com/resources/",
+  "name": "Projects & Resources — TechRex",
+  "description": "Personal open-source projects by Saiteja Mothukuri — TechRex. Local AI memory, Claude skills, and developer automation tools.",
+  "isPartOf": { "@id": "https://techrex.saitejamothukuri.com/#website" },
+  "author": { "@id": "https://techrex.saitejamothukuri.com/#person" }
+};
 ---
 <BaseLayout
   title="Projects — TechRex"
@@ -80,6 +91,7 @@ const breadcrumbSchema = {
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
   </Fragment>
 
   <!-- Hero -->

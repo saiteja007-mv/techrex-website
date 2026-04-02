@@ -23,12 +23,18 @@ const categories = [
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://techrex.saitejamothukuri.com/#website",
   "name": "TechRex",
+  "alternateName": ["TechRex by Saiteja Mothukuri", "The TechRex"],
   "url": "https://techrex.saitejamothukuri.com/",
-  "description": "AI tools, local models, developer workflows and hardware guides.",
+  "description": "AI tools, local models, developer workflows and hardware guides by Saiteja Mothukuri.",
+  "publisher": { "@id": "https://techrex.saitejamothukuri.com/#organization" },
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://techrex.saitejamothukuri.com/videos/?q={search_term_string}",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://techrex.saitejamothukuri.com/videos/?q={search_term_string}"
+    },
     "query-input": "required name=search_term_string"
   }
 };
@@ -36,23 +42,45 @@ const websiteSchema = {
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://techrex.saitejamothukuri.com/#person",
   "name": "Saiteja Mothukuri",
+  "alternateName": "Sai Teja Mothukuri",
   "url": "https://saitejamothukuri.com",
+  "jobTitle": "Content Creator & AI Developer",
+  "description": "AI educator and developer behind TechRex. Covers local AI models, developer tools, and hardware for AI workloads.",
+  "worksFor": {
+    "@type": "Organization",
+    "@id": "https://techrex.saitejamothukuri.com/#organization",
+    "name": "TechRex"
+  },
+  "knowsAbout": ["Local AI", "AI Tools", "Developer Workflows", "Hardware for AI", "Open Source", "Machine Learning"],
   "sameAs": [
     "https://www.youtube.com/@The_TechRex",
     "https://linkedin.com/in/venkatasaitejam",
-    "https://github.com/saiteja007-mv"
+    "https://github.com/saiteja007-mv",
+    "https://saitejamothukuri.com"
   ]
 };
 
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://techrex.saitejamothukuri.com/#organization",
   "name": "TechRex",
   "url": "https://techrex.saitejamothukuri.com/",
-  "logo": "https://techrex.saitejamothukuri.com/favicon.svg",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://techrex.saitejamothukuri.com/favicon.svg",
+    "width": 512,
+    "height": 512
+  },
   "description": "AI tools, local models, developer workflows and hardware guides.",
-  "founder": { "@type": "Person", "name": "Saiteja Mothukuri" },
+  "foundingDate": "2025-11",
+  "founder": {
+    "@type": "Person",
+    "@id": "https://techrex.saitejamothukuri.com/#person",
+    "name": "Saiteja Mothukuri"
+  },
   "sameAs": [
     "https://www.youtube.com/@The_TechRex",
     "https://linkedin.com/in/venkatasaitejam",
@@ -60,31 +88,16 @@ const organizationSchema = {
   ]
 };
 
-const siteNavigationSchema = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "TechRex Site Navigation",
-  "itemListElement": [
-    {
-      "@type": "SiteLinksSearchBox",
-      "url": "https://techrex.saitejamothukuri.com/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://techrex.saitejamothukuri.com/videos/?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-  ]
-};
-
-const navLinksSchema = {
+const homepageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "@id": "https://techrex.saitejamothukuri.com/#website",
+  "@id": "https://techrex.saitejamothukuri.com/",
   "url": "https://techrex.saitejamothukuri.com/",
-  "name": "TechRex",
+  "name": "TechRex — AI Tools, Local AI & Developer Workflows",
+  "description": "AI tools, local models, developer workflows and hardware guides. Learn to build and launch with the latest AI technology.",
   "isPartOf": { "@id": "https://techrex.saitejamothukuri.com/#website" },
   "about": { "@type": "Thing", "name": "AI Tools and Local AI Models" },
+  "author": { "@id": "https://techrex.saitejamothukuri.com/#person" },
   "hasPart": [
     {
       "@type": "WebPage",
@@ -102,7 +115,13 @@ const navLinksSchema = {
       "@type": "WebPage",
       "name": "Resources",
       "url": "https://techrex.saitejamothukuri.com/resources/",
-      "description": "Curated AI tools and resources"
+      "description": "Open-source projects and curated AI resources"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Token Usage",
+      "url": "https://techrex.saitejamothukuri.com/token-usage/",
+      "description": "AI token usage dashboard"
     }
   ]
 };
@@ -115,7 +134,7 @@ const navLinksSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(navLinksSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(homepageSchema)} />
   </Fragment>
   <!-- Hero -->
   <Hero />
