@@ -6,6 +6,8 @@ const featuredProject = {
   description: 'An XGBoost-powered IPL match winner predictor trained on 18 seasons of historical data. Includes a Streamlit app with interactive team selection, impact-player logic, and live win probabilities.',
   githubUrl: 'https://github.com/saiteja007-mv/IPL-2026-Predictor',
   liveUrl: 'https://techrex-ipl-prediction.streamlit.app/',
+  notebookUrl: 'https://www.kaggle.com/code/saitejave/ipl-2026-predictor',
+  datasetUrl: 'https://www.kaggle.com/datasets/saitejave/ipl-data',
   tags: ['Machine Learning', 'XGBoost', 'Streamlit', 'Cricket Analytics'],
   color: 'pink' as const,
   status: 'Live',
@@ -187,6 +189,34 @@ const collectionPageSchema = {
                   <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
                 </svg>
                 Open Live App
+              </a>
+            )}
+            {featuredProject.notebookUrl && (
+              <a
+                href={featuredProject.notebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold border-2 border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.441 16.892c-2.102.144-6.784.144-8.883 0C5.282 16.736 5.017 15.622 5 12c.017-3.629.285-4.736 2.558-4.892 2.099-.144 6.782-.144 8.883 0C18.718 7.264 18.982 8.378 19 12c-.018 3.629-.285 4.736-2.559 4.892zM10 9.658l4.917 2.338L10 14.342V9.658z"/>
+                </svg>
+                Kaggle Notebook
+              </a>
+            )}
+            {featuredProject.datasetUrl && (
+              <a
+                href={featuredProject.datasetUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold border-2 border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                  <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                  <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                </svg>
+                Kaggle Dataset
               </a>
             )}
           </div>
