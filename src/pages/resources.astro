@@ -1,5 +1,235 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import channelInfo from '../data/channel-info.json';
+
+const { socialLinks } = channelInfo;
+
+type InstallStep = {
+  title: string;
+  description?: string;
+  command?: string;
+  note?: string;
+};
+
+type InstallTab = {
+  os: 'macOS' | 'Windows' | 'Linux';
+  steps: InstallStep[];
+  note?: string;
+  verify?: string;
+};
+
+type CliTool = {
+  name: string;
+  emoji: string;
+  description: string;
+  category: string;
+  color: 'mint' | 'violet' | 'amber' | 'pink';
+  status: 'Live' | 'Coming Soon';
+  installTabs: InstallTab[];
+  docsUrl: string;
+  shortUrl: string | null;
+};
+
+const cliTools: CliTool[] = [
+  {
+    name: 'Vercel CLI',
+    emoji: '▲',
+    description: 'Deploy projects, manage env vars, and preview deployments from the terminal.',
+    category: 'Deployment',
+    color: 'mint',
+    status: 'Live',
+    installTabs: [
+      {
+        os: 'macOS',
+        steps: [
+          { title: 'Install via Homebrew', description: 'Requires Homebrew installed.', command: 'brew install vercel-cli' },
+          { title: 'Authenticate', description: 'Log in to your Vercel account — opens a browser window.', command: 'vercel login' },
+          { title: 'Link a project', description: 'Run this inside any project directory to link it.', command: 'vercel link' },
+        ],
+        verify: 'vercel --version',
+      },
+      {
+        os: 'Windows',
+        steps: [
+          { title: 'Install via npm', description: 'Requires Node.js. Use an elevated PowerShell if needed.', command: 'npm install -g vercel' },
+          { title: 'Authenticate', command: 'vercel login' },
+          { title: 'Link a project', command: 'vercel link' },
+        ],
+        verify: 'vercel --version',
+      },
+      {
+        os: 'Linux',
+        steps: [
+          { title: 'Install via npm', description: 'Requires Node.js 16+.', command: 'npm install -g vercel' },
+          { title: 'Authenticate', command: 'vercel login' },
+          { title: 'Link a project', command: 'vercel link' },
+        ],
+        verify: 'vercel --version',
+      },
+    ],
+    docsUrl: 'https://vercel.com/docs/cli',
+    shortUrl: null,
+  },
+  {
+    name: 'GitHub CLI',
+    emoji: '🐙',
+    description: 'Create PRs, manage issues, clone repos, and run workflows without leaving your terminal.',
+    category: 'Version Control',
+    color: 'violet',
+    status: 'Live',
+    installTabs: [
+      {
+        os: 'macOS',
+        steps: [
+          { title: 'Install via Homebrew', command: 'brew install gh' },
+          { title: 'Authenticate', description: 'Follow the prompts to log in via browser or token.', command: 'gh auth login' },
+        ],
+        verify: 'gh --version',
+      },
+      {
+        os: 'Windows',
+        steps: [
+          { title: 'Install via winget', description: 'Run PowerShell as Administrator.', command: 'winget install --id GitHub.cli' },
+          { title: 'Authenticate', command: 'gh auth login' },
+        ],
+        verify: 'gh --version',
+      },
+      {
+        os: 'Linux',
+        steps: [
+          { title: 'Add the GitHub CLI keyring', command: 'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg' },
+          { title: 'Install the package', command: 'sudo apt update && sudo apt install gh' },
+          { title: 'Authenticate', command: 'gh auth login' },
+        ],
+        verify: 'gh --version',
+      },
+    ],
+    docsUrl: 'https://cli.github.com/',
+    shortUrl: null,
+  },
+  {
+    name: 'Supabase CLI',
+    emoji: '⚡',
+    description: 'Spin up local Supabase, run migrations, and deploy edge functions from your terminal.',
+    category: 'Database',
+    color: 'amber',
+    status: 'Live',
+    installTabs: [
+      {
+        os: 'macOS',
+        steps: [
+          { title: 'Install via Homebrew tap', command: 'brew install supabase/tap/supabase' },
+          { title: 'Log in', description: 'Generates an access token for your account.', command: 'supabase login' },
+          { title: 'Initialize a project', description: 'Creates a supabase/ folder with config.', command: 'supabase init' },
+        ],
+        verify: 'supabase --version',
+      },
+      {
+        os: 'Windows',
+        steps: [
+          { title: 'Install via Scoop', description: 'Requires Scoop package manager.', command: 'scoop install supabase' },
+          { title: 'Log in', command: 'supabase login' },
+          { title: 'Initialize a project', command: 'supabase init' },
+        ],
+        note: 'Do not install globally via npm — Supabase recommends Scoop on Windows.',
+        verify: 'supabase --version',
+      },
+      {
+        os: 'Linux',
+        steps: [
+          { title: 'Install via npm', command: 'npm install -g supabase' },
+          { title: 'Log in', command: 'supabase login' },
+          { title: 'Initialize a project', command: 'supabase init' },
+        ],
+        verify: 'supabase --version',
+      },
+    ],
+    docsUrl: 'https://supabase.com/docs/reference/cli/introduction',
+    shortUrl: null,
+  },
+  {
+    name: 'AWS CLI',
+    emoji: '☁️',
+    description: 'Manage AWS services, configure credentials, and automate cloud infrastructure.',
+    category: 'Cloud',
+    color: 'pink',
+    status: 'Coming Soon',
+    installTabs: [
+      {
+        os: 'macOS',
+        steps: [
+          { title: 'Install via Homebrew', command: 'brew install awscli' },
+          { title: 'Configure credentials', description: 'Enter your Access Key, Secret Key, region, and output format.', command: 'aws configure' },
+        ],
+        verify: 'aws --version',
+      },
+      {
+        os: 'Windows',
+        steps: [
+          { title: 'Install via winget', command: 'winget install --id Amazon.AWSCLI' },
+          { title: 'Configure credentials', command: 'aws configure' },
+        ],
+        verify: 'aws --version',
+      },
+      {
+        os: 'Linux',
+        steps: [
+          { title: 'Download the installer', command: 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"' },
+          { title: 'Unzip and install', command: 'unzip awscliv2.zip && sudo ./aws/install' },
+          { title: 'Configure credentials', command: 'aws configure' },
+        ],
+        verify: 'aws --version',
+      },
+    ],
+    docsUrl: 'https://aws.amazon.com/cli/',
+    shortUrl: null,
+  },
+  {
+    name: 'Google Workspace CLI',
+    emoji: '🟩',
+    description: 'Official Google Workspace CLI for managing users, groups, and admin resources from the terminal.',
+    category: 'Productivity',
+    color: 'mint',
+    status: 'Coming Soon',
+    installTabs: [
+      {
+        os: 'macOS',
+        steps: [
+          { title: 'Install Go (prerequisite)', description: 'Google Workspace CLI is built with Go. Skip if you already have Go 1.21+.', command: 'brew install go' },
+          { title: 'Clone the official repo', command: 'git clone https://github.com/googleworkspace/cli.git' },
+          { title: 'Build and install the CLI', description: 'From the cloned directory:', command: 'cd cli && go install ./...' },
+          { title: 'Authenticate with Google', description: 'Follow the interactive browser flow to authorize Workspace access.', command: 'gws auth login' },
+        ],
+        verify: 'gws --version',
+      },
+      {
+        os: 'Windows',
+        steps: [
+          { title: 'Install Go (prerequisite)', description: 'Run in an elevated PowerShell.', command: 'winget install GoLang.Go' },
+          { title: 'Clone the official repo', command: 'git clone https://github.com/googleworkspace/cli.git' },
+          { title: 'Build and install', command: 'cd cli; go install ./...' },
+          { title: 'Authenticate with Google', command: 'gws auth login' },
+        ],
+        note: 'Make sure %USERPROFILE%\\go\\bin is in your PATH so the gws binary is found.',
+        verify: 'gws --version',
+      },
+      {
+        os: 'Linux',
+        steps: [
+          { title: 'Install Go (prerequisite)', command: 'sudo apt install golang-go' },
+          { title: 'Clone the official repo', command: 'git clone https://github.com/googleworkspace/cli.git' },
+          { title: 'Build and install', command: 'cd cli && go install ./...' },
+          { title: 'Authenticate with Google', command: 'gws auth login' },
+        ],
+        verify: 'gws --version',
+      },
+    ],
+    docsUrl: 'https://github.com/googleworkspace/cli',
+    shortUrl: null,
+  },
+];
+
+const toSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const featuredProject = {
   name: 'IPL 2026 Predictor',
@@ -349,17 +579,224 @@ const collectionPageSchema = {
         </span>
       </div>
 
+      <!-- CLI Tools for AI Agents -->
+      <section class="mt-16 pt-12 border-t-2 border-[var(--color-border)]">
+        <div class="mb-10">
+          <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-4 shadow-hard-sm">
+            🎬 YouTube Shorts Series
+          </span>
+          <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-[var(--color-text)] mb-3">
+            CLI Tools for AI Agents
+          </h2>
+          <p class="text-[var(--color-muted)] leading-relaxed max-w-2xl">
+            Install guides for every CLI worth having in your AI workflow. Part of the ongoing TechRex Shorts series.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {cliTools.map((tool) => {
+            const slug = toSlug(tool.name);
+            const accent = accentMap[tool.color];
+            const shadow = shadowMap[tool.color];
+            const isComingSoon = tool.status === 'Coming Soon';
+            return (
+              <article
+                class={`cli-card bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] ${shadow} p-6 flex flex-col gap-4 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 ${isComingSoon ? 'opacity-75' : ''}`}
+                data-tool-id={slug}
+                data-expanded="false"
+              >
+                <!-- Header (clickable toggle) -->
+                <button
+                  type="button"
+                  data-card-toggle
+                  aria-expanded="false"
+                  aria-controls={`${slug}-details`}
+                  class="flex items-start justify-between gap-3 text-left w-full cursor-pointer"
+                >
+                  <div class="flex items-center gap-3 flex-1 min-w-0">
+                    <div
+                      class="w-12 h-12 rounded-xl border-2 flex items-center justify-center text-2xl flex-shrink-0"
+                      style={`background: ${accent.bg}18; border-color: ${accent.border}; box-shadow: 3px 3px 0px 0px ${accent.border}`}
+                    >
+                      {tool.emoji}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-heading font-extrabold text-xl text-[var(--color-text)] truncate">{tool.name}</h3>
+                      <span class="text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider">
+                        {tool.category}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2 flex-shrink-0">
+                    <span
+                      class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold border-2"
+                      style={`color: ${accent.bg}; border-color: ${accent.border}; background: ${accent.bg}18`}
+                    >
+                      ● {tool.status}
+                    </span>
+                    <svg data-chevron class="w-5 h-5 text-[var(--color-muted)] transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </div>
+                </button>
+
+                <p class="text-sm text-[var(--color-muted)] leading-relaxed">{tool.description}</p>
+
+                <div class="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    data-card-toggle-btn
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                  >
+                    <span data-toggle-label>View Install Guide</span>
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </button>
+                  <a
+                    href={tool.docsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                  >
+                    Official docs ↗
+                  </a>
+                  {tool.shortUrl && (
+                    <a
+                      href={tool.shortUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                    >
+                      ▶ Watch Short
+                    </a>
+                  )}
+                </div>
+
+                <!-- Expanded detail panel -->
+                <div
+                  id={`${slug}-details`}
+                  data-cli-details
+                  hidden
+                  class="border-t-2 border-[var(--color-border)] pt-5 mt-1 flex flex-col gap-4"
+                >
+                  <!-- OS tabs -->
+                  <div class="flex gap-1 border-b-2 border-[var(--color-border)] pb-0.5" role="tablist">
+                    {tool.installTabs.map((tab, i) => (
+                      <button
+                        type="button"
+                        data-os-tab-btn
+                        data-tab-idx={i}
+                        role="tab"
+                        aria-selected={i === 0 ? 'true' : 'false'}
+                        class={`px-3 py-1.5 text-xs font-bold rounded-t-lg border-2 border-b-0 transition-colors cursor-pointer ${i === 0 ? 'bg-[var(--color-text)] text-[var(--color-bg)] border-[var(--color-border)]' : 'bg-transparent text-[var(--color-muted)] border-transparent hover:text-[var(--color-text)]'}`}
+                      >
+                        {tab.os}
+                      </button>
+                    ))}
+                  </div>
+
+                  {tool.installTabs.map((tab, i) => (
+                    <div
+                      data-os-pane
+                      data-tab-idx={i}
+                      hidden={i !== 0}
+                      class="flex flex-col gap-4"
+                    >
+                      <ol class="flex flex-col gap-4">
+                        {tab.steps.map((step, stepIdx) => (
+                          <li class="flex gap-3">
+                            <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">
+                              {stepIdx + 1}
+                            </span>
+                            <div class="flex-1 flex flex-col gap-2 min-w-0">
+                              <p class="font-heading font-bold text-sm text-[var(--color-text)]">
+                                {step.title}
+                              </p>
+                              {step.description && (
+                                <p class="text-xs text-[var(--color-muted)] leading-relaxed">
+                                  {step.description}
+                                </p>
+                              )}
+                              {step.command && (
+                                <div class="relative">
+                                  <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>{step.command}</code></pre>
+                                  <button
+                                    type="button"
+                                    data-copy-btn
+                                    aria-label="Copy command"
+                                    class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer"
+                                  >
+                                    <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                    </svg>
+                                    <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                      <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                  </button>
+                                </div>
+                              )}
+                              {step.note && (
+                                <p class="text-xs text-amber-700 dark:text-amber-400 italic leading-relaxed">
+                                  💡 {step.note}
+                                </p>
+                              )}
+                            </div>
+                          </li>
+                        ))}
+                      </ol>
+
+                      {tab.note && (
+                        <p class="text-xs text-amber-700 dark:text-amber-400 italic leading-relaxed">
+                          💡 {tab.note}
+                        </p>
+                      )}
+
+                      {tab.verify && (
+                        <div class="border-t-2 border-dashed border-[var(--color-border)] pt-3 flex flex-col gap-2">
+                          <p class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">
+                            Verify installation
+                          </p>
+                          <div class="relative">
+                            <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>{tab.verify}</code></pre>
+                            <button
+                              type="button"
+                              data-copy-btn
+                              aria-label="Copy command"
+                              class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer"
+                            >
+                              <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                              </svg>
+                              <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
       <div class="mt-10 rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-hard-sm">
         <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-4">
           Related pages
         </span>
         <h2 class="font-heading font-bold text-2xl text-[var(--color-text)] mb-3">Use these resources alongside the channel guides</h2>
         <p class="text-sm text-[var(--color-muted)] leading-relaxed max-w-2xl mb-6">
-          Want walkthroughs for the tools listed here? Start with <a href="/videos/" class="font-semibold text-primary hover:text-primary-hover transition-colors">Videos</a>. Want the background on how these projects fit into the TechRex workflow? Read <a href="/about/" class="font-semibold text-primary hover:text-primary-hover transition-colors">About</a>.
+          Want walkthroughs for the tools listed here? Watch on the <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" class="font-semibold text-primary hover:text-primary-hover transition-colors">YouTube channel</a>. Want the background on how these projects fit into the TechRex workflow? Read <a href="/about/" class="font-semibold text-primary hover:text-primary-hover transition-colors">About</a>.
         </p>
         <div class="flex flex-wrap gap-3">
-          <a href="/videos/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
-            Go to videos
+          <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
+            Watch on YouTube
           </a>
           <a href="/about/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
             Read about TechRex
@@ -368,4 +805,75 @@ const collectionPageSchema = {
       </div>
     </div>
   </section>
+
+  <script>
+    function initCliCards() {
+      document.querySelectorAll<HTMLElement>('.cli-card').forEach((card) => {
+        const details = card.querySelector<HTMLElement>('[data-cli-details]');
+        const chevron = card.querySelector<HTMLElement>('[data-chevron]');
+        const headerBtn = card.querySelector<HTMLButtonElement>('[data-card-toggle]');
+        const guideBtn = card.querySelector<HTMLButtonElement>('[data-card-toggle-btn]');
+        const toggleLabel = card.querySelector<HTMLElement>('[data-toggle-label]');
+
+        if (!details) return;
+
+        const toggle = () => {
+          const expanded = card.dataset.expanded === 'true';
+          const next = !expanded;
+          card.dataset.expanded = String(next);
+          details.hidden = !next;
+          headerBtn?.setAttribute('aria-expanded', String(next));
+          if (chevron) chevron.style.transform = next ? 'rotate(180deg)' : 'rotate(0deg)';
+          if (toggleLabel) toggleLabel.textContent = next ? 'Hide Install Guide' : 'View Install Guide';
+        };
+
+        headerBtn?.addEventListener('click', toggle);
+        guideBtn?.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+
+        const tabBtns = card.querySelectorAll<HTMLButtonElement>('[data-os-tab-btn]');
+        const panes = card.querySelectorAll<HTMLElement>('[data-os-pane]');
+        tabBtns.forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const idx = Number(btn.dataset.tabIdx);
+            tabBtns.forEach((b, i) => {
+              const active = i === idx;
+              b.setAttribute('aria-selected', String(active));
+              if (active) {
+                b.classList.add('bg-[var(--color-text)]', 'text-[var(--color-bg)]', 'border-[var(--color-border)]');
+                b.classList.remove('text-[var(--color-muted)]', 'border-transparent', 'bg-transparent');
+              } else {
+                b.classList.remove('bg-[var(--color-text)]', 'text-[var(--color-bg)]', 'border-[var(--color-border)]');
+                b.classList.add('text-[var(--color-muted)]', 'border-transparent', 'bg-transparent');
+              }
+            });
+            panes.forEach((p, i) => { p.hidden = i !== idx; });
+          });
+        });
+
+        card.querySelectorAll<HTMLButtonElement>('[data-copy-btn]').forEach((btn) => {
+          btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const codeEl = btn.parentElement?.querySelector('code');
+            const cmd = codeEl?.textContent?.trim() || '';
+            if (!cmd) return;
+            try {
+              await navigator.clipboard.writeText(cmd);
+              const copyIcon = btn.querySelector<HTMLElement>('.copy-icon');
+              const checkIcon = btn.querySelector<HTMLElement>('.check-icon');
+              copyIcon?.classList.add('hidden');
+              checkIcon?.classList.remove('hidden');
+              setTimeout(() => {
+                copyIcon?.classList.remove('hidden');
+                checkIcon?.classList.add('hidden');
+              }, 1500);
+            } catch {}
+          });
+        });
+      });
+    }
+
+    initCliCards();
+    document.addEventListener('astro:page-load', initCliCards);
+  </script>
 </BaseLayout>

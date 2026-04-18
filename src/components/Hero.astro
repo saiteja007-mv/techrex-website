@@ -53,7 +53,9 @@ const formattedViews = parseInt(stats.viewCount).toLocaleString('en-US');
         <!-- Candy CTAs -->
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="/videos/"
+            href={socialLinks.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
             class="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full bg-primary text-white text-sm font-bold border-2 border-[var(--color-border)] shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
             style="box-shadow: 4px 4px 0px 0px var(--color-border);"
             onmouseover="this.style.boxShadow='6px 6px 0px 0px var(--color-border)'"
@@ -62,7 +64,7 @@ const formattedViews = parseInt(stats.viewCount).toLocaleString('en-US');
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
             </svg>
-            Watch Videos
+            Watch on YouTube
           </a>
           <a
             href={socialLinks.youtube}

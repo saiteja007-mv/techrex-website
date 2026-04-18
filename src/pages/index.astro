@@ -1,24 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import VideoGrid from '../components/VideoGrid.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
 import MorphingText from '../components/MorphingText.astro';
-import { getCollection } from 'astro:content';
+import channelInfo from '../data/channel-info.json';
 
-const allVideos = await getCollection('videos');
-const sortedVideos = allVideos
-  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
-  .map(v => v.data);
-const latestVideos = sortedVideos.slice(0, 6);
-
-const categories = [
-  { name: 'Local AI', desc: 'Run AI models on your own hardware', count: allVideos.filter(v => v.data.category === 'Local AI').length },
-  { name: 'AI Tools', desc: 'Best tools to supercharge your workflow', count: allVideos.filter(v => v.data.category === 'AI Tools').length },
-  { name: 'AI Assistants', desc: 'Reviews and tutorials on AI agents', count: allVideos.filter(v => v.data.category === 'AI Assistants').length },
-  { name: 'Hardware', desc: 'GPU guides for AI workloads', count: allVideos.filter(v => v.data.category === 'Hardware').length },
-  { name: 'About', desc: 'Channel intro and background', count: allVideos.filter(v => v.data.category === 'About').length },
-];
+const { socialLinks } = channelInfo;
 
 const websiteSchema = {
   "@context": "https://schema.org",
@@ -28,15 +15,7 @@ const websiteSchema = {
   "alternateName": ["TechRex by Saiteja Mothukuri", "The TechRex"],
   "url": "https://techrex.saitejamothukuri.com/",
   "description": "AI tools, local models, developer workflows and hardware guides by Saiteja Mothukuri.",
-  "publisher": { "@id": "https://techrex.saitejamothukuri.com/#organization" },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "https://techrex.saitejamothukuri.com/videos/?q={search_term_string}"
-    },
-    "query-input": "required name=search_term_string"
-  }
+  "publisher": { "@id": "https://techrex.saitejamothukuri.com/#organization" }
 };
 
 const personSchema = {
@@ -101,12 +80,6 @@ const homepageSchema = {
   "hasPart": [
     {
       "@type": "WebPage",
-      "name": "Videos",
-      "url": "https://techrex.saitejamothukuri.com/videos/",
-      "description": "AI tools, local models, and hardware tutorial videos"
-    },
-    {
-      "@type": "WebPage",
       "name": "About",
       "url": "https://techrex.saitejamothukuri.com/about/",
       "description": "About TechRex and the REX Method"
@@ -149,17 +122,18 @@ const homepageSchema = {
           Pick the path that matches what you want to build
         </h2>
         <p class="text-[var(--color-muted)] leading-relaxed">
-          Watch tutorials on the <a href="/videos/" class="font-semibold text-primary hover:text-primary-hover transition-colors">Videos</a> page, browse practical tools on <a href="/resources/" class="font-semibold text-primary hover:text-primary-hover transition-colors">Resources</a>, or learn how TechRex approaches AI workflows on the <a href="/about/" class="font-semibold text-primary hover:text-primary-hover transition-colors">About</a> page.
+          Browse practical tools on <a href="/resources/" class="font-semibold text-primary hover:text-primary-hover transition-colors">Resources</a>, watch walkthroughs on the <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" class="font-semibold text-primary hover:text-primary-hover transition-colors">YouTube channel</a>, or learn how TechRex approaches AI workflows on <a href="/about/" class="font-semibold text-primary hover:text-primary-hover transition-colors">About</a>.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
           {
-            href: '/videos/',
-            label: 'Watch the workflow',
+            href: socialLinks.youtube,
+            label: 'Watch on YouTube',
             title: 'Tutorial videos',
-            description: 'Hands-on walkthroughs for local AI, hardware, agents, and developer tools.'
+            description: 'Hands-on walkthroughs for local AI, hardware, agents, and developer tools — on the YouTube channel.',
+            external: true
           },
           {
             href: '/resources/',
@@ -176,6 +150,8 @@ const homepageSchema = {
         ].map((item) => (
           <a
             href={item.href}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener noreferrer' : undefined}
             class="rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-6 shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200"
           >
             <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary mb-3">{item.label}</p>
@@ -218,63 +194,6 @@ const homepageSchema = {
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </a>
-    </div>
-  </section>
-
-  <!-- Latest Videos -->
-  <section class="py-20 bg-[var(--color-bg)]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-end justify-between mb-10">
-        <div>
-          <h2 class="font-heading font-bold text-3xl sm:text-4xl text-[var(--color-text)]">
-            Recent Videos
-          </h2>
-        </div>
-        <a
-          href="/videos/"
-          class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary-hover transition-colors duration-150 cursor-pointer"
-        >
-          View all
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-      </div>
-
-      <VideoGrid videos={latestVideos} columns={3} />
-
-      <!-- Mobile view all -->
-      <div class="mt-8 text-center sm:hidden">
-        <a href="/videos/" class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-[var(--color-border)] text-sm font-medium text-[var(--color-text)] hover:border-primary hover:text-primary transition-colors duration-150 cursor-pointer">
-          View all videos
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Categories -->
-  <section class="py-20 bg-[var(--color-surface)]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="mb-12">
-        <h2 class="font-heading font-bold text-3xl sm:text-4xl text-[var(--color-text)]">
-          Explore Categories
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {categories.map(cat => (
-          <a
-            href={`/videos/#${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
-            class="bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg p-5
-                   hover:border-primary/50 hover:shadow-sm transition-all duration-150 cursor-pointer"
-          >
-            <p class="font-bold text-2xl text-primary mb-1">{cat.count}</p>
-            <h3 class="font-semibold text-sm text-[var(--color-text)] mb-1">{cat.name}</h3>
-            <p class="text-xs text-[var(--color-muted)] leading-relaxed">{cat.desc}</p>
-          </a>
-        ))}
-      </div>
     </div>
   </section>
 
