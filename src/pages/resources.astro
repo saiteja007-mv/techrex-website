@@ -634,8 +634,8 @@ const collectionPageSchema = {
                     >
                       ● {tool.status}
                     </span>
-                    <svg data-chevron class="w-5 h-5 text-[var(--color-muted)] transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="6 9 12 15 18 9"/>
+                    <svg class="w-5 h-5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17L17 7M17 7H8M17 7v9"/>
                     </svg>
                   </div>
                 </button>
@@ -648,9 +648,9 @@ const collectionPageSchema = {
                     data-card-toggle-btn
                     class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
                   >
-                    <span data-toggle-label>View Install Guide</span>
+                    Open Install Guide
                     <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="6 9 12 15 18 9"/>
+                      <path d="M7 17L17 7M17 7H8M17 7v9"/>
                     </svg>
                   </button>
                   <a
@@ -673,14 +673,54 @@ const collectionPageSchema = {
                   )}
                 </div>
 
-                <!-- Expanded detail panel -->
+                <!-- Modal overlay with install guide -->
                 <div
                   id={`${slug}-details`}
-                  data-cli-details
+                  data-cli-modal
                   hidden
-                  class="border-t-2 border-[var(--color-border)] pt-5 mt-1 flex flex-col gap-4"
+                  class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
                 >
-                  <!-- OS tabs -->
+                  <!-- Backdrop -->
+                  <div data-cli-backdrop class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+                  <!-- Modal card -->
+                  <div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby={`${slug}-modal-title`}
+                    class="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] shadow-hard p-6 sm:p-8 flex flex-col gap-5"
+                    style="box-shadow: 6px 6px 0px 0px var(--color-border);"
+                  >
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between gap-4">
+                      <div class="flex items-center gap-3 flex-1 min-w-0">
+                        <div
+                          class="w-12 h-12 rounded-xl border-2 flex items-center justify-center text-2xl flex-shrink-0"
+                          style={`background: ${accent.bg}18; border-color: ${accent.border}; box-shadow: 3px 3px 0px 0px ${accent.border}`}
+                        >
+                          {tool.emoji}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                          <h3 id={`${slug}-modal-title`} class="font-heading font-extrabold text-xl sm:text-2xl text-[var(--color-text)] truncate">
+                            {tool.name}
+                          </h3>
+                          <span class="text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider">
+                            {tool.category} · Install Guide
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        data-cli-close
+                        aria-label="Close install guide"
+                        class="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-bg)] transition-colors cursor-pointer shadow-hard-sm"
+                      >
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- OS tabs -->
                   <div class="flex gap-1 border-b-2 border-[var(--color-border)] pb-0.5" role="tablist">
                     {tool.installTabs.map((tab, i) => (
                       <button
@@ -779,6 +819,29 @@ const collectionPageSchema = {
                       )}
                     </div>
                   ))}
+
+                    <!-- Modal footer links -->
+                    <div class="border-t-2 border-[var(--color-border)] pt-4 flex flex-wrap gap-2">
+                      <a
+                        href={tool.docsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                      >
+                        Official docs ↗
+                      </a>
+                      {tool.shortUrl && (
+                        <a
+                          href={tool.shortUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                        >
+                          ▶ Watch Short
+                        </a>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </article>
             );
@@ -808,30 +871,60 @@ const collectionPageSchema = {
 
   <script>
     function initCliCards() {
+      let activeModal: HTMLElement | null = null;
+
+      const closeModal = () => {
+        if (!activeModal) return;
+        activeModal.hidden = true;
+        const card = activeModal.closest<HTMLElement>('.cli-card');
+        const headerBtn = card?.querySelector<HTMLButtonElement>('[data-card-toggle]');
+        headerBtn?.setAttribute('aria-expanded', 'false');
+        if (card) card.dataset.expanded = 'false';
+        activeModal = null;
+        document.body.style.overflow = '';
+      };
+
+      const openModal = (modal: HTMLElement) => {
+        if (activeModal && activeModal !== modal) closeModal();
+        modal.hidden = false;
+        activeModal = modal;
+        const card = modal.closest<HTMLElement>('.cli-card');
+        const headerBtn = card?.querySelector<HTMLButtonElement>('[data-card-toggle]');
+        headerBtn?.setAttribute('aria-expanded', 'true');
+        if (card) card.dataset.expanded = 'true';
+        document.body.style.overflow = 'hidden';
+      };
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && activeModal) closeModal();
+      });
+
       document.querySelectorAll<HTMLElement>('.cli-card').forEach((card) => {
-        const details = card.querySelector<HTMLElement>('[data-cli-details]');
-        const chevron = card.querySelector<HTMLElement>('[data-chevron]');
+        const modal = card.querySelector<HTMLElement>('[data-cli-modal]');
         const headerBtn = card.querySelector<HTMLButtonElement>('[data-card-toggle]');
         const guideBtn = card.querySelector<HTMLButtonElement>('[data-card-toggle-btn]');
-        const toggleLabel = card.querySelector<HTMLElement>('[data-toggle-label]');
 
-        if (!details) return;
+        if (!modal) return;
 
-        const toggle = () => {
-          const expanded = card.dataset.expanded === 'true';
-          const next = !expanded;
-          card.dataset.expanded = String(next);
-          details.hidden = !next;
-          headerBtn?.setAttribute('aria-expanded', String(next));
-          if (chevron) chevron.style.transform = next ? 'rotate(180deg)' : 'rotate(0deg)';
-          if (toggleLabel) toggleLabel.textContent = next ? 'Hide Install Guide' : 'View Install Guide';
-        };
+        const open = (e: Event) => { e.stopPropagation(); openModal(modal); };
+        headerBtn?.addEventListener('click', open);
+        guideBtn?.addEventListener('click', open);
 
-        headerBtn?.addEventListener('click', toggle);
-        guideBtn?.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+        card.addEventListener('click', (e) => {
+          const target = e.target as HTMLElement;
+          if (target.closest('a')) return;
+          if (target.closest('[data-cli-modal]')) return;
+          if (target.closest('[data-card-toggle]')) return;
+          if (target.closest('[data-card-toggle-btn]')) return;
+          openModal(modal);
+        });
+        card.style.cursor = 'pointer';
 
-        const tabBtns = card.querySelectorAll<HTMLButtonElement>('[data-os-tab-btn]');
-        const panes = card.querySelectorAll<HTMLElement>('[data-os-pane]');
+        modal.querySelector<HTMLElement>('[data-cli-backdrop]')?.addEventListener('click', closeModal);
+        modal.querySelector<HTMLButtonElement>('[data-cli-close]')?.addEventListener('click', closeModal);
+
+        const tabBtns = modal.querySelectorAll<HTMLButtonElement>('[data-os-tab-btn]');
+        const panes = modal.querySelectorAll<HTMLElement>('[data-os-pane]');
         tabBtns.forEach((btn) => {
           btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -851,7 +944,7 @@ const collectionPageSchema = {
           });
         });
 
-        card.querySelectorAll<HTMLButtonElement>('[data-copy-btn]').forEach((btn) => {
+        modal.querySelectorAll<HTMLButtonElement>('[data-copy-btn]').forEach((btn) => {
           btn.addEventListener('click', async (e) => {
             e.stopPropagation();
             const codeEl = btn.parentElement?.querySelector('code');
