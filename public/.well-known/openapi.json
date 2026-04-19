@@ -1,0 +1,62 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "TechRex Public API",
+    "version": "1.0.0",
+    "summary": "Read-only public endpoints exposed by the TechRex website (techrex.saitejamothukuri.com).",
+    "description": "Small surface — currently exposes cached YouTube channel statistics for the TechRex channel. No auth required. Responses are JSON. Backed by the YouTube Data API v3; falls back to static values on upstream failure.",
+    "contact": {
+      "name": "Saiteja Mothukuri",
+      "url": "https://saitejamothukuri.com",
+      "email": "saiteja.techrex@gmail.com"
+    },
+    "license": {
+      "name": "Proprietary (content)"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://techrex.saitejamothukuri.com",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/api/channel-stats": {
+      "get": {
+        "operationId": "getChannelStats",
+        "summary": "Get TechRex YouTube channel statistics",
+        "description": "Returns cached subscriber, view, and video counts for the TechRex YouTube channel (UCxAGlEdCHFwzComLKy2rxTg). Cached at the edge for 24h.",
+        "responses": {
+          "200": {
+            "description": "Channel statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["viewCount", "subscriberCount", "videoCount"],
+                  "properties": {
+                    "viewCount": {
+                      "type": "string",
+                      "description": "Total lifetime views across all videos",
+                      "example": "9885"
+                    },
+                    "subscriberCount": {
+                      "type": "string",
+                      "description": "Current subscriber count",
+                      "example": "86"
+                    },
+                    "videoCount": {
+                      "type": "string",
+                      "description": "Number of public videos on the channel",
+                      "example": "19"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/agent-skills-discovery-rfc/main/schema/index.schema.json",
+  "version": "0.2.0",
+  "skills": [
+    {
+      "name": "browse-resources",
+      "type": "skill",
+      "description": "Browse TechRex's curated install + auth guides for the CLI tools that make AI coding agents useful: Vercel, GitHub, Supabase, AWS, Google Workspace. Per-OS steps with auth walkthrough.",
+      "url": "https://techrex.saitejamothukuri.com/.well-known/agent-skills/skills/browse-resources/SKILL.md",
+      "sha256": "46c02a7710e81c0810007ddbbb7a58f078ad5fb485e41783d482f6fb5e89ca13"
+    },
+    {
+      "name": "get-channel-stats",
+      "type": "skill",
+      "description": "Fetch cached YouTube channel statistics (subscriber count, total views, video count) for the TechRex channel via the public JSON endpoint.",
+      "url": "https://techrex.saitejamothukuri.com/.well-known/agent-skills/skills/get-channel-stats/SKILL.md",
+      "sha256": "bd513f2960e30914dbab0cb18371d38edcbcc174b7fa7c7c03a303a1b2d17c40"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+---
+// WebMCP — exposes site-level tools to in-browser AI agents via the Web
+// Model Context Protocol draft API. Progressive enhancement: silently
+// no-ops on browsers without navigator.modelContext.
+// Spec: https://webmachinelearning.github.io/webmcp/
+---
+<script is:inline>
+  (function () {
+    if (typeof navigator === 'undefined' || !('modelContext' in navigator)) return;
+    if (typeof navigator.modelContext.provideContext !== 'function') return;
+
+    const CHANNEL_ID = 'UCxAGlEdCHFwzComLKy2rxTg';
+    const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+
+    const tools = [
+      {
+        name: 'getChannelStats',
+        description:
+          "Fetch TechRex YouTube channel statistics (subscriber count, total views, video count). Returns cached values; safe to call as often as needed.",
+        inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+        async execute() {
+          const res = await fetch('/api/channel-stats', { headers: { accept: 'application/json' } });
+          if (!res.ok) throw new Error(`channel-stats request failed: ${res.status}`);
+          return await res.json();
+        },
+      },
+      {
+        name: 'goToResources',
+        description:
+          'Navigate the user to the TechRex resources page which has per-OS install + auth guides for the CLI tools AI agents drive (Vercel CLI, GitHub CLI, Supabase CLI, AWS CLI, Google Workspace CLI).',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            tool: {
+              type: 'string',
+              enum: ['vercel-cli', 'github-cli', 'supabase-cli', 'aws-cli', 'google-workspace-cli'],
+              description: 'Optional: scroll directly to this tool card.',
+            },
+          },
+          additionalProperties: false,
+        },
+        async execute(args) {
+          const anchor = args && args.tool ? `#${args.tool}` : '';
+          window.location.assign(`/resources/${anchor}`);
+          return { navigated: true, href: `/resources/${anchor}` };
+        },
+      },
+      {
+        name: 'openYouTubeChannel',
+        description: 'Open the TechRex YouTube channel in a new tab.',
+        inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+        async execute() {
+          window.open('https://www.youtube.com/@The_TechRex', '_blank', 'noopener,noreferrer');
+          return { opened: 'https://www.youtube.com/@The_TechRex' };
+        },
+      },
+      {
+        name: 'getLatestVideosFeedUrl',
+        description:
+          "Return the RSS/Atom feed URL for TechRex's latest YouTube videos. Agents can fetch this directly (no auth) to list recent uploads.",
+        inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+        async execute() {
+          return { url: RSS_URL, type: 'application/atom+xml' };
+        },
+      },
+      {
+        name: 'toggleTheme',
+        description: 'Toggle the site between light and dark mode.',
+        inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+        async execute() {
+          const root = document.documentElement;
+          const next = root.classList.contains('dark') ? 'light' : 'dark';
+          root.classList.toggle('dark', next === 'dark');
+          try { localStorage.setItem('theme', next); } catch (_) { /* ignore */ }
+          return { theme: next };
+        },
+      },
+    ];
+
+    try {
+      navigator.modelContext.provideContext({ tools });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn('[webmcp] provideContext failed:', err);
+    }
+  })();
+</script>

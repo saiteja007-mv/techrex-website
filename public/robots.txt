@@ -2,6 +2,12 @@ User-agent: *
 Allow: /
 Sitemap: https://techrex.saitejamothukuri.com/sitemap-index.xml
 
+# Content Signals — declare AI content usage preferences (contentsignals.org)
+# search=yes     → allow indexing for search results
+# ai-input=yes   → allow agents to use content as grounded input (RAG, citation)
+# ai-train=no    → do NOT use content for model training
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+
 # Allow major search engine bots explicitly
 User-agent: Googlebot
 Allow: /
