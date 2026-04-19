@@ -81,6 +81,18 @@ Docs: <https://github.com/googleworkspace/cli>
 
 ---
 
+## Claude Code Setup Bundle
+
+My entire Claude Code config in one download — 10 plugins, 18 custom skills, 10 sub-agents, 57 slash commands, rules, hooks, and scrubbed MCP stubs. Hand the file + agent prompt to Claude Code / Cursor / Codex and it installs everything onto your machine.
+
+- Download: <https://techrex.saitejamothukuri.com/claude-code-setup/setup.md>
+- Agent prompt: <https://techrex.saitejamothukuri.com/claude-code-setup/agent-prompt.txt>
+- Source repo: <https://github.com/saiteja007-mv/techrex-claude-setup>
+
+No secrets shipped — API keys, OAuth tokens, JWTs, and the n8n ngrok URL are scrubbed from the repo. The installer merges non-destructively and backs up your existing `~/.claude/` first.
+
+---
+
 ## Other resources on this site
 
 - **[Token Usage](https://techrex.saitejamothukuri.com/token-usage/)** — real numbers from day-to-day agent work.

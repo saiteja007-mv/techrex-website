@@ -1,0 +1,122 @@
+You are installing the TechRex Claude Code Setup Bundle onto this machine.
+
+Repo: https://github.com/saiteja007-mv/techrex-claude-setup
+Target: the current user's ~/.claude/ directory.
+  - Linux/macOS: $HOME/.claude
+  - Windows:     %USERPROFILE%\.claude  (use forward slashes in Git Bash)
+
+Rules of engagement:
+  - NEVER overwrite existing files I didn't tell you to overwrite.
+  - NEVER clobber existing settings.json / config.json — merge only.
+  - ALWAYS back up the existing ~/.claude before touching it.
+  - NEVER commit, print, or transmit secrets you find in the existing config.
+  - After each step, print ONE line: "v step N — <summary>".
+  - At the end, print a table: v / ! / x per section.
+
+Run these steps in order:
+
+1. DETECT ENVIRONMENT
+   - Detect OS (Linux, macOS, Windows).
+   - Resolve $HOME / %USERPROFILE%.
+   - Confirm `claude` CLI is on PATH. If not, stop and tell me to install
+     Claude Code first: https://docs.claude.com/en/docs/claude-code
+
+2. BACKUP
+   - If ~/.claude exists: copy it to ~/.claude.bak-<UNIX_TIMESTAMP>/.
+   - Report the backup path.
+
+3. CLONE REPO
+   - Clone https://github.com/saiteja007-mv/techrex-claude-setup into a
+     temp dir (e.g. /tmp/techrex-claude-setup or %TEMP%\techrex-claude-setup).
+   - If the dir already exists, `git pull` inside it instead.
+
+4. MERGE CLAUDE.md (append, don't replace)
+   - If ~/.claude/CLAUDE.md does not exist: copy the repo's .claude/CLAUDE.md verbatim.
+   - If it DOES exist: append the repo's .claude/CLAUDE.md between markers
+        # === BEGIN TechRex Bundle ===
+        ...
+        # === END TechRex Bundle ===
+     Skip the append if those markers already exist (idempotent).
+
+5. COPY RULES (non-destructive)
+   - For each file in repo .claude/rules/*.md:
+       if not present in ~/.claude/rules/, copy it.
+
+6. COPY SKILLS (non-destructive, 18 skills)
+   - For each directory in repo .claude/skills/*:
+       if not present in ~/.claude/skills/, copy the whole directory.
+   - Do NOT overwrite existing skills with the same name.
+
+7. COPY AGENTS (non-destructive, 10 agents)
+   - For each .md in repo .claude/agents/ (including ccg/ subdir):
+       if not present in ~/.claude/agents/, copy.
+
+8. COPY COMMANDS (non-destructive, 57 commands)
+   - For each .md under repo .claude/commands/ (ccg/, gsd/, vibe-*):
+       if not present in ~/.claude/commands/<same-subpath>, copy.
+
+9. STATUSLINE (optional — ask first)
+   - Ask me: "Install TechRex statusline (ccstatusline)? [y/N]"
+   - If yes: copy .claude/statusline.bat + .claude/statusline.js to ~/.claude/
+
+10. SETTINGS.JSON (MERGE — critical)
+    - Load the template at .claude/settings.json.template.
+    - If ~/.claude/settings.json does NOT exist: copy the template, strip the
+      "_NOTE" key, done.
+    - If it DOES exist: deep-merge with these rules:
+        * permissions.allow  -> UNION (dedupe)
+        * enabledPlugins     -> UNION (don't flip user's existing flags)
+        * extraKnownMarketplaces -> UNION by key
+        * hooks.PreToolUse   -> APPEND new matchers (don't replace existing)
+        * statusLine         -> keep existing if set
+        * skipDangerousModePermissionPrompt -> keep existing if set
+        * autoUpdatesChannel -> keep existing if set
+      Write the result back. Preserve formatting if possible.
+
+11. CONFIG.JSON (MCP STUBS — MERGE — keep user's existing servers)
+    - Load .claude/config.json.template.
+    - If ~/.claude/config.json does NOT exist: copy the template.
+    - If it DOES exist: merge mcpServers by key, NEVER overwriting existing
+      server entries. Only ADD `search-console` and `n8n-mcp` if those keys
+      are not already present.
+    - Tell me: "MCP stubs added. Fill <YOUR_N8N_API_URL>, <YOUR_N8N_API_KEY>,
+      and <YOUR_N8N_MCP_DIST_PATH> in ~/.claude/config.json before the n8n-mcp
+      server will work."
+
+12. INSTALL PLUGINS (10 plugins)
+    - Open a Claude Code session and, for each of the 10 plugin slugs below,
+      run `/plugin install <slug>`:
+        document-skills@ando-marketplace
+        frontend-design@claude-plugins-official
+        n8n-mcp-skills@n8n-mcp-skills
+        apify-ultimate-scraper@apify-agent-skills
+        rust-analyzer-lsp@claude-plugins-official
+        hugging-face-cli@huggingface-skills
+        ui-ux-pro-max@ui-ux-pro-max-skill
+        marketing-skills@marketingskills
+        codex@openai-codex
+        claude-mem@thedotmack
+    - If a plugin is already enabled, skip it. If it fails, note it in the
+      final table but continue.
+
+13. VERIFY
+    - Count ~/.claude/skills/*       — expect >= 18
+    - Count ~/.claude/agents/**/*.md — expect >= 10
+    - Count ~/.claude/commands/**/*.md — expect >= 57
+    - grep "Caveman Mode" ~/.claude/CLAUDE.md — expect a match
+    - grep "RTK" ~/.claude/CLAUDE.md — expect a match
+    - grep "graphify" ~/.claude/CLAUDE.md — expect a match
+    - List enabled plugins (read enabledPlugins from settings.json).
+
+14. FINAL REPORT
+    - Print a single table with one row per section above:
+        Section | Status | Notes
+    - Print a reminder block:
+        "Next steps:
+          1) Fill MCP credentials in ~/.claude/config.json
+          2) Review ~/.claude/CLAUDE.md — remove sections you don't want
+          3) Open a fresh terminal so Claude Code re-reads the config
+          4) Run `/plugin` to confirm 10 plugins enabled"
+
+Do not invent steps. Do not run destructive commands. Ask before installing
+the statusline. If any step fails, stop and report — do not continue blindly.

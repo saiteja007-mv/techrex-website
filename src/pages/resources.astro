@@ -618,21 +618,152 @@ const collectionPageSchema = {
         </div>
       </div>
 
-      <!-- AI Prompts Teaser -->
-      <div class="rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-8 shadow-hard-violet flex flex-col md:flex-row items-center gap-6">
-        <div class="flex-shrink-0 w-16 h-16 rounded-2xl bg-primary/10 border-2 border-primary flex items-center justify-center text-3xl" style="box-shadow: 3px 3px 0px 0px #8B5CF6">
-          ✨
-        </div>
-        <div class="flex-1 text-center md:text-left">
-          <h3 class="font-heading font-extrabold text-lg text-[var(--color-text)] mb-1">Curated AI Prompts — Coming Soon</h3>
-          <p class="text-sm text-[var(--color-muted)] leading-relaxed">
-            A hand-picked collection of prompts for local AI, coding, content creation, and more. Stay tuned.
+      <!-- Claude Code Setup Bundle -->
+      <section class="mt-16 pt-12 border-t-2 border-[var(--color-border)]">
+        <div class="mb-8">
+          <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-4 shadow-hard-sm">
+            🧰 8 months of daily Claude Code
+          </span>
+          <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-[var(--color-text)] mb-3">
+            Claude Code Setup Bundle
+          </h2>
+          <p class="text-[var(--color-muted)] leading-relaxed max-w-2xl">
+            My entire Claude Code config in one download. Plugins, skills, rules, hooks, agents, commands — hand the file + prompt to Claude Code, Cursor, or Codex and it sets up everything on your machine.
           </p>
         </div>
-        <span class="px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold border-2 border-primary flex-shrink-0">
-          In Progress
-        </span>
-      </div>
+
+        <div class="rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-6 sm:p-8 shadow-hard-violet flex flex-col gap-6">
+          <!-- Stats bar: what's in it -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pb-6 border-b-2 border-dashed border-[var(--color-border)]">
+            <div>
+              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">10</p>
+              <p class="text-xs uppercase tracking-widest text-[var(--color-muted)]">plugins</p>
+            </div>
+            <div>
+              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">18</p>
+              <p class="text-xs uppercase tracking-widest text-[var(--color-muted)]">custom skills</p>
+            </div>
+            <div>
+              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">57</p>
+              <p class="text-xs uppercase tracking-widest text-[var(--color-muted)]">slash commands</p>
+            </div>
+            <div>
+              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">10</p>
+              <p class="text-xs uppercase tracking-widest text-[var(--color-muted)]">sub-agents</p>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-wrap gap-3">
+            <a
+              href="/claude-code-setup/setup.md"
+              download="techrex-claude-setup.md"
+              class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-white rounded-lg font-bold text-sm border-2 border-primary shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-pointer"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download setup.md
+            </a>
+            <button
+              type="button"
+              data-copy-prompt
+              class="inline-flex items-center gap-2 px-4 py-2.5 bg-[var(--color-card)] text-[var(--color-text)] rounded-lg font-bold text-sm border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-pointer"
+            >
+              <svg class="copy-icon w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <svg class="check-icon w-4 h-4 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span class="copy-label">Copy Agent Prompt</span>
+            </button>
+            <a
+              href="https://github.com/saiteja007-mv/techrex-claude-setup"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2.5 bg-[var(--color-card)] text-[var(--color-text)] rounded-lg font-bold text-sm border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-pointer"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+              </svg>
+              View on GitHub
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17L17 7M17 7H8M17 7v9"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- How-to -->
+          <div class="rounded-xl border-2 border-[var(--color-border)] bg-[var(--color-bg)] p-4 sm:p-5 flex gap-3">
+            <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-primary/10 border-2 border-primary flex items-center justify-center text-lg" style="box-shadow: 2px 2px 0px 0px #8B5CF6">
+              🤖
+            </div>
+            <div class="flex-1 text-sm text-[var(--color-muted)] leading-relaxed">
+              <p class="font-bold text-[var(--color-text)] mb-1">How it works</p>
+              <p>Download <code class="px-1 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[12px] font-mono">setup.md</code>, copy the Agent Prompt, then paste both into Claude Code / Cursor / Codex. The agent backs up your existing <code class="px-1 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[12px] font-mono">~/.claude/</code>, clones the companion repo, merges files non-destructively, and installs 10 plugins. Takes about a minute.</p>
+            </div>
+          </div>
+
+          <!-- What's included -->
+          <details class="group rounded-xl border-2 border-[var(--color-border)] bg-[var(--color-bg)] overflow-hidden">
+            <summary class="cursor-pointer px-5 py-3 flex items-center gap-2 font-heading font-bold text-sm text-[var(--color-text)] list-none select-none hover:bg-[var(--color-surface)] transition-colors">
+              <svg class="w-4 h-4 group-open:rotate-90 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+              What's included
+            </summary>
+            <div class="px-5 pb-5 pt-1 grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm text-[var(--color-muted)] leading-relaxed border-t-2 border-dashed border-[var(--color-border)] mt-1 pt-4">
+              <div>
+                <p class="font-bold text-[var(--color-text)] text-xs uppercase tracking-widest mb-2">Marketplace plugins (10)</p>
+                <ul class="space-y-1 text-xs font-mono">
+                  <li>document-skills</li>
+                  <li>frontend-design</li>
+                  <li>n8n-mcp-skills</li>
+                  <li>apify-ultimate-scraper</li>
+                  <li>rust-analyzer-lsp</li>
+                  <li>hugging-face-cli</li>
+                  <li>ui-ux-pro-max</li>
+                  <li>marketing-skills</li>
+                  <li>codex (OpenAI)</li>
+                  <li>claude-mem</li>
+                </ul>
+              </div>
+              <div>
+                <p class="font-bold text-[var(--color-text)] text-xs uppercase tracking-widest mb-2">Custom skills (18)</p>
+                <p class="text-xs">autoresearch, caveman, ccg, data-analyst, data-storytelling, design-system, exploratory-data-analysis, gmaps-scraper, graphify, kpi-dashboard-design, linkedin-profile-search, prompt-refine, seedance, senior-data-scientist, skill-development, social-media, sql-optimization-patterns, youtube-content-generator</p>
+              </div>
+              <div>
+                <p class="font-bold text-[var(--color-text)] text-xs uppercase tracking-widest mb-2">Sub-agents (10)</p>
+                <p class="text-xs">blog-writer-expert, comprehensive-qa-tester, fullstack-expert, system-troubleshooter, ui-ux-design-expert, youtube-content-strategist + CCG (get-current-datetime, init-architect, planner, ui-ux-designer)</p>
+              </div>
+              <div>
+                <p class="font-bold text-[var(--color-text)] text-xs uppercase tracking-widest mb-2">Slash commands (57)</p>
+                <p class="text-xs"><code class="font-mono">ccg/*</code> (28) — plan, execute, verify, commit, review, spec-*, team-*, worktree<br/><code class="font-mono">gsd/*</code> (26) — new-project, create-roadmap, execute-phase, progress, check-todos<br/><code class="font-mono">vibe-*</code> (3) — build, coding, research</p>
+              </div>
+              <div>
+                <p class="font-bold text-[var(--color-text)] text-xs uppercase tracking-widest mb-2">Rules + hooks</p>
+                <p class="text-xs"><code class="font-mono">CLAUDE.md</code> (Caveman Mode + RTK + graphify), <code class="font-mono">rules/ccg-fast-context.md</code>, <code class="font-mono">rules/ccg-skills.md</code>, PreToolUse Glob|Grep → graphify reminder hook</p>
+              </div>
+              <div>
+                <p class="font-bold text-[var(--color-text)] text-xs uppercase tracking-widest mb-2">MCP stubs</p>
+                <p class="text-xs"><code class="font-mono">search-console</code> (Google Search Console + Bing) and <code class="font-mono">n8n-mcp</code> — scrubbed templates, you fill in your own credentials</p>
+              </div>
+            </div>
+          </details>
+
+          <!-- Safety caveat -->
+          <div class="rounded-xl border-2 border-dashed border-amber-300/60 dark:border-amber-600/40 bg-amber-50/40 dark:bg-amber-950/20 p-4 flex gap-3">
+            <span class="text-base flex-shrink-0">🔐</span>
+            <p class="text-xs text-[var(--color-muted)] leading-relaxed">
+              <strong class="text-[var(--color-text)]">No secrets shipped.</strong> API keys, OAuth tokens, MCP credentials, and the n8n ngrok URL are scrubbed from the repo. The installer merges non-destructively — your existing <code class="px-1 py-0.5 rounded bg-[var(--color-bg)] border border-[var(--color-border)] text-[11px] font-mono">~/.claude/</code> is backed up first, and any file you already have is preserved.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <!-- CLI Tools for AI Agents -->
       <section class="mt-16 pt-12 border-t-2 border-[var(--color-border)]">
@@ -1082,5 +1213,37 @@ const collectionPageSchema = {
 
     initCliCards();
     document.addEventListener('astro:page-load', initCliCards);
+
+    // Claude Code Setup Bundle — Copy Agent Prompt button
+    function initCopyPromptBtns() {
+      document.querySelectorAll<HTMLButtonElement>('[data-copy-prompt]').forEach((btn) => {
+        if ((btn as HTMLElement).dataset.wired === '1') return;
+        (btn as HTMLElement).dataset.wired = '1';
+        btn.addEventListener('click', async () => {
+          try {
+            const res = await fetch('/claude-code-setup/agent-prompt.txt', { cache: 'no-cache' });
+            if (!res.ok) throw new Error(String(res.status));
+            const text = await res.text();
+            await navigator.clipboard.writeText(text);
+            const copyIcon = btn.querySelector<HTMLElement>('.copy-icon');
+            const checkIcon = btn.querySelector<HTMLElement>('.check-icon');
+            const label = btn.querySelector<HTMLElement>('.copy-label');
+            copyIcon?.classList.add('hidden');
+            checkIcon?.classList.remove('hidden');
+            const prev = label?.textContent;
+            if (label) label.textContent = 'Copied!';
+            setTimeout(() => {
+              copyIcon?.classList.remove('hidden');
+              checkIcon?.classList.add('hidden');
+              if (label && prev) label.textContent = prev;
+            }, 1800);
+          } catch {
+            // Silently fall back — user can still download setup.md manually.
+          }
+        });
+      });
+    }
+    initCopyPromptBtns();
+    document.addEventListener('astro:page-load', initCopyPromptBtns);
   </script>
 </BaseLayout>
