@@ -28,6 +28,7 @@ type CliTool = {
   installTabs: InstallTab[];
   docsUrl: string;
   shortUrl: string | null;
+  agentPrompt: string;
 };
 
 const cliTools: CliTool[] = [
@@ -38,31 +39,40 @@ const cliTools: CliTool[] = [
     category: 'Deployment',
     color: 'mint',
     status: 'Live',
+    agentPrompt: '"Use the Vercel CLI to deploy this project to production" · "Pull my production env vars into .env.local" · "List my last 10 deployments"',
     installTabs: [
       {
         os: 'macOS',
         steps: [
-          { title: 'Install via Homebrew', description: 'Requires Homebrew installed.', command: 'brew install vercel-cli' },
-          { title: 'Authenticate', description: 'Log in to your Vercel account — opens a browser window.', command: 'vercel login' },
-          { title: 'Link a project', description: 'Run this inside any project directory to link it.', command: 'vercel link' },
+          { title: 'Install Vercel CLI globally via npm', description: 'Requires Node.js 18+. Global flag puts the `vercel` binary on your PATH so any agent shell can invoke it.', command: 'npm install -g vercel' },
+          { title: '(Alternative) Install via pnpm, yarn, or bun', description: 'Any Node package manager works. Pick the one you already use.', command: 'pnpm add -g vercel' },
+          { title: 'Log in to your Vercel account', description: 'Opens a browser tab. Pick the same sign-in method (GitHub, GitLab, Bitbucket, or email) you use on vercel.com. Token is saved to `~/.local/share/com.vercel.cli/auth.json`.', command: 'vercel login' },
+          { title: 'Link a local project', description: 'Run inside your project directory. Creates a `.vercel/` folder with the project + org IDs so every subsequent command targets this project.', command: 'vercel link' },
+          { title: '(Optional) Pull production env vars', description: 'Writes `.env.local` from your Vercel project — handy for local dev and for AI agents that need the same secrets.', command: 'vercel env pull' },
         ],
         verify: 'vercel --version',
       },
       {
         os: 'Windows',
         steps: [
-          { title: 'Install via npm', description: 'Requires Node.js. Use an elevated PowerShell if needed.', command: 'npm install -g vercel' },
-          { title: 'Authenticate', command: 'vercel login' },
-          { title: 'Link a project', command: 'vercel link' },
+          { title: 'Install Node.js LTS (prerequisite)', description: 'Vercel CLI is a Node package. In an elevated PowerShell, install the LTS build. Skip this step if `node --version` already returns 18+.', command: 'winget install OpenJS.NodeJS.LTS' },
+          { title: 'Open a FRESH PowerShell window', description: 'The Node installer modifies PATH. Existing terminals will not see `node`/`npm` until you reopen them.' },
+          { title: 'Install Vercel CLI globally', description: 'Global flag is what makes `vercel` available to any shell / AI agent.', command: 'npm install -g vercel' },
+          { title: 'Log in to your Vercel account', description: 'Opens your default browser. Pick the same sign-in method you use on vercel.com. The access token is stored at %APPDATA%\\com.vercel.cli\\auth.json.', command: 'vercel login' },
+          { title: 'Link a local project', description: 'From your project directory. Select the Vercel team + project to link. Creates a `.vercel/` folder you should NOT commit.', command: 'vercel link' },
+          { title: '(Optional) Pull production env vars', description: 'Writes `.env.local` so local + agent commands see the same secrets as production.', command: 'vercel env pull' },
         ],
+        note: 'Avoid installing Node via the Microsoft Store — it sandboxes global installs and `npm install -g` silently fails. If you see EACCES errors, follow npm\'s permissions guide: https://docs.npmjs.com/resolving-eacces-permissions-errors.',
         verify: 'vercel --version',
       },
       {
         os: 'Linux',
         steps: [
-          { title: 'Install via npm', description: 'Requires Node.js 16+.', command: 'npm install -g vercel' },
-          { title: 'Authenticate', command: 'vercel login' },
-          { title: 'Link a project', command: 'vercel link' },
+          { title: 'Install Node.js 18+ via nvm (recommended)', description: 'nvm avoids the `sudo npm -g` permissions dance and lets you switch versions per project.', command: 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash && source ~/.bashrc && nvm install --lts' },
+          { title: 'Install Vercel CLI globally', command: 'npm install -g vercel' },
+          { title: 'Log in to your Vercel account', description: 'Prints a URL + one-time code. Copy the URL to a browser (useful on headless boxes).', command: 'vercel login' },
+          { title: 'Link a local project', command: 'vercel link' },
+          { title: '(Optional) Pull production env vars', command: 'vercel env pull' },
         ],
         verify: 'vercel --version',
       },
@@ -77,29 +87,39 @@ const cliTools: CliTool[] = [
     category: 'Version Control',
     color: 'violet',
     status: 'Live',
+    agentPrompt: '"Use the GitHub CLI to open a PR from this branch" · "List my open issues across all repos" · "Trigger the deploy.yml workflow on main"',
     installTabs: [
       {
         os: 'macOS',
         steps: [
-          { title: 'Install via Homebrew', command: 'brew install gh' },
-          { title: 'Authenticate', description: 'Follow the prompts to log in via browser or token.', command: 'gh auth login' },
+          { title: 'Install via Homebrew', description: 'Official formula. Updates with `brew upgrade gh`.', command: 'brew install gh' },
+          { title: 'Authenticate with GitHub', description: 'Interactive prompts: pick GitHub.com → HTTPS → "Login with a web browser". Copy the one-time code it prints, paste it at github.com/login/device, authorize.', command: 'gh auth login' },
+          { title: 'Verify auth', description: 'Should print `Logged in to github.com as <your-username>` and show the token scopes.', command: 'gh auth status' },
         ],
         verify: 'gh --version',
       },
       {
         os: 'Windows',
         steps: [
-          { title: 'Install via winget', description: 'Run PowerShell as Administrator.', command: 'winget install --id GitHub.cli' },
-          { title: 'Authenticate', command: 'gh auth login' },
+          { title: 'Install via winget (recommended)', description: 'The WinGet package is the only one maintained by the GitHub CLI team. Run in PowerShell — a UAC prompt will appear.', command: 'winget install --id GitHub.cli' },
+          { title: '(Alternative) Install via Scoop', description: 'Community-maintained. Good if you already use Scoop for dev tooling.', command: 'scoop install gh' },
+          { title: '(Alternative) Install via Chocolatey', description: 'Community-maintained. Requires Chocolatey installed first.', command: 'choco install gh' },
+          { title: 'Open a FRESH PowerShell or Terminal window', description: 'The installer modifies PATH — existing shells will not see `gh` until they are restarted.' },
+          { title: 'Authenticate with GitHub', description: 'Interactive prompts. Recommended answers: GitHub.com → HTTPS → Yes (auth git with gh credentials) → Login with a web browser. It prints a one-time code; paste it at github.com/login/device and authorize.', command: 'gh auth login' },
+          { title: '(Alternative) Authenticate with a Personal Access Token', description: 'If you cannot use the browser flow (CI, agent-only machine), create a classic PAT at github.com/settings/tokens, then pipe it in. Replace YOUR_PAT with the token.', command: 'echo YOUR_PAT | gh auth login --with-token' },
+          { title: 'Verify auth', description: 'Confirms gh can talk to the API and lists the token scopes.', command: 'gh auth status' },
         ],
+        note: 'WinGet uses the official signed installer. Choco/Scoop are community forks — if anything breaks, fall back to WinGet or download the .msi from https://github.com/cli/cli/releases/latest.',
         verify: 'gh --version',
       },
       {
         os: 'Linux',
         steps: [
-          { title: 'Add the GitHub CLI keyring', command: 'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg' },
-          { title: 'Install the package', command: 'sudo apt update && sudo apt install gh' },
-          { title: 'Authenticate', command: 'gh auth login' },
+          { title: 'Add the GitHub CLI apt keyring (Debian / Ubuntu)', description: 'For Fedora / RHEL / openSUSE, see the official install docs — each distro has a one-liner.', command: '(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) && sudo mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg' },
+          { title: 'Add the apt source list', command: 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null' },
+          { title: 'Install gh', command: 'sudo apt update && sudo apt install gh -y' },
+          { title: 'Authenticate with GitHub', description: 'GitHub.com → HTTPS → browser flow. Copy the one-time code to github.com/login/device.', command: 'gh auth login' },
+          { title: 'Verify auth', command: 'gh auth status' },
         ],
         verify: 'gh --version',
       },
@@ -114,37 +134,48 @@ const cliTools: CliTool[] = [
     category: 'Database',
     color: 'amber',
     status: 'Live',
+    agentPrompt: '"Use the Supabase CLI to start a local stack" · "Create a migration for a new posts table" · "Generate TypeScript types from my remote database" · "Deploy the send-email edge function"',
     installTabs: [
       {
         os: 'macOS',
         steps: [
-          { title: 'Install via Homebrew tap', command: 'brew install supabase/tap/supabase' },
-          { title: 'Log in', description: 'Generates an access token for your account.', command: 'supabase login' },
-          { title: 'Initialize a project', description: 'Creates a supabase/ folder with config.', command: 'supabase init' },
+          { title: 'Install via Homebrew tap', description: 'Official tap maintained by Supabase. Updates with `brew upgrade supabase`.', command: 'brew install supabase/tap/supabase' },
+          { title: 'Log in to Supabase', description: 'Opens a browser, generates a personal access token, and saves it to `~/.supabase/access-token`.', command: 'supabase login' },
+          { title: 'Initialize a new project directory', description: 'Creates `supabase/config.toml` and the migrations folder. Run in an empty or existing app directory.', command: 'supabase init' },
+          { title: 'Link to your cloud project', description: 'Find <project-ref> in your Supabase dashboard URL: https://supabase.com/dashboard/project/<ref>. This lets `supabase db push`, functions deploy, etc. target the right project.', command: 'supabase link --project-ref <your-project-ref>' },
+          { title: '(Optional) Start the local stack', description: 'Requires Docker Desktop running. Spins up Postgres + Auth + Storage + Studio on localhost.', command: 'supabase start' },
         ],
         verify: 'supabase --version',
       },
       {
         os: 'Windows',
         steps: [
-          { title: 'Install via Scoop', description: 'Requires Scoop package manager.', command: 'scoop install supabase' },
-          { title: 'Log in', command: 'supabase login' },
-          { title: 'Initialize a project', command: 'supabase init' },
+          { title: 'Install Scoop (if you don\'t have it)', description: 'Scoop is the only supported Windows installer for Supabase CLI. Run in a NON-admin PowerShell — Scoop installs per-user.', command: 'Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser; irm get.scoop.sh | iex' },
+          { title: 'Add the Supabase Scoop bucket', description: 'Pulls the bucket manifest from Supabase\'s official scoop repo.', command: 'scoop bucket add supabase https://github.com/supabase/scoop-bucket.git' },
+          { title: 'Install Supabase CLI', description: 'Scoop downloads the prebuilt Windows binary and adds it to PATH.', command: 'scoop install supabase' },
+          { title: 'Log in to Supabase', description: 'Opens your default browser. Click "Authorize" on the Supabase consent screen. The token is stored under %USERPROFILE%\\.supabase\\.', command: 'supabase login' },
+          { title: 'Initialize a new project directory', description: 'Creates `supabase/config.toml`. Run in an empty directory (or your app\'s root).', command: 'supabase init' },
+          { title: 'Link to your cloud project', description: 'Get <project-ref> from your Supabase dashboard URL (the 20-char slug after /project/).', command: 'supabase link --project-ref <your-project-ref>' },
+          { title: '(Optional) Start the local stack', description: 'Requires Docker Desktop for Windows installed and running.', command: 'supabase start' },
         ],
-        note: 'Do not install globally via npm — Supabase recommends Scoop on Windows.',
+        note: 'Supabase EXPLICITLY does not support `npm install -g supabase`. On Windows, use Scoop. Do not follow random Stack Overflow answers telling you to npm-install it globally — it will silently break.',
         verify: 'supabase --version',
       },
       {
         os: 'Linux',
         steps: [
-          { title: 'Install via npm', command: 'npm install -g supabase' },
-          { title: 'Log in', command: 'supabase login' },
-          { title: 'Initialize a project', command: 'supabase init' },
+          { title: 'Install via Homebrew on Linux (recommended)', description: 'Linuxbrew works cross-distro and gets updates fastest.', command: 'brew install supabase/tap/supabase' },
+          { title: '(Alternative) Install as a dev dependency', description: 'Global npm install is NOT supported. Use it as a per-project devDependency and run via `npx supabase`.', command: 'npm install supabase --save-dev' },
+          { title: '(Alternative) Download a prebuilt release', description: 'Grab the .tar.gz for your arch from https://github.com/supabase/cli/releases and drop `supabase` into /usr/local/bin.' },
+          { title: 'Log in to Supabase', command: 'supabase login' },
+          { title: 'Initialize a new project directory', command: 'supabase init' },
+          { title: 'Link to your cloud project', command: 'supabase link --project-ref <your-project-ref>' },
+          { title: '(Optional) Start the local stack', description: 'Requires Docker Engine running.', command: 'supabase start' },
         ],
         verify: 'supabase --version',
       },
     ],
-    docsUrl: 'https://supabase.com/docs/reference/cli/introduction',
+    docsUrl: 'https://supabase.com/docs/guides/local-development/cli/getting-started',
     shortUrl: null,
   },
   {
@@ -154,72 +185,96 @@ const cliTools: CliTool[] = [
     category: 'Cloud',
     color: 'pink',
     status: 'Coming Soon',
+    agentPrompt: '"Use the AWS CLI to list my S3 buckets" · "Describe the EC2 instance i-abc123" · "Tail CloudWatch logs for /aws/lambda/my-func" · "Deploy this Lambda zip"',
     installTabs: [
       {
         os: 'macOS',
         steps: [
-          { title: 'Install via Homebrew', command: 'brew install awscli' },
-          { title: 'Configure credentials', description: 'Enter your Access Key, Secret Key, region, and output format.', command: 'aws configure' },
+          { title: 'Install the signed .pkg (recommended)', description: 'Official AWS-signed package. Most up-to-date and supported path.', command: 'curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg" && sudo installer -pkg AWSCLIV2.pkg -target /' },
+          { title: '(Alternative) Install via Homebrew', description: 'Community-maintained. Usually a few days behind upstream but simpler.', command: 'brew install awscli' },
+          { title: 'Create an IAM user + access keys in AWS Console', description: 'Sign in to AWS Console → IAM → Users → Create user → attach a least-privilege policy (NEVER use root keys) → Security credentials tab → Create access key → select "CLI" as the use case. Copy the Access Key ID and Secret Access Key — the secret is shown only once.' },
+          { title: 'Configure credentials', description: 'Prompts for 4 values: Access Key ID, Secret Access Key, default region (e.g. us-east-1), default output format (json / text / table). Stored in ~/.aws/credentials and ~/.aws/config.', command: 'aws configure' },
+          { title: 'Test your credentials', description: 'Returns your account ID, user ARN, and user ID. If this fails, your keys are wrong or your user has no permissions.', command: 'aws sts get-caller-identity' },
         ],
         verify: 'aws --version',
       },
       {
         os: 'Windows',
         steps: [
-          { title: 'Install via winget', command: 'winget install --id Amazon.AWSCLI' },
-          { title: 'Configure credentials', command: 'aws configure' },
+          { title: 'Install via MSI (recommended)', description: 'Runs the official AWS-signed MSI silently. Adds `aws` to the system PATH. Open an ELEVATED PowerShell (Run as Administrator).', command: 'msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi /qn' },
+          { title: '(Alternative) Install via winget', description: 'Works in a normal PowerShell — winget handles the elevation prompt.', command: 'winget install --id Amazon.AWSCLI' },
+          { title: '(Alternative) Download + run the MSI manually', description: 'If you cannot run commands as admin, download the MSI from https://awscli.amazonaws.com/AWSCLIV2.msi and double-click it.' },
+          { title: 'Open a FRESH PowerShell window', description: 'MSI modifies the SYSTEM PATH — open a brand-new PowerShell / Terminal so `aws` is on PATH. Existing ones will say "command not found".' },
+          { title: 'Create an IAM user + access keys in AWS Console', description: 'AWS Console → IAM → Users → Create user → attach a least-privilege policy (e.g. PowerUserAccess for dev, NOT root keys) → the new user → Security credentials → Create access key → select "Command Line Interface (CLI)" → confirm. Copy both the Access Key ID and the Secret Access Key. The Secret is shown only once — save it immediately.' },
+          { title: 'Configure credentials', description: 'Prompts for 4 values: AWS Access Key ID, AWS Secret Access Key, Default region (e.g. us-east-1), Default output (json). Stored at %USERPROFILE%\\.aws\\credentials and %USERPROFILE%\\.aws\\config.', command: 'aws configure' },
+          { title: '(Optional) Set up a named profile for multiple accounts', description: 'If you have work + personal AWS accounts, configure each under its own profile. Then use `aws --profile work s3 ls`, etc.', command: 'aws configure --profile work' },
+          { title: 'Test your credentials', description: 'Returns your AWS account ID + user ARN. If this errors, your keys are wrong or the user has no permission.', command: 'aws sts get-caller-identity' },
         ],
+        note: 'NEVER commit %USERPROFILE%\\.aws\\credentials to git. For CI or AI agents, prefer AWS IAM Identity Center SSO (`aws configure sso`) over long-lived access keys.',
         verify: 'aws --version',
       },
       {
         os: 'Linux',
         steps: [
-          { title: 'Download the installer', command: 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"' },
-          { title: 'Unzip and install', command: 'unzip awscliv2.zip && sudo ./aws/install' },
+          { title: 'Download the v2 installer (x86_64)', description: 'For ARM64 (Graviton, Raspberry Pi), use awscli-exe-linux-aarch64.zip instead.', command: 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"' },
+          { title: 'Unzip the installer', command: 'unzip awscliv2.zip' },
+          { title: 'Run the installer', description: 'Installs to /usr/local/aws-cli/ and symlinks `aws` into /usr/local/bin/.', command: 'sudo ./aws/install' },
+          { title: '(Alternative) Snap install', description: 'One-liner on distros with snapd (Ubuntu, Fedora with snapd).', command: 'sudo snap install aws-cli --classic' },
+          { title: 'Create an IAM user + access keys', description: 'Same as the Windows step: AWS Console → IAM → create dedicated CLI user → attach least-privilege policy → generate access keys.' },
           { title: 'Configure credentials', command: 'aws configure' },
+          { title: 'Test your credentials', command: 'aws sts get-caller-identity' },
         ],
         verify: 'aws --version',
       },
     ],
-    docsUrl: 'https://aws.amazon.com/cli/',
+    docsUrl: 'https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html',
     shortUrl: null,
   },
   {
     name: 'Google Workspace CLI',
     emoji: '🟩',
-    description: 'Official Google Workspace CLI for managing users, groups, and admin resources from the terminal.',
+    description: 'Official Google Workspace CLI for managing Drive, Gmail, Calendar, and admin resources from the terminal.',
     category: 'Productivity',
     color: 'mint',
     status: 'Coming Soon',
+    agentPrompt: '"Use the gws CLI to list my 10 most recent Drive files" · "Draft a Gmail reply to this thread" · "Create a Calendar event for tomorrow 3pm"',
     installTabs: [
       {
         os: 'macOS',
         steps: [
-          { title: 'Install Go (prerequisite)', description: 'Google Workspace CLI is built with Go. Skip if you already have Go 1.21+.', command: 'brew install go' },
-          { title: 'Clone the official repo', command: 'git clone https://github.com/googleworkspace/cli.git' },
-          { title: 'Build and install the CLI', description: 'From the cloned directory:', command: 'cd cli && go install ./...' },
-          { title: 'Authenticate with Google', description: 'Follow the interactive browser flow to authorize Workspace access.', command: 'gws auth login' },
+          { title: 'Install via Homebrew (easiest)', description: 'Pulls a signed prebuilt binary. No Rust or Node toolchain needed.', command: 'brew install googleworkspace-cli' },
+          { title: '(Alternative) Install via npm', description: 'Official npm wrapper. Requires Node.js 18+.', command: 'npm install -g @googleworkspace/cli' },
+          { title: '(Alternative) Install from source with Cargo', description: 'The CLI is written in Rust. Only needed if you want the bleeding edge.', command: 'cargo install --git https://github.com/googleworkspace/cli --locked' },
+          { title: 'Install gcloud CLI (for automated auth)', description: 'Easiest auth path uses gcloud to provision the GCP project for you.', command: 'brew install --cask google-cloud-sdk' },
+          { title: 'Automated setup via gcloud', description: 'Creates a Google Cloud project, enables the Workspace APIs, generates OAuth credentials, and opens a browser to log in. One command does everything.', command: 'gws auth setup' },
+          { title: 'Verify auth', description: 'Should return a JSON list of your 5 most recent Drive files.', command: 'gws drive files list --params \'{"pageSize": 5}\'' },
         ],
         verify: 'gws --version',
       },
       {
         os: 'Windows',
         steps: [
-          { title: 'Install Go (prerequisite)', description: 'Run in an elevated PowerShell.', command: 'winget install GoLang.Go' },
-          { title: 'Clone the official repo', command: 'git clone https://github.com/googleworkspace/cli.git' },
-          { title: 'Build and install', command: 'cd cli; go install ./...' },
-          { title: 'Authenticate with Google', command: 'gws auth login' },
+          { title: 'Install Node.js LTS (prerequisite for npm path)', description: 'Skip if `node --version` already returns 18+.', command: 'winget install OpenJS.NodeJS.LTS' },
+          { title: 'Open a FRESH PowerShell window', description: 'PATH refresh. Required after Node install.' },
+          { title: 'Install Google Workspace CLI globally via npm', description: 'On Windows, the npm path is the easiest — no Rust toolchain, no manual PATH edits.', command: 'npm install -g @googleworkspace/cli' },
+          { title: '(Alternative) Download a prebuilt Windows binary', description: 'From https://github.com/googleworkspace/cli/releases — grab the .exe for windows-x86_64, place it in a folder on your PATH (e.g. C:\\tools\\gws.exe).' },
+          { title: 'Install gcloud CLI (for automated auth)', description: 'Google Cloud SDK includes the gcloud binary `gws auth setup` depends on. Elevated PowerShell required.', command: 'winget install Google.CloudSDK' },
+          { title: 'Automated setup via gcloud', description: 'Creates a GCP project, enables the Workspace APIs (Drive, Gmail, Calendar, etc.), generates OAuth credentials, and opens a browser to complete the OAuth flow. Credentials saved to %USERPROFILE%\\.config\\gws\\.', command: 'gws auth setup' },
+          { title: '(Manual alternative) Set up OAuth credentials yourself', description: 'If you prefer not to install gcloud: go to console.cloud.google.com/apis/credentials → Create Credentials → OAuth client ID → Desktop app. Download the JSON, save it as %USERPROFILE%\\.config\\gws\\client_secret.json, then run `gws auth login` to complete the browser flow.', command: 'gws auth login' },
+          { title: 'Verify auth', description: 'Lists your 5 most recent Drive files as JSON. If this errors with 401, re-run `gws auth setup` or `gws auth login`.', command: 'gws drive files list --params "{\\"pageSize\\": 5}"' },
         ],
-        note: 'Make sure %USERPROFILE%\\go\\bin is in your PATH so the gws binary is found.',
+        note: 'The CLI is written in Rust but is distributed as prebuilt binaries — you do NOT need to install Rust or Go on Windows. Use the npm package or the GitHub release binaries.',
         verify: 'gws --version',
       },
       {
         os: 'Linux',
         steps: [
-          { title: 'Install Go (prerequisite)', command: 'sudo apt install golang-go' },
-          { title: 'Clone the official repo', command: 'git clone https://github.com/googleworkspace/cli.git' },
-          { title: 'Build and install', command: 'cd cli && go install ./...' },
-          { title: 'Authenticate with Google', command: 'gws auth login' },
+          { title: 'Install via Homebrew on Linux (simplest)', description: 'Works across distros via Linuxbrew. Gets signed binaries.', command: 'brew install googleworkspace-cli' },
+          { title: '(Alternative) Install via npm', description: 'Requires Node.js 18+. Works everywhere.', command: 'npm install -g @googleworkspace/cli' },
+          { title: '(Alternative) Install from source', description: 'Requires Rust toolchain (`rustup`). Builds from the official repo.', command: 'cargo install --git https://github.com/googleworkspace/cli --locked' },
+          { title: 'Install gcloud CLI (for automated auth)', description: 'Debian/Ubuntu one-liner; other distros see cloud.google.com/sdk/docs/install.', command: 'curl https://sdk.cloud.google.com | bash && exec -l $SHELL' },
+          { title: 'Automated setup via gcloud', description: 'Provisions the Cloud project, enables APIs, runs the OAuth flow.', command: 'gws auth setup' },
+          { title: 'Verify auth', command: 'gws drive files list --params \'{"pageSize": 5}\'' },
         ],
         verify: 'gws --version',
       },
@@ -593,6 +648,30 @@ const collectionPageSchema = {
           </p>
         </div>
 
+        <!-- How to use these with an AI agent -->
+        <div class="mb-8 rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-6 sm:p-7 shadow-hard-sm">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-primary/10 border-2 border-primary flex items-center justify-center text-xl" style="box-shadow: 2px 2px 0px 0px var(--primary, #8B5CF6)">
+              🤖
+            </div>
+            <div class="flex-1">
+              <span class="inline-block px-2 py-0.5 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[10px] font-bold uppercase tracking-widest text-[var(--color-muted)] mb-2">Why this page exists</span>
+              <h3 class="font-heading font-extrabold text-lg text-[var(--color-text)] mb-2">How to use these with Claude Code, Cursor, Codex, or any agent</h3>
+              <p class="text-sm text-[var(--color-muted)] leading-relaxed mb-3">
+                There is no special "agent integration" for these tools. You install the CLI, authenticate it on your machine once, then just tell your agent what to do. The agent runs the commands in your shell using the credentials the CLI already stored locally.
+              </p>
+              <div class="rounded-lg border-2 border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-xs sm:text-sm font-mono text-[var(--color-text)] leading-relaxed">
+                <span class="text-[var(--color-muted)]">you →</span> "Use the Vercel CLI to deploy this to production."<br/>
+                <span class="text-[var(--color-muted)]">you →</span> "Use gh CLI to open a PR from this branch."<br/>
+                <span class="text-[var(--color-muted)]">you →</span> "Use the AWS CLI to list my S3 buckets in us-east-1."
+              </div>
+              <p class="text-xs text-[var(--color-muted)] leading-relaxed mt-3">
+                That's the whole integration. No MCP server needed, no API keys in agent config — the agent just shells out to a CLI that already knows who you are.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {cliTools.map((tool) => {
             const slug = toSlug(tool.name);
@@ -828,6 +907,27 @@ const collectionPageSchema = {
                   )}
                 </div>
               ))}
+
+              <!-- Agent usage tip -->
+              {tool.agentPrompt && (
+                <div class="rounded-xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface)] p-4 flex flex-col gap-2">
+                  <div class="flex items-center gap-2">
+                    <span class="text-base">🤖</span>
+                    <p class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">
+                      Use it with an AI agent
+                    </p>
+                  </div>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">
+                    Once installed + authenticated, just tell Claude Code / Cursor / Codex:
+                  </p>
+                  <p class="text-xs sm:text-sm font-mono text-[var(--color-text)] leading-relaxed">
+                    {tool.agentPrompt}
+                  </p>
+                  <p class="text-[11px] text-[var(--color-muted)] italic leading-relaxed">
+                    The agent runs the CLI in your shell with the credentials you already saved — no extra config.
+                  </p>
+                </div>
+              )}
 
               <!-- Modal footer links -->
               <div class="border-t-2 border-[var(--color-border)] pt-4 flex flex-wrap gap-2">
