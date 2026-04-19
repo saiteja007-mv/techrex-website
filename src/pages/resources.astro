@@ -601,18 +601,16 @@ const collectionPageSchema = {
             const isComingSoon = tool.status === 'Coming Soon';
             return (
               <article
-                class={`cli-card bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] ${shadow} p-6 flex flex-col gap-4 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 ${isComingSoon ? 'opacity-75' : ''}`}
+                class={`cli-card bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] ${shadow} p-6 flex flex-col gap-4 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer ${isComingSoon ? 'opacity-75' : ''}`}
                 data-tool-id={slug}
-                data-expanded="false"
+                data-cli-open={slug}
+                role="button"
+                tabindex="0"
+                aria-haspopup="dialog"
+                aria-controls={`${slug}-details`}
               >
-                <!-- Header (clickable toggle) -->
-                <button
-                  type="button"
-                  data-card-toggle
-                  aria-expanded="false"
-                  aria-controls={`${slug}-details`}
-                  class="flex items-start justify-between gap-3 text-left w-full cursor-pointer"
-                >
+                <!-- Header -->
+                <div class="flex items-start justify-between gap-3">
                   <div class="flex items-center gap-3 flex-1 min-w-0">
                     <div
                       class="w-12 h-12 rounded-xl border-2 flex items-center justify-center text-2xl flex-shrink-0"
@@ -638,14 +636,14 @@ const collectionPageSchema = {
                       <path d="M7 17L17 7M17 7H8M17 7v9"/>
                     </svg>
                   </div>
-                </button>
+                </div>
 
                 <p class="text-sm text-[var(--color-muted)] leading-relaxed">{tool.description}</p>
 
                 <div class="flex flex-wrap gap-2">
                   <button
                     type="button"
-                    data-card-toggle-btn
+                    data-cli-open={slug}
                     class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
                   >
                     Open Install Guide
@@ -672,182 +670,190 @@ const collectionPageSchema = {
                     </a>
                   )}
                 </div>
-
-                <!-- Modal overlay with install guide -->
-                <div
-                  id={`${slug}-details`}
-                  data-cli-modal
-                  hidden
-                  class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
-                >
-                  <!-- Backdrop -->
-                  <div data-cli-backdrop class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-                  <!-- Modal card -->
-                  <div
-                    role="dialog"
-                    aria-modal="true"
-                    aria-labelledby={`${slug}-modal-title`}
-                    class="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] shadow-hard p-6 sm:p-8 flex flex-col gap-5"
-                    style="box-shadow: 6px 6px 0px 0px var(--color-border);"
-                  >
-                    <!-- Modal header -->
-                    <div class="flex items-start justify-between gap-4">
-                      <div class="flex items-center gap-3 flex-1 min-w-0">
-                        <div
-                          class="w-12 h-12 rounded-xl border-2 flex items-center justify-center text-2xl flex-shrink-0"
-                          style={`background: ${accent.bg}18; border-color: ${accent.border}; box-shadow: 3px 3px 0px 0px ${accent.border}`}
-                        >
-                          {tool.emoji}
-                        </div>
-                        <div class="flex-1 min-w-0">
-                          <h3 id={`${slug}-modal-title`} class="font-heading font-extrabold text-xl sm:text-2xl text-[var(--color-text)] truncate">
-                            {tool.name}
-                          </h3>
-                          <span class="text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider">
-                            {tool.category} · Install Guide
-                          </span>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        data-cli-close
-                        aria-label="Close install guide"
-                        class="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-bg)] transition-colors cursor-pointer shadow-hard-sm"
-                      >
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                      </button>
-                    </div>
-
-                    <!-- OS tabs -->
-                  <div class="flex gap-1 border-b-2 border-[var(--color-border)] pb-0.5" role="tablist">
-                    {tool.installTabs.map((tab, i) => (
-                      <button
-                        type="button"
-                        data-os-tab-btn
-                        data-tab-idx={i}
-                        role="tab"
-                        aria-selected={i === 0 ? 'true' : 'false'}
-                        class={`px-3 py-1.5 text-xs font-bold rounded-t-lg border-2 border-b-0 transition-colors cursor-pointer ${i === 0 ? 'bg-[var(--color-text)] text-[var(--color-bg)] border-[var(--color-border)]' : 'bg-transparent text-[var(--color-muted)] border-transparent hover:text-[var(--color-text)]'}`}
-                      >
-                        {tab.os}
-                      </button>
-                    ))}
-                  </div>
-
-                  {tool.installTabs.map((tab, i) => (
-                    <div
-                      data-os-pane
-                      data-tab-idx={i}
-                      hidden={i !== 0}
-                      class="flex flex-col gap-4"
-                    >
-                      <ol class="flex flex-col gap-4">
-                        {tab.steps.map((step, stepIdx) => (
-                          <li class="flex gap-3">
-                            <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">
-                              {stepIdx + 1}
-                            </span>
-                            <div class="flex-1 flex flex-col gap-2 min-w-0">
-                              <p class="font-heading font-bold text-sm text-[var(--color-text)]">
-                                {step.title}
-                              </p>
-                              {step.description && (
-                                <p class="text-xs text-[var(--color-muted)] leading-relaxed">
-                                  {step.description}
-                                </p>
-                              )}
-                              {step.command && (
-                                <div class="relative">
-                                  <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>{step.command}</code></pre>
-                                  <button
-                                    type="button"
-                                    data-copy-btn
-                                    aria-label="Copy command"
-                                    class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer"
-                                  >
-                                    <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                                    </svg>
-                                    <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                      <polyline points="20 6 9 17 4 12"/>
-                                    </svg>
-                                  </button>
-                                </div>
-                              )}
-                              {step.note && (
-                                <p class="text-xs text-amber-700 dark:text-amber-400 italic leading-relaxed">
-                                  💡 {step.note}
-                                </p>
-                              )}
-                            </div>
-                          </li>
-                        ))}
-                      </ol>
-
-                      {tab.note && (
-                        <p class="text-xs text-amber-700 dark:text-amber-400 italic leading-relaxed">
-                          💡 {tab.note}
-                        </p>
-                      )}
-
-                      {tab.verify && (
-                        <div class="border-t-2 border-dashed border-[var(--color-border)] pt-3 flex flex-col gap-2">
-                          <p class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">
-                            Verify installation
-                          </p>
-                          <div class="relative">
-                            <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>{tab.verify}</code></pre>
-                            <button
-                              type="button"
-                              data-copy-btn
-                              aria-label="Copy command"
-                              class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer"
-                            >
-                              <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                              </svg>
-                              <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="20 6 9 17 4 12"/>
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                    <!-- Modal footer links -->
-                    <div class="border-t-2 border-[var(--color-border)] pt-4 flex flex-wrap gap-2">
-                      <a
-                        href={tool.docsUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-                      >
-                        Official docs ↗
-                      </a>
-                      {tool.shortUrl && (
-                        <a
-                          href={tool.shortUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-                        >
-                          ▶ Watch Short
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
               </article>
             );
           })}
         </div>
       </section>
+
+      <!-- CLI Install Guide Modals (rendered outside cards so fixed positioning works) -->
+      {cliTools.map((tool) => {
+        const slug = toSlug(tool.name);
+        const accent = accentMap[tool.color];
+        return (
+          <div
+            id={`${slug}-details`}
+            data-cli-modal
+            data-modal-id={slug}
+            hidden
+            class="fixed inset-0 z-[100] items-center justify-center p-4 sm:p-6"
+            style="display: none;"
+          >
+            <!-- Backdrop -->
+            <div data-cli-backdrop class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+            <!-- Modal card -->
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={`${slug}-modal-title`}
+              class="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] p-6 sm:p-8 flex flex-col gap-5"
+              style="box-shadow: 6px 6px 0px 0px var(--color-border);"
+            >
+              <!-- Modal header -->
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3 flex-1 min-w-0">
+                  <div
+                    class="w-12 h-12 rounded-xl border-2 flex items-center justify-center text-2xl flex-shrink-0"
+                    style={`background: ${accent.bg}18; border-color: ${accent.border}; box-shadow: 3px 3px 0px 0px ${accent.border}`}
+                  >
+                    {tool.emoji}
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <h3 id={`${slug}-modal-title`} class="font-heading font-extrabold text-xl sm:text-2xl text-[var(--color-text)] truncate">
+                      {tool.name}
+                    </h3>
+                    <span class="text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider">
+                      {tool.category} · Install Guide
+                    </span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  data-cli-close
+                  aria-label="Close install guide"
+                  class="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-bg)] transition-colors cursor-pointer shadow-hard-sm"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- OS tabs -->
+              <div class="flex gap-1 border-b-2 border-[var(--color-border)] pb-0.5" role="tablist">
+                {tool.installTabs.map((tab, i) => (
+                  <button
+                    type="button"
+                    data-os-tab-btn
+                    data-tab-idx={i}
+                    role="tab"
+                    aria-selected={i === 0 ? 'true' : 'false'}
+                    class={`px-3 py-1.5 text-xs font-bold rounded-t-lg border-2 border-b-0 transition-colors cursor-pointer ${i === 0 ? 'bg-[var(--color-text)] text-[var(--color-bg)] border-[var(--color-border)]' : 'bg-transparent text-[var(--color-muted)] border-transparent hover:text-[var(--color-text)]'}`}
+                  >
+                    {tab.os}
+                  </button>
+                ))}
+              </div>
+
+              {tool.installTabs.map((tab, i) => (
+                <div
+                  data-os-pane
+                  data-tab-idx={i}
+                  hidden={i !== 0}
+                  class="flex flex-col gap-4"
+                >
+                  <ol class="flex flex-col gap-4">
+                    {tab.steps.map((step, stepIdx) => (
+                      <li class="flex gap-3">
+                        <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">
+                          {stepIdx + 1}
+                        </span>
+                        <div class="flex-1 flex flex-col gap-2 min-w-0">
+                          <p class="font-heading font-bold text-sm text-[var(--color-text)]">
+                            {step.title}
+                          </p>
+                          {step.description && (
+                            <p class="text-xs text-[var(--color-muted)] leading-relaxed">
+                              {step.description}
+                            </p>
+                          )}
+                          {step.command && (
+                            <div class="relative">
+                              <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>{step.command}</code></pre>
+                              <button
+                                type="button"
+                                data-copy-btn
+                                aria-label="Copy command"
+                                class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer"
+                              >
+                                <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                  <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                              </button>
+                            </div>
+                          )}
+                          {step.note && (
+                            <p class="text-xs text-amber-700 dark:text-amber-400 italic leading-relaxed">
+                              💡 {step.note}
+                            </p>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+
+                  {tab.note && (
+                    <p class="text-xs text-amber-700 dark:text-amber-400 italic leading-relaxed">
+                      💡 {tab.note}
+                    </p>
+                  )}
+
+                  {tab.verify && (
+                    <div class="border-t-2 border-dashed border-[var(--color-border)] pt-3 flex flex-col gap-2">
+                      <p class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">
+                        Verify installation
+                      </p>
+                      <div class="relative">
+                        <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>{tab.verify}</code></pre>
+                        <button
+                          type="button"
+                          data-copy-btn
+                          aria-label="Copy command"
+                          class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer"
+                        >
+                          <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                          </svg>
+                          <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              <!-- Modal footer links -->
+              <div class="border-t-2 border-[var(--color-border)] pt-4 flex flex-wrap gap-2">
+                <a
+                  href={tool.docsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                >
+                  Official docs ↗
+                </a>
+                {tool.shortUrl && (
+                  <a
+                    href={tool.shortUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                  >
+                    ▶ Watch Short
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
 
       <div class="mt-10 rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-hard-sm">
         <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-4">
@@ -873,13 +879,15 @@ const collectionPageSchema = {
     function initCliCards() {
       let activeModal: HTMLElement | null = null;
 
+      // Move all modals to document.body so fixed positioning is always viewport-relative
+      document.querySelectorAll<HTMLElement>('[data-cli-modal]').forEach((modal) => {
+        if (modal.parentElement !== document.body) document.body.appendChild(modal);
+      });
+
       const closeModal = () => {
         if (!activeModal) return;
+        activeModal.style.display = 'none';
         activeModal.hidden = true;
-        const card = activeModal.closest<HTMLElement>('.cli-card');
-        const headerBtn = card?.querySelector<HTMLButtonElement>('[data-card-toggle]');
-        headerBtn?.setAttribute('aria-expanded', 'false');
-        if (card) card.dataset.expanded = 'false';
         activeModal = null;
         document.body.style.overflow = '';
       };
@@ -887,39 +895,45 @@ const collectionPageSchema = {
       const openModal = (modal: HTMLElement) => {
         if (activeModal && activeModal !== modal) closeModal();
         modal.hidden = false;
+        modal.style.display = 'flex';
         activeModal = modal;
-        const card = modal.closest<HTMLElement>('.cli-card');
-        const headerBtn = card?.querySelector<HTMLButtonElement>('[data-card-toggle]');
-        headerBtn?.setAttribute('aria-expanded', 'true');
-        if (card) card.dataset.expanded = 'true';
         document.body.style.overflow = 'hidden';
+      };
+
+      const openById = (slug: string) => {
+        const modal = document.getElementById(`${slug}-details`);
+        if (modal) openModal(modal);
       };
 
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && activeModal) closeModal();
       });
 
-      document.querySelectorAll<HTMLElement>('.cli-card').forEach((card) => {
-        const modal = card.querySelector<HTMLElement>('[data-cli-modal]');
-        const headerBtn = card.querySelector<HTMLButtonElement>('[data-card-toggle]');
-        const guideBtn = card.querySelector<HTMLButtonElement>('[data-card-toggle-btn]');
-
-        if (!modal) return;
-
-        const open = (e: Event) => { e.stopPropagation(); openModal(modal); };
-        headerBtn?.addEventListener('click', open);
-        guideBtn?.addEventListener('click', open);
-
-        card.addEventListener('click', (e) => {
+      // Bind open handlers to any element with data-cli-open (cards + buttons)
+      document.querySelectorAll<HTMLElement>('[data-cli-open]').forEach((el) => {
+        const slug = el.dataset.cliOpen;
+        if (!slug) return;
+        el.addEventListener('click', (e) => {
           const target = e.target as HTMLElement;
+          // Ignore clicks on anchors inside the card (Official docs / Watch Short)
           if (target.closest('a')) return;
-          if (target.closest('[data-cli-modal]')) return;
-          if (target.closest('[data-card-toggle]')) return;
-          if (target.closest('[data-card-toggle-btn]')) return;
-          openModal(modal);
+          e.stopPropagation();
+          openById(slug);
         });
-        card.style.cursor = 'pointer';
+        // Keyboard support for role=button cards
+        if (el.getAttribute('role') === 'button') {
+          el.addEventListener('keydown', (e) => {
+            const ke = e as KeyboardEvent;
+            if (ke.key === 'Enter' || ke.key === ' ') {
+              ke.preventDefault();
+              openById(slug);
+            }
+          });
+        }
+      });
 
+      // Per-modal wiring: close + tabs + copy
+      document.querySelectorAll<HTMLElement>('[data-cli-modal]').forEach((modal) => {
         modal.querySelector<HTMLElement>('[data-cli-backdrop]')?.addEventListener('click', closeModal);
         modal.querySelector<HTMLButtonElement>('[data-cli-close]')?.addEventListener('click', closeModal);
 
