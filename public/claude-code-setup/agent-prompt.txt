@@ -118,5 +118,26 @@ Run these steps in order:
           3) Open a fresh terminal so Claude Code re-reads the config
           4) Run `/plugin` to confirm 10 plugins enabled"
 
+15. CONFIGURATION GUIDE
+    - After setting up everything, give me a concise guide for how to
+      configure anything in this bundle on MY machine. Reference the
+      real paths you just wrote to — ~/.claude/CLAUDE.md,
+      ~/.claude/rules/, ~/.claude/skills/<name>/SKILL.md,
+      ~/.claude/agents/<name>.md, ~/.claude/commands/<group>/<name>.md,
+      ~/.claude/settings.json, ~/.claude/config.json — and cover:
+        - How to add, remove, or rename skills / agents / commands.
+        - How to enable or disable an installed plugin.
+        - How to register a new marketplace + install a plugin from it.
+        - How to edit CLAUDE.md / rules safely (Caveman intensity,
+          RTK commands, graphify pointer, TechRex Bundle markers).
+        - How to fill MCP credentials (search-console OAuth first run,
+          n8n-mcp N8N_API_URL / N8N_API_KEY / dist path).
+        - How to add a new MCP server to config.json.
+        - How to tweak or disable the PreToolUse graphify hook.
+        - How to enable, disable, or swap the statusline.
+        - How to restore the pre-install ~/.claude from the backup dir
+          if I want to roll back.
+      Keep it to one page, code blocks where helpful, plain language.
+
 Do not invent steps. Do not run destructive commands. Ask before installing
 the statusline. If any step fails, stop and report — do not continue blindly.

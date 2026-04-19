@@ -88,6 +88,23 @@ Run these steps in order:
     Caveman Mode / RTK / graphify in CLAUDE.md; list enabled plugins.
 14. FINAL REPORT — table of v/!/x per section + reminder to fill MCP
     creds, review CLAUDE.md, reopen terminal, run /plugin.
+15. CONFIGURATION GUIDE — after setting up everything, give me a concise
+    guide for configuring anything in this bundle on MY machine.
+    Reference real paths written to (~/.claude/CLAUDE.md, rules/,
+    skills/<name>/SKILL.md, agents/<name>.md, commands/<group>/<name>.md,
+    settings.json, config.json) and cover:
+      - Add / remove / rename skills, agents, commands.
+      - Enable / disable installed plugins and register new marketplaces.
+      - Edit CLAUDE.md and rules safely (Caveman intensity, RTK,
+        graphify pointer, TechRex Bundle markers).
+      - Fill MCP credentials (search-console OAuth, n8n-mcp
+        N8N_API_URL / N8N_API_KEY / dist path).
+      - Add a new MCP server to config.json.
+      - Tweak or disable the PreToolUse graphify hook.
+      - Enable / disable / swap the statusline.
+      - Restore the pre-install ~/.claude from the backup if I want to
+        roll back.
+    One page, code blocks where helpful, plain language.
 
 Do not invent steps. Do not run destructive commands. Ask before
 installing the statusline. If any step fails, stop and report — do not
