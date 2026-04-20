@@ -42,17 +42,19 @@ Run these steps in order:
    - For each file in repo .claude/rules/*.md:
        if not present in ~/.claude/rules/, copy it.
 
-6. COPY SKILLS (non-destructive, 18 skills)
+6. COPY SKILLS (non-destructive, 17 skills)
    - For each directory in repo .claude/skills/*:
        if not present in ~/.claude/skills/, copy the whole directory.
    - Do NOT overwrite existing skills with the same name.
+   - Note: CCG skill removed from bundle — plugin-based quality gates via
+     `superpowers` handle that territory now.
 
-7. COPY AGENTS (non-destructive, 10 agents)
-   - For each .md in repo .claude/agents/ (including ccg/ subdir):
+7. COPY AGENTS (non-destructive, 6 agents)
+   - For each .md in repo .claude/agents/:
        if not present in ~/.claude/agents/, copy.
 
-8. COPY COMMANDS (non-destructive, 57 commands)
-   - For each .md under repo .claude/commands/ (ccg/, gsd/, vibe-*):
+8. COPY COMMANDS (non-destructive, 29 commands)
+   - For each .md under repo .claude/commands/ (gsd/, vibe-*):
        if not present in ~/.claude/commands/<same-subpath>, copy.
 
 9. STATUSLINE (optional — ask first)
@@ -83,9 +85,10 @@ Run these steps in order:
       and <YOUR_N8N_MCP_DIST_PATH> in ~/.claude/config.json before the n8n-mcp
       server will work."
 
-12. INSTALL PLUGINS (10 plugins)
-    - Open a Claude Code session and, for each of the 10 plugin slugs below,
+12. INSTALL PLUGINS (11 plugins)
+    - Open a Claude Code session and, for each of the 11 plugin slugs below,
       run `/plugin install <slug>`:
+        superpowers@claude-plugins-official
         document-skills@ando-marketplace
         frontend-design@claude-plugins-official
         n8n-mcp-skills@n8n-mcp-skills
@@ -96,13 +99,17 @@ Run these steps in order:
         marketing-skills@marketingskills
         codex@openai-codex
         claude-mem@thedotmack
+    - OPTIONAL plugins user may want (ask before installing — marketplace
+      slugs may need to be registered first): browser-use, career-ops, SEO.
+      If I already have their marketplace registered, install them as well;
+      otherwise skip and note in the final table.
     - If a plugin is already enabled, skip it. If it fails, note it in the
       final table but continue.
 
 13. VERIFY
-    - Count ~/.claude/skills/*       — expect >= 18
-    - Count ~/.claude/agents/**/*.md — expect >= 10
-    - Count ~/.claude/commands/**/*.md — expect >= 57
+    - Count ~/.claude/skills/*       — expect >= 17
+    - Count ~/.claude/agents/**/*.md — expect >= 6
+    - Count ~/.claude/commands/**/*.md — expect >= 29
     - grep "Caveman Mode" ~/.claude/CLAUDE.md — expect a match
     - grep "RTK" ~/.claude/CLAUDE.md — expect a match
     - grep "graphify" ~/.claude/CLAUDE.md — expect a match

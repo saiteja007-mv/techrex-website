@@ -83,7 +83,7 @@ Docs: <https://github.com/googleworkspace/cli>
 
 ## Claude Code Setup Bundle
 
-My entire Claude Code config in one download — 10 plugins, 18 custom skills, 10 sub-agents, 57 slash commands, rules, hooks, and scrubbed MCP stubs. Hand the file + agent prompt to Claude Code / Cursor / Codex and it installs everything onto your machine.
+My entire Claude Code config in one download — 11 plugins, 17 custom skills, 6 sub-agents, 29 slash commands, rules, hooks, and scrubbed MCP stubs. Hand the file + agent prompt to Claude Code / Cursor / Codex and it installs everything onto your machine.
 
 - Download: <https://techrex.saitejamothukuri.com/claude-code-setup/setup.md>
 - Agent prompt: <https://techrex.saitejamothukuri.com/claude-code-setup/agent-prompt.txt>

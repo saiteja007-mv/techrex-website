@@ -621,9 +621,6 @@ const collectionPageSchema = {
       <!-- Claude Code Setup Bundle -->
       <section class="mt-16 pt-12 border-t-2 border-[var(--color-border)]">
         <div class="mb-8">
-          <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-4 shadow-hard-sm">
-            🧰 8 months of daily Claude Code
-          </span>
           <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-[var(--color-text)] mb-3">
             Claude Code Setup Bundle
           </h2>
@@ -636,19 +633,19 @@ const collectionPageSchema = {
           <!-- Stats bar: what's in it -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pb-6 border-b-2 border-dashed border-[var(--color-border)]">
             <div>
-              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">10</p>
+              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">11</p>
               <p class="text-xs uppercase tracking-widest text-[var(--color-muted)]">plugins</p>
             </div>
             <div>
-              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">18</p>
+              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">17</p>
               <p class="text-xs uppercase tracking-widest text-[var(--color-muted)]">custom skills</p>
             </div>
             <div>
-              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">57</p>
+              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">29</p>
               <p class="text-xs uppercase tracking-widest text-[var(--color-muted)]">slash commands</p>
             </div>
             <div>
-              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">10</p>
+              <p class="font-heading font-extrabold text-3xl text-[var(--color-text)]">6</p>
               <p class="text-xs uppercase tracking-widest text-[var(--color-muted)]">sub-agents</p>
             </div>
           </div>
@@ -669,17 +666,16 @@ const collectionPageSchema = {
             </a>
             <button
               type="button"
-              data-copy-prompt
+              data-prompt-open
               class="inline-flex items-center gap-2 px-4 py-2.5 bg-[var(--color-card)] text-[var(--color-text)] rounded-lg font-bold text-sm border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-pointer"
+              aria-haspopup="dialog"
+              aria-controls="agent-prompt-modal"
             >
-              <svg class="copy-icon w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4 17 10 11 4 5"/>
+                <line x1="12" y1="19" x2="20" y2="19"/>
               </svg>
-              <svg class="check-icon w-4 h-4 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              <span class="copy-label">Copy Agent Prompt</span>
+              Agent Prompt
             </button>
             <a
               href="https://github.com/saiteja007-mv/techrex-claude-setup"
@@ -704,7 +700,7 @@ const collectionPageSchema = {
             </div>
             <div class="flex-1 text-sm text-[var(--color-muted)] leading-relaxed">
               <p class="font-bold text-[var(--color-text)] mb-1">How it works</p>
-              <p>Download <code class="px-1 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[12px] font-mono">setup.md</code>, copy the Agent Prompt, then paste both into Claude Code / Cursor / Codex. The agent backs up your existing <code class="px-1 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[12px] font-mono">~/.claude/</code>, clones the companion repo, merges files non-destructively, and installs 10 plugins. Takes about a minute.</p>
+              <p>Download <code class="px-1 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[12px] font-mono">setup.md</code>, open the Agent Prompt and copy it, then paste both into Claude Code / Cursor / Codex. The agent backs up your existing <code class="px-1 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[12px] font-mono">~/.claude/</code>, clones the companion repo, merges files non-destructively, and installs 11 plugins. Takes about a minute.</p>
             </div>
           </div>
 
@@ -769,9 +765,10 @@ const collectionPageSchema = {
             <div>
               <h4 class="font-heading font-extrabold text-base mb-3 flex items-center gap-2">
                 <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 border-2 border-primary text-xs font-bold" style="box-shadow: 2px 2px 0px 0px #8B5CF6">🔌</span>
-                Marketplace plugins <span class="text-[var(--color-muted)] font-normal text-sm">(10)</span>
+                Marketplace plugins <span class="text-[var(--color-muted)] font-normal text-sm">(11)</span>
               </h4>
               <ul class="space-y-2 text-xs sm:text-sm text-[var(--color-muted)]">
+                <li><code class="font-mono text-[var(--color-text)]">superpowers</code> — TDD, debugging, and process-discipline skills that override default behavior.</li>
                 <li><code class="font-mono text-[var(--color-text)]">document-skills</code> — Read, write, and edit PDFs, DOCX, and XLSX files from prompts.</li>
                 <li><code class="font-mono text-[var(--color-text)]">frontend-design</code> — UI design-system helpers and component-generation workflow.</li>
                 <li><code class="font-mono text-[var(--color-text)]">n8n-mcp-skills</code> — Expose n8n nodes, templates, and workflow management to the agent.</li>
@@ -779,22 +776,22 @@ const collectionPageSchema = {
                 <li><code class="font-mono text-[var(--color-text)]">rust-analyzer-lsp</code> — Rust LSP features (completion, goto-def, errors) inside Claude Code.</li>
                 <li><code class="font-mono text-[var(--color-text)]">hugging-face-cli</code> — Pull models / datasets and run HF CLI operations from the agent.</li>
                 <li><code class="font-mono text-[var(--color-text)]">ui-ux-pro-max</code> — Pro UI/UX design-thinking workflow with spec generation.</li>
-                <li><code class="font-mono text-[var(--color-text)]">marketing-skills</code> — Campaign planning, ad copy, and content-marketing playbooks.</li>
+                <li><code class="font-mono text-[var(--color-text)]">marketing-skills</code> — Campaign planning, SEO audits, ad copy, and content-marketing playbooks.</li>
                 <li><code class="font-mono text-[var(--color-text)]">codex</code> — Hand off heavy coding tasks to OpenAI Codex from inside Claude Code.</li>
                 <li><code class="font-mono text-[var(--color-text)]">claude-mem</code> — Persistent cross-session memory so the agent remembers context.</li>
               </ul>
+              <p class="text-xs text-[var(--color-muted)] mt-3 italic">Optional add-ons you can enable: <code class="font-mono text-[var(--color-text)]">browser-use</code> (web automation), SEO / <code class="font-mono text-[var(--color-text)]">career-ops</code> skills — see the setup.md notes to register their marketplaces.</p>
             </div>
 
             <!-- Skills -->
             <div>
               <h4 class="font-heading font-extrabold text-base mb-3 flex items-center gap-2">
                 <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 border-2 border-primary text-xs font-bold" style="box-shadow: 2px 2px 0px 0px #8B5CF6">🧠</span>
-                Custom skills <span class="text-[var(--color-muted)] font-normal text-sm">(18)</span>
+                Custom skills <span class="text-[var(--color-muted)] font-normal text-sm">(17)</span>
               </h4>
               <ul class="space-y-2 text-xs sm:text-sm text-[var(--color-muted)]">
                 <li><code class="font-mono text-[var(--color-text)]">autoresearch</code> — Deep multi-source research with citations and a written report.</li>
                 <li><code class="font-mono text-[var(--color-text)]">caveman</code> — Terse response style (drops articles + filler, keeps technical substance).</li>
-                <li><code class="font-mono text-[var(--color-text)]">ccg</code> — Quality gates: doc sync, security scans, complexity, module verification.</li>
                 <li><code class="font-mono text-[var(--color-text)]">data-analyst</code> — BI-style analysis with stats methods, visualizations, and insight writeups.</li>
                 <li><code class="font-mono text-[var(--color-text)]">data-storytelling</code> — Turn datasets into narrative-driven, stakeholder-ready reports.</li>
                 <li><code class="font-mono text-[var(--color-text)]">design-system</code> — Build and audit design systems (tokens, components, guidelines).</li>
@@ -817,7 +814,7 @@ const collectionPageSchema = {
             <div>
               <h4 class="font-heading font-extrabold text-base mb-3 flex items-center gap-2">
                 <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 border-2 border-primary text-xs font-bold" style="box-shadow: 2px 2px 0px 0px #8B5CF6">🤝</span>
-                Sub-agents <span class="text-[var(--color-muted)] font-normal text-sm">(10)</span>
+                Sub-agents <span class="text-[var(--color-muted)] font-normal text-sm">(6)</span>
               </h4>
               <ul class="space-y-2 text-xs sm:text-sm text-[var(--color-muted)]">
                 <li><code class="font-mono text-[var(--color-text)]">blog-writer-expert</code> — Full-length blog posts with SEO structure and engagement hooks.</li>
@@ -826,10 +823,6 @@ const collectionPageSchema = {
                 <li><code class="font-mono text-[var(--color-text)]">system-troubleshooter</code> — Windows / Linux sysadmin problem solving and recovery.</li>
                 <li><code class="font-mono text-[var(--color-text)]">ui-ux-design-expert</code> — UI/UX reviews, specs, and accessibility critique.</li>
                 <li><code class="font-mono text-[var(--color-text)]">youtube-content-strategist</code> — Cross-platform YouTube promo packages (metadata, posts).</li>
-                <li><code class="font-mono text-[var(--color-text)]">ccg/get-current-datetime</code> — Fetch real-world timestamp for commits and docs.</li>
-                <li><code class="font-mono text-[var(--color-text)]">ccg/init-architect</code> — Generate README / DESIGN skeletons for new modules.</li>
-                <li><code class="font-mono text-[var(--color-text)]">ccg/planner</code> — WBS task breakdown for feature requirements.</li>
-                <li><code class="font-mono text-[var(--color-text)]">ccg/ui-ux-designer</code> — Page structure, component split, and interaction flow design.</li>
               </ul>
             </div>
 
@@ -837,34 +830,9 @@ const collectionPageSchema = {
             <div>
               <h4 class="font-heading font-extrabold text-base mb-3 flex items-center gap-2">
                 <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 border-2 border-primary text-xs font-bold" style="box-shadow: 2px 2px 0px 0px #8B5CF6">/</span>
-                Slash commands <span class="text-[var(--color-muted)] font-normal text-sm">(57)</span>
+                Slash commands <span class="text-[var(--color-muted)] font-normal text-sm">(29)</span>
               </h4>
               <div class="space-y-5">
-                <div>
-                  <p class="text-xs uppercase tracking-widest text-[var(--color-muted)] font-bold mb-2">ccg/* — CCG workflow (28)</p>
-                  <ul class="space-y-1.5 text-xs sm:text-sm text-[var(--color-muted)]">
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:init</code> — Initialize a project with README, DESIGN, and CCG wiring.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:plan</code> — Draft an implementation plan with file paths and trade-offs.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:execute</code> — Execute a pre-approved plan step-by-step.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:analyze</code> — Analyze a codebase or module and summarize architecture.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:review</code> — Code review for a diff, branch, or file.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:test</code> — Generate + run tests for changed code.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:debug</code> — Root-cause investigation workflow.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:optimize</code> — Performance or clarity optimization pass.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:enhance</code> — Improve an existing feature or module iteratively.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:feat</code> — Scaffold a new feature end-to-end.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:frontend</code> / <code class="font-mono text-[var(--color-text)]">/ccg:backend</code> — Layer-specific development workflow.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:commit</code> — Structured commit with conventional-commit messages.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:rollback</code> — Safe revert of a change or range of commits.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:clean-branches</code> — Prune merged + stale local branches.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:context</code> — Build a context pack for a task before execution.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:worktree</code> — Spin up an isolated git worktree for a task.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:workflow</code> — Orchestrate a multi-step CCG workflow.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:codex-exec</code> — Hand a sub-task to OpenAI Codex from Claude Code.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:spec-init</code> / <code class="font-mono text-[var(--color-text)]">spec-research</code> / <code class="font-mono text-[var(--color-text)]">spec-plan</code> / <code class="font-mono text-[var(--color-text)]">spec-impl</code> / <code class="font-mono text-[var(--color-text)]">spec-review</code> — Spec-driven-development pipeline.</li>
-                    <li><code class="font-mono text-[var(--color-text)]">/ccg:team-research</code> / <code class="font-mono text-[var(--color-text)]">team-plan</code> / <code class="font-mono text-[var(--color-text)]">team-exec</code> / <code class="font-mono text-[var(--color-text)]">team-review</code> — Multi-agent team coordination.</li>
-                  </ul>
-                </div>
                 <div>
                   <p class="text-xs uppercase tracking-widest text-[var(--color-muted)] font-bold mb-2">gsd/* — Get Shit Done (26)</p>
                   <ul class="space-y-1.5 text-xs sm:text-sm text-[var(--color-muted)]">
@@ -921,6 +889,79 @@ const collectionPageSchema = {
             <button
               type="button"
               data-bundle-close
+              class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-card)] text-[var(--color-text)] rounded-lg font-bold text-sm border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-pointer"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Prompt modal -->
+      <div
+        id="agent-prompt-modal"
+        data-prompt-modal
+        class="fixed inset-0 z-[95] hidden items-center justify-center p-4 sm:p-6"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="agent-prompt-title"
+      >
+        <div data-prompt-backdrop class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"></div>
+        <div class="relative z-10 w-full max-w-4xl max-h-[90vh] rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] shadow-hard-violet flex flex-col overflow-hidden">
+          <!-- Header -->
+          <div class="flex items-start justify-between gap-4 p-5 sm:p-6 border-b-2 border-[var(--color-border)]">
+            <div class="flex-1 min-w-0">
+              <p class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)] mb-1">Agent Prompt</p>
+              <h3 id="agent-prompt-title" class="font-heading font-extrabold text-xl sm:text-2xl text-[var(--color-text)]">
+                Paste this into your AI agent
+              </h3>
+              <p class="text-xs sm:text-sm text-[var(--color-muted)] mt-1">Drop this prompt into Claude Code, Cursor, or Codex alongside <code class="px-1 py-0.5 rounded bg-[var(--color-surface)] border border-[var(--color-border)] text-[11px] font-mono">setup.md</code>. The agent will install the bundle non-destructively.</p>
+            </div>
+            <button
+              type="button"
+              data-prompt-close
+              aria-label="Close"
+              class="flex-shrink-0 w-9 h-9 rounded-lg border-2 border-[var(--color-border)] bg-[var(--color-bg)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer"
+            >
+              <svg class="w-4 h-4 text-[var(--color-text)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Body (scrollable) -->
+          <div class="flex-1 overflow-y-auto p-5 sm:p-6 flex flex-col gap-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="inline-flex items-center gap-2 text-xs text-[var(--color-muted)]">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>Loaded from <code class="font-mono text-[var(--color-text)]">/claude-code-setup/agent-prompt.txt</code></span>
+              </div>
+              <button
+                type="button"
+                data-prompt-copy
+                class="inline-flex items-center gap-2 px-3 py-2 bg-primary text-white rounded-lg font-bold text-xs border-2 border-primary shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-pointer"
+              >
+                <svg class="copy-icon w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                <svg class="check-icon w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span class="copy-label">Copy prompt</span>
+              </button>
+            </div>
+            <div class="rounded-xl border-2 border-[var(--color-border)] bg-[var(--color-bg)] overflow-hidden">
+              <pre data-prompt-text class="p-4 sm:p-5 text-[11px] sm:text-xs font-mono text-[var(--color-text)] leading-relaxed overflow-x-auto whitespace-pre-wrap break-words max-h-[60vh] overflow-y-auto">Loading…</pre>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="flex items-center justify-end gap-3 p-4 sm:p-5 border-t-2 border-[var(--color-border)] bg-[var(--color-bg)]">
+            <button
+              type="button"
+              data-prompt-close
               class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-card)] text-[var(--color-text)] rounded-lg font-bold text-sm border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all cursor-pointer"
             >
               Close
@@ -1378,43 +1419,87 @@ const collectionPageSchema = {
     initCliCards();
     document.addEventListener('astro:page-load', initCliCards);
 
-    // Claude Code Setup Bundle — Copy Agent Prompt button
-    function initCopyPromptBtns() {
-      document.querySelectorAll<HTMLButtonElement>('[data-copy-prompt]').forEach((btn) => {
-        if ((btn as HTMLElement).dataset.wired === '1') return;
-        (btn as HTMLElement).dataset.wired = '1';
-        btn.addEventListener('click', async () => {
-          try {
-            const res = await fetch('/claude-code-setup/agent-prompt.txt', { cache: 'no-cache' });
-            if (!res.ok) throw new Error(String(res.status));
-            const text = await res.text();
-            await navigator.clipboard.writeText(text);
-            const copyIcon = btn.querySelector<HTMLElement>('.copy-icon');
-            const checkIcon = btn.querySelector<HTMLElement>('.check-icon');
-            const label = btn.querySelector<HTMLElement>('.copy-label');
-            copyIcon?.classList.add('hidden');
-            checkIcon?.classList.remove('hidden');
-            const prev = label?.textContent;
-            if (label) label.textContent = 'Copied!';
-            setTimeout(() => {
-              copyIcon?.classList.remove('hidden');
-              checkIcon?.classList.add('hidden');
-              if (label && prev) label.textContent = prev;
-            }, 1800);
-          } catch {
-            // Silently fall back — user can still download setup.md manually.
-          }
-        });
+    // Claude Code Setup Bundle — Agent Prompt modal (view + copy)
+    function initAgentPromptModal() {
+      const modal = document.querySelector<HTMLElement>('[data-prompt-modal]');
+      if (!modal || (modal as HTMLElement).dataset.wired === '1') return;
+      (modal as HTMLElement).dataset.wired = '1';
+
+      // Move modal to body so fixed positioning is always viewport-relative
+      if (modal.parentElement !== document.body) document.body.appendChild(modal);
+
+      const pre = modal.querySelector<HTMLElement>('[data-prompt-text]');
+      let loaded = false;
+      let cachedText = '';
+
+      const loadPrompt = async () => {
+        if (loaded) return;
+        try {
+          const res = await fetch('/claude-code-setup/agent-prompt.txt', { cache: 'no-cache' });
+          if (!res.ok) throw new Error(String(res.status));
+          cachedText = await res.text();
+          if (pre) pre.textContent = cachedText;
+          loaded = true;
+        } catch {
+          if (pre) pre.textContent = 'Unable to load prompt. Please download setup.md instead.';
+        }
+      };
+
+      const open = () => {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.documentElement.style.overflow = 'hidden';
+        loadPrompt();
+        modal.querySelector<HTMLButtonElement>('[data-prompt-close]')?.focus();
+      };
+      const close = () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.documentElement.style.overflow = '';
+      };
+
+      document.querySelectorAll<HTMLButtonElement>('[data-prompt-open]').forEach((btn) => {
+        btn.addEventListener('click', open);
+      });
+      modal.querySelectorAll<HTMLElement>('[data-prompt-close], [data-prompt-backdrop]').forEach((el) => {
+        el.addEventListener('click', close);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) close();
+      });
+
+      const copyBtn = modal.querySelector<HTMLButtonElement>('[data-prompt-copy]');
+      copyBtn?.addEventListener('click', async () => {
+        const text = cachedText || pre?.textContent || '';
+        if (!text) return;
+        try {
+          await navigator.clipboard.writeText(text);
+          const copyIcon = copyBtn.querySelector<HTMLElement>('.copy-icon');
+          const checkIcon = copyBtn.querySelector<HTMLElement>('.check-icon');
+          const label = copyBtn.querySelector<HTMLElement>('.copy-label');
+          copyIcon?.classList.add('hidden');
+          checkIcon?.classList.remove('hidden');
+          const prev = label?.textContent;
+          if (label) label.textContent = 'Copied!';
+          setTimeout(() => {
+            copyIcon?.classList.remove('hidden');
+            checkIcon?.classList.add('hidden');
+            if (label && prev) label.textContent = prev;
+          }, 1800);
+        } catch {}
       });
     }
-    initCopyPromptBtns();
-    document.addEventListener('astro:page-load', initCopyPromptBtns);
+    initAgentPromptModal();
+    document.addEventListener('astro:page-load', initAgentPromptModal);
 
     // Claude Code Setup Bundle — Detailed-view modal
     function initBundleModal() {
       const modal = document.querySelector<HTMLElement>('[data-bundle-modal]');
       if (!modal || (modal as HTMLElement).dataset.wired === '1') return;
       (modal as HTMLElement).dataset.wired = '1';
+
+      // Portal to body so fixed positioning is always viewport-relative
+      if (modal.parentElement !== document.body) document.body.appendChild(modal);
 
       const openBtns = document.querySelectorAll<HTMLButtonElement>('[data-bundle-open]');
       const closeBtns = modal.querySelectorAll<HTMLElement>('[data-bundle-close], [data-bundle-backdrop]');

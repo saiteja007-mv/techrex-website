@@ -15,11 +15,10 @@
 | Category        | Count | What it is                                                 |
 |-----------------|-------|------------------------------------------------------------|
 | Global CLAUDE.md| 1     | Caveman Mode + RTK (Rust Token Killer) + graphify reference|
-| Rules           | 2     | `ccg-fast-context.md`, `ccg-skills.md`                     |
-| Plugins         | 10    | Marketplace plugins installed via `/plugin install`        |
-| Custom skills   | 18    | autoresearch, graphify, ccg, data-analyst, seedance, ...   |
-| Sub-agents      | 10    | blog writer, QA, fullstack, planner, ui-ux-designer, ...   |
-| Slash commands  | 57    | `ccg/*` (28) + `gsd/*` (26) + `vibe-*` (3)                 |
+| Plugins         | 11    | Marketplace plugins installed via `/plugin install`        |
+| Custom skills   | 17    | autoresearch, graphify, data-analyst, seedance, ...        |
+| Sub-agents      | 6     | blog-writer, QA, fullstack, system-troubleshooter, ...     |
+| Slash commands  | 29    | `gsd/*` (26) + `vibe-*` (3)                                |
 | Hook            | 1     | PreToolUse Glob\|Grep -> graphify reminder                 |
 | MCP stubs       | 2     | `search-console` + `n8n-mcp` templates (no secrets)        |
 | Statusline      | opt-in| ccstatusline launcher                                      |
@@ -62,7 +61,7 @@ Run these steps in order:
         # === END TechRex Bundle ===
 5. COPY RULES — copy .claude/rules/*.md if not present (non-destructive).
 6. COPY SKILLS — copy each dir in .claude/skills/ if not present.
-7. COPY AGENTS — copy each .md in .claude/agents/ (inc. ccg/) if absent.
+7. COPY AGENTS — copy each .md in .claude/agents/ if absent.
 8. COPY COMMANDS — copy every .md in .claude/commands/ if absent.
 9. STATUSLINE — ask "Install TechRex statusline? [y/N]"; if yes, copy
    statusline.bat + statusline.js.
@@ -74,6 +73,7 @@ Run these steps in order:
     key WITHOUT overwriting existing servers. Remind me to fill
     <YOUR_N8N_API_URL>, <YOUR_N8N_API_KEY>, <YOUR_N8N_MCP_DIST_PATH>.
 12. INSTALL PLUGINS — run /plugin install for each of:
+      superpowers@claude-plugins-official
       document-skills@ando-marketplace
       frontend-design@claude-plugins-official
       n8n-mcp-skills@n8n-mcp-skills
@@ -84,7 +84,10 @@ Run these steps in order:
       marketing-skills@marketingskills
       codex@openai-codex
       claude-mem@thedotmack
-13. VERIFY — count skills (>=18), agents (>=10), commands (>=57); grep
+    OPTIONAL (ask first, skip if marketplace unknown):
+      browser-use, career-ops, SEO — install if I have their marketplaces
+      registered; otherwise note as a TODO in the final table.
+13. VERIFY — count skills (>=17), agents (>=6), commands (>=29); grep
     Caveman Mode / RTK / graphify in CLAUDE.md; list enabled plugins.
 14. FINAL REPORT — table of v/!/x per section + reminder to fill MCP
     creds, review CLAUDE.md, reopen terminal, run /plugin.
@@ -113,13 +116,14 @@ continue blindly.
 
 ---
 
-## Part 2 — Plugins installed (10)
+## Part 2 — Plugins installed (11)
 
 The agent installs these via `/plugin install <slug>`. Each lives on a
 public Claude Code marketplace.
 
 | Slug | Marketplace | Purpose |
 |------|-------------|---------|
+| `superpowers` | `claude-plugins-official` | TDD, debugging, process-discipline skills |
 | `document-skills` | `ando-marketplace` | PDF / DOCX / XLSX skills |
 | `frontend-design` | `claude-plugins-official` | Design-system helpers |
 | `n8n-mcp-skills` | `n8n-mcp-skills` | n8n workflow skills |
@@ -127,9 +131,14 @@ public Claude Code marketplace.
 | `rust-analyzer-lsp` | `claude-plugins-official` | Rust LSP integration |
 | `hugging-face-cli` | `huggingface-skills` | HF model / dataset ops |
 | `ui-ux-pro-max` | `ui-ux-pro-max-skill` | UI/UX design skills |
-| `marketing-skills` | `marketingskills` | Marketing content |
+| `marketing-skills` | `marketingskills` | Marketing + SEO content |
 | `codex` | `openai-codex` | OpenAI Codex integration |
 | `claude-mem` | `thedotmack` | Persistent memory |
+
+**Optional plugins** (not auto-installed — add manually if you have their
+marketplace registered): `browser-use`, `career-ops`, standalone `seo`
+plugin. The agent prompt surfaces these as TODOs in the final table so you
+can install them yourself with `/plugin install <name>@<your-marketplace>`.
 
 Two extra marketplaces are auto-registered by the settings template so
 plugin installs resolve without manual marketplace adds:
@@ -139,37 +148,36 @@ plugin installs resolve without manual marketplace adds:
 
 ---
 
-## Part 3 — Custom skills (18)
+## Part 3 — Custom skills (17)
 
 Copied from the repo's `.claude/skills/` into `~/.claude/skills/`:
 
-`autoresearch` · `caveman` · `ccg` · `data-analyst` · `data-storytelling`
+`autoresearch` · `caveman` · `data-analyst` · `data-storytelling`
 · `design-system` · `exploratory-data-analysis` · `gmaps-scraper` ·
 `graphify` · `kpi-dashboard-design` · `linkedin-profile-search` ·
 `prompt-refine` · `seedance` · `senior-data-scientist` ·
 `skill-development` · `social-media` · `sql-optimization-patterns` ·
 `youtube-content-generator`
 
+> Note: The CCG quality-gate skill has been removed from the bundle.
+> The `superpowers` plugin now covers TDD / debugging / verification
+> territory more comprehensively.
+
 ---
 
-## Part 4 — Sub-agents (10)
+## Part 4 — Sub-agents (6)
 
 Copied to `~/.claude/agents/`:
 
-Root: `blog-writer-expert` · `comprehensive-qa-tester` · `fullstack-expert`
+`blog-writer-expert` · `comprehensive-qa-tester` · `fullstack-expert`
 · `system-troubleshooter` · `ui-ux-design-expert` · `youtube-content-strategist`
-
-CCG workflow (`agents/ccg/`): `get-current-datetime` · `init-architect`
-· `planner` · `ui-ux-designer`
 
 ---
 
-## Part 5 — Slash commands (57)
+## Part 5 — Slash commands (29)
 
 Copied to `~/.claude/commands/`:
 
-- **`ccg/*` (28)** — plan, execute, verify, commit, review, debug, test,
-  spec-plan, spec-impl, team-plan, team-exec, worktree, workflow, ...
 - **`gsd/*` (26)** — new-project, create-roadmap, execute-phase,
   progress, status, check-todos, plan-fix, verify-work, ...
 - **`vibe-*` (3)** — vibe-build, vibe-coding, vibe-research.
