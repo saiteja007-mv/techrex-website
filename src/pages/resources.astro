@@ -282,6 +282,56 @@ const cliTools: CliTool[] = [
     docsUrl: 'https://github.com/googleworkspace/cli',
     shortUrl: null,
   },
+  {
+    name: 'Hugging Face CLI',
+    emoji: '🤗',
+    description: 'Download models and datasets, push repos, manage auth tokens, and run Hugging Face Hub ops from the terminal.',
+    category: 'ML & Models',
+    color: 'amber',
+    status: 'Live',
+    agentPrompt: '"Use hf to download meta-llama/Llama-3.2-1B-Instruct" · "Upload this model folder to my HF account" · "List files in this dataset repo"',
+    installTabs: [
+      {
+        os: 'macOS',
+        steps: [
+          { title: 'Prerequisite: Python 3.8+', description: 'Check with `python3 --version`. Install via Homebrew if missing.', command: 'brew install python' },
+          { title: 'Install huggingface_hub with CLI extras', description: 'The `[cli]` extra installs the `hf` binary (replaces the old `huggingface-cli`).', command: 'pip install -U "huggingface_hub[cli]"' },
+          { title: '(Alternative) Install via uv', description: 'Faster if you already use uv for Python envs.', command: 'uv tool install "huggingface_hub[cli]"' },
+          { title: 'Log in with a user access token', description: 'Create a token at https://huggingface.co/settings/tokens (read + write scope). `hf auth login` prompts for the token and stores it in `~/.cache/huggingface/token`.', command: 'hf auth login' },
+          { title: 'Verify auth', description: 'Returns your HF username + org memberships.', command: 'hf auth whoami' },
+          { title: '(Optional) Download a model', description: 'Pulls the repo into the HF cache. Agents can reference it by repo_id afterward.', command: 'hf download meta-llama/Llama-3.2-1B-Instruct' },
+        ],
+        verify: 'hf --version',
+      },
+      {
+        os: 'Windows',
+        steps: [
+          { title: 'Prerequisite: Python 3.8+', description: 'Install via winget if missing. Tick "Add python.exe to PATH" during interactive installs.', command: 'winget install Python.Python.3.12' },
+          { title: 'Open a FRESH PowerShell window', description: 'PATH refresh. Required after Python install so `pip` resolves.' },
+          { title: 'Install huggingface_hub with CLI extras', description: 'Installs the `hf` binary onto your Python Scripts PATH. Quotes are required in PowerShell for the bracket extra.', command: 'pip install -U "huggingface_hub[cli]"' },
+          { title: 'Log in with a user access token', description: 'Generate a token at https://huggingface.co/settings/tokens (read + write scope). The command prompts for the token and stores it in %USERPROFILE%\\.cache\\huggingface\\token.', command: 'hf auth login' },
+          { title: 'Verify auth', description: 'Returns your HF username + org memberships. 401 means re-run `hf auth login`.', command: 'hf auth whoami' },
+          { title: '(Optional) Download a model', description: 'Cached under %USERPROFILE%\\.cache\\huggingface\\hub — agents resolve by repo_id after this.', command: 'hf download meta-llama/Llama-3.2-1B-Instruct' },
+        ],
+        note: 'If `hf` is not recognised after install, the Python Scripts dir is missing from PATH. Add `%USERPROFILE%\\AppData\\Local\\Programs\\Python\\Python3xx\\Scripts` and reopen the shell.',
+        verify: 'hf --version',
+      },
+      {
+        os: 'Linux',
+        steps: [
+          { title: 'Prerequisite: Python 3.8+ and pip', description: 'Debian/Ubuntu example. For other distros, use your package manager.', command: 'sudo apt update && sudo apt install -y python3 python3-pip' },
+          { title: 'Install huggingface_hub with CLI extras', description: 'The `[cli]` extra installs the `hf` binary onto your user bin dir (usually `~/.local/bin`).', command: 'pip install -U "huggingface_hub[cli]"' },
+          { title: '(Alternative) Install via pipx or uv', description: 'Isolated install — avoids polluting the system Python.', command: 'pipx install "huggingface_hub[cli]"' },
+          { title: 'Log in with a user access token', description: 'Create a token at https://huggingface.co/settings/tokens (read + write scope). Stored in `~/.cache/huggingface/token`.', command: 'hf auth login' },
+          { title: 'Verify auth', command: 'hf auth whoami' },
+          { title: '(Optional) Download a model', command: 'hf download meta-llama/Llama-3.2-1B-Instruct' },
+        ],
+        verify: 'hf --version',
+      },
+    ],
+    docsUrl: 'https://huggingface.co/docs/huggingface_hub/en/guides/cli',
+    shortUrl: null,
+  },
 ];
 
 const toSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -388,21 +438,32 @@ const collectionPageSchema = {
     <div class="absolute top-10 right-16 w-10 h-10 rounded-full bg-primary/20 border-2 border-primary hidden lg:block"></div>
     <div class="absolute bottom-10 left-12 w-8 h-8 bg-[var(--color-mint)] border-2 border-[var(--color-border)] rotate-12 hidden lg:block" style="box-shadow: 3px 3px 0px 0px var(--color-border)"></div>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
-      <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-6 shadow-hard-sm">
-        Open Source
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+      <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-5 shadow-hard-sm">
+        Open Source · Resources
       </span>
-      <h1 class="font-heading font-extrabold text-4xl sm:text-5xl text-[var(--color-text)] mb-4 tracking-tight">
-        My Projects
+      <h1 class="font-heading font-extrabold text-3xl sm:text-4xl text-[var(--color-text)] mb-3 tracking-tight">
+        Jump to a section
       </h1>
-      <p class="text-[var(--color-muted)] text-lg max-w-2xl leading-relaxed">
-        Tools and skills I'm building in public. Everything open-source, everything practical.
+      <p class="text-[var(--color-muted)] text-sm sm:text-base max-w-2xl leading-relaxed mb-6">
+        Open-source projects, my Claude Code setup bundle, and CLI install guides for AI agents — pick one.
       </p>
+      <nav class="flex flex-wrap gap-3" aria-label="Resources sections">
+        <a href="#projects" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--color-card)] border-2 border-[var(--color-border)] text-sm font-bold text-[var(--color-text)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
+          <span aria-hidden="true">🚀</span> Projects
+        </a>
+        <a href="#claude-code-setup" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--color-card)] border-2 border-[var(--color-border)] text-sm font-bold text-[var(--color-text)] shadow-hard-violet hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
+          <span aria-hidden="true">🤖</span> Claude Code Setup
+        </a>
+        <a href="#cli-tools" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--color-card)] border-2 border-[var(--color-border)] text-sm font-bold text-[var(--color-text)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
+          <span aria-hidden="true">⚙️</span> CLI Tools
+        </a>
+      </nav>
     </div>
   </section>
 
   <!-- Featured Project -->
-  <section class="py-16 bg-[var(--color-surface)] border-b-2 border-[var(--color-border)]">
+  <section id="projects" class="scroll-mt-24 py-16 bg-[var(--color-surface)] border-b-2 border-[var(--color-border)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center gap-3 mb-8">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold shadow-hard-sm"
@@ -619,7 +680,7 @@ const collectionPageSchema = {
       </div>
 
       <!-- Claude Code Setup Bundle -->
-      <section class="mt-16 pt-12 border-t-2 border-[var(--color-border)]">
+      <section id="claude-code-setup" class="scroll-mt-24 mt-16 pt-12 border-t-2 border-[var(--color-border)]">
         <div class="mb-8">
           <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-[var(--color-text)] mb-3">
             Claude Code Setup Bundle
@@ -868,7 +929,7 @@ const collectionPageSchema = {
             <div>
               <h4 class="font-heading font-extrabold text-base mb-3 flex items-center gap-2">
                 <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 border-2 border-primary text-xs font-bold" style="box-shadow: 2px 2px 0px 0px #8B5CF6">⌨</span>
-                CLI tools I drive with agents <span class="text-[var(--color-muted)] font-normal text-sm">(7)</span>
+                CLI tools I drive with agents <span class="text-[var(--color-muted)] font-normal text-sm">(8)</span>
               </h4>
               <ul class="space-y-2 text-xs sm:text-sm text-[var(--color-muted)]">
                 <li><code class="font-mono text-[var(--color-text)]">vercel</code> — Deploy, preview, and manage env vars on Vercel from any agent.</li>
@@ -876,10 +937,11 @@ const collectionPageSchema = {
                 <li><code class="font-mono text-[var(--color-text)]">supabase</code> — Local Supabase, DB migrations, and edge-function deploys.</li>
                 <li><code class="font-mono text-[var(--color-text)]">aws</code> — AWS CLI v2: S3, Lambda, IAM, and cross-account profiles.</li>
                 <li><code class="font-mono text-[var(--color-text)]">gws</code> — Google Workspace CLI: Drive, Gmail, Calendar, admin ops.</li>
+                <li><code class="font-mono text-[var(--color-text)]">hf</code> — Hugging Face CLI: download / upload models + datasets, manage tokens.</li>
                 <li><code class="font-mono text-[var(--color-text)]">llmfit</code> — Fine-tune open-source LLMs locally with minimal config.</li>
                 <li><code class="font-mono text-[var(--color-text)]">llm-serve</code> — Serve local LLMs behind an OpenAI-compatible HTTP API.</li>
               </ul>
-              <p class="text-xs text-[var(--color-muted)] mt-3 italic">Install guides for Vercel, GitHub, Supabase, AWS, and Google Workspace are on this page ↑. LLMFit and LLM Serve guides are on the YouTube channel.</p>
+              <p class="text-xs text-[var(--color-muted)] mt-3 italic">Install guides for Vercel, GitHub, Supabase, AWS, Google Workspace, and Hugging Face are on this page ↑. LLMFit and LLM Serve guides are on the YouTube channel.</p>
             </div>
 
           </div>
@@ -971,7 +1033,7 @@ const collectionPageSchema = {
       </div>
 
       <!-- CLI Tools for AI Agents -->
-      <section class="mt-16 pt-12 border-t-2 border-[var(--color-border)]">
+      <section id="cli-tools" class="scroll-mt-24 mt-16 pt-12 border-t-2 border-[var(--color-border)]">
         <div class="mb-10">
           <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-4 shadow-hard-sm">
             🎬 YouTube Shorts Series

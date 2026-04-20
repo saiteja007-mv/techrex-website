@@ -79,6 +79,17 @@ Manage Drive, Gmail, Calendar, and admin resources from the terminal.
 `gws auth setup` creates the GCP project and OAuth client for you. Verify: `gws --version`.
 Docs: <https://github.com/googleworkspace/cli>
 
+### 6. Hugging Face CLI (Live)
+
+Download models and datasets, push repos, manage auth tokens, and run Hugging Face Hub ops from the terminal.
+
+**macOS:** `brew install python` → `pip install -U "huggingface_hub[cli]"` → `hf auth login` (paste a token from <https://huggingface.co/settings/tokens>) → `hf auth whoami`
+**Windows:** `winget install Python.Python.3.12` → open fresh PowerShell → `pip install -U "huggingface_hub[cli]"` → `hf auth login` → `hf auth whoami`
+**Linux:** `sudo apt install -y python3 python3-pip` → `pip install -U "huggingface_hub[cli]"` (or `pipx install "huggingface_hub[cli]"`) → `hf auth login`
+
+The `[cli]` extra installs the `hf` binary (replaces the legacy `huggingface-cli`). Verify: `hf --version`.
+Docs: <https://huggingface.co/docs/huggingface_hub/en/guides/cli>
+
 ---
 
 ## Claude Code Setup Bundle
