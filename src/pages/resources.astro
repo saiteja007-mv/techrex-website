@@ -1553,6 +1553,10 @@ const collectionPageSchema = {
                 <dt class="font-bold text-[var(--color-text)] mb-0.5">Scratch</dt>
                 <dd class="text-[var(--color-muted)]">Working memory the GPU needs while computing one token — attention scores, intermediate activations, flash-attention buffers. It's roughly fixed and doesn't grow with conversation length.</dd>
               </div>
+              <div class="sm:col-span-2">
+                <dt class="font-bold text-[var(--color-text)] mb-0.5"><code class="font-mono">--n-cpu-moe</code> (MoE only)</dt>
+                <dd class="text-[var(--color-muted)]">Mixture-of-Experts models like Qwen3.6-35B-A3B have many small expert layers — only 3B params activate per token. <code class="font-mono text-[var(--color-text)]">--n-cpu-moe N</code> tells llama.cpp to keep <code class="font-mono">N</code> expert layers in CPU RAM instead of VRAM. The active experts get streamed to the GPU at run time, so you fit a bigger quant than VRAM alone would allow, with only a small speed cost. The recommended value below is auto-tuned to your VRAM — drop it to <code class="font-mono">0</code> for maximum speed if you have headroom, or raise it if you OOM.</dd>
+              </div>
             </dl>
           </details>
 
@@ -1734,7 +1738,7 @@ const collectionPageSchema = {
                   <p class="font-heading font-bold text-sm text-[var(--color-text)]">Launch the llama-server</p>
                   <p class="text-xs text-[var(--color-muted)] leading-relaxed">Save as a <code class="font-mono">.ps1</code> file and double-click, or paste straight into PowerShell. One line — no continuation backticks to trip up your terminal.</p>
                   <div class="relative">
-                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="win-launch">&amp; "$env:USERPROFILE\.unsloth\llama.cpp\build\bin\Release\llama-server.exe" -m (Resolve-Path "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\Qwen3.6-35B-A3B-UD-IQ2_M.gguf") --mmproj (Resolve-Path "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\mmproj-BF16.gguf") --alias qwen3.6-moe -ngl 99 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek --host 0.0.0.0 --port 8080</code></pre>
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="win-launch">&amp; "$env:USERPROFILE\.unsloth\llama.cpp\build\bin\Release\llama-server.exe" -m (Resolve-Path "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\Qwen3.6-35B-A3B-UD-IQ2_M.gguf") --mmproj (Resolve-Path "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\mmproj-BF16.gguf") --alias qwen3.6-moe -ngl 99 --n-cpu-moe 5 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek --host 0.0.0.0 --port 8080</code></pre>
                     <button type="button" data-copy-btn aria-label="Copy command"
                       class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
                       <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -1814,7 +1818,7 @@ cmake --build build --config Release -j</code></pre>
                   <p class="font-heading font-bold text-sm text-[var(--color-text)]">Launch the llama-server</p>
                   <p class="text-xs text-[var(--color-muted)] leading-relaxed">Same flags as the Windows version, just bash syntax. One line — paste straight into your terminal.</p>
                   <div class="relative">
-                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="linux-launch">~/llama.cpp/build/bin/llama-server -m ~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/Qwen3.6-35B-A3B-UD-IQ2_M.gguf --mmproj ~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/mmproj-BF16.gguf --alias qwen3.6-moe -ngl 99 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek --host 0.0.0.0 --port 8080</code></pre>
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="linux-launch">~/llama.cpp/build/bin/llama-server -m ~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/Qwen3.6-35B-A3B-UD-IQ2_M.gguf --mmproj ~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/mmproj-BF16.gguf --alias qwen3.6-moe -ngl 99 --n-cpu-moe 5 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek --host 0.0.0.0 --port 8080</code></pre>
                     <button type="button" data-copy-btn aria-label="Copy command"
                       class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
                       <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -2283,6 +2287,25 @@ brew install python@3.12</code></pre>
         return (2 * arch.numLayers * arch.kvHeads * arch.headDim * ctx * bytes) / 1e9;
       }
 
+      // Compute --n-cpu-moe: how many MoE expert layers to keep on CPU when VRAM
+      // is tight. Estimates GPU headroom (after KV + vision + scratch), divides by
+      // per-layer cost, and spills the rest to CPU. Returns 0 when the model fits
+      // comfortably on GPU. Returns null for non-MoE models.
+      function computeNCpuMoe(
+        model: LocalModel,
+        quantSizeGB: number,
+        kvGB: number,
+        visionGB: number,
+        vramGB: number
+      ): number | null {
+        if (model.kind !== 'moe') return null;
+        const layers = model.arch.numLayers;
+        const perLayer = quantSizeGB / layers;
+        const headroom = Math.max(0, vramGB - kvGB - visionGB - SCRATCH_GB);
+        const layersOnGpu = Math.max(0, Math.min(layers, Math.floor(headroom / Math.max(perLayer, 0.001))));
+        return Math.max(0, Math.min(layers - 1, layers - layersOnGpu));
+      }
+
       function detectTier(): string {
         if (state.os === 'macos') {
           if (state.unifiedGB <= 12) return 'mac-8gb';
@@ -2540,9 +2563,16 @@ brew install python@3.12</code></pre>
           const winMmprojPath = `$env:USERPROFILE\\.cache\\huggingface\\hub\\models--${repoSlug}\\snapshots\\*\\mmproj-BF16.gguf`;
           const winLlamaPath = `$env:USERPROFILE\\.unsloth\\llama.cpp\\build\\bin\\Release\\llama-server.exe`;
           const winMmprojArg = model.arch.hasVision ? ` --mmproj (Resolve-Path "${winMmprojPath}")` : '';
+          // For MoE: compute how many expert layers to keep on CPU based on the
+          // user's VRAM budget. 0 means everything stays on GPU (fastest);
+          // higher = less VRAM pressure but slower for those experts.
+          const ncmoeBudget = state.os === 'macos' ? state.unifiedGB * 0.7 : state.vramGB;
+          const ncmoe = computeNCpuMoe(model, pick.ggufQuant!.sizeGB, kv, visionGB, ncmoeBudget);
+          const ncmoeFlag = ncmoe !== null ? `--n-cpu-moe ${ncmoe}` : '';
           const winFlags = [
             `--alias ${model.alias}`,
             `-ngl ${flags.ngl}`,
+            ncmoeFlag,
             `-c ${ctx}`,
             fa,
             `-ctk ${flags.ctk}`,
