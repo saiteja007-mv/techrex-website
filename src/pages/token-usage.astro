@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import '@fontsource/caveat/400.css';
+import '@fontsource/caveat/600.css';
+import '@fontsource/caveat/700.css';
 
 const stats = {
   total_tokens: 1_671_875_104,
@@ -45,6 +48,99 @@ const models = [
   { model: '<synthetic>', tokens: 0, cost: 0, records: 164 },
 ];
 
+// Daily token + cost trend (active days only) — sourced from `tokscale graph --json`.
+const dailyData = [
+  { date: "2025-09-28", tokens: 3909781, cost: 2.07 },
+  { date: "2025-10-21", tokens: 41928994, cost: 8.22 },
+  { date: "2025-10-22", tokens: 9555817, cost: 2.28 },
+  { date: "2025-10-23", tokens: 716068, cost: 1.04 },
+  { date: "2025-10-28", tokens: 2081229, cost: 1.85 },
+  { date: "2025-10-30", tokens: 1878452, cost: 0.83 },
+  { date: "2025-11-03", tokens: 551738, cost: 0.75 },
+  { date: "2025-11-04", tokens: 330321, cost: 0.55 },
+  { date: "2025-11-11", tokens: 1794533, cost: 0.72 },
+  { date: "2025-11-15", tokens: 602513, cost: 0.6 },
+  { date: "2025-11-16", tokens: 1019947, cost: 0.65 },
+  { date: "2025-11-17", tokens: 3709454, cost: 2.15 },
+  { date: "2025-11-22", tokens: 33031, cost: 0.06 },
+  { date: "2025-11-30", tokens: 249061, cost: 0.33 },
+  { date: "2025-12-31", tokens: 1509942, cost: 1.06 },
+  { date: "2026-01-10", tokens: 6342768, cost: 4.11 },
+  { date: "2026-01-12", tokens: 32148, cost: 0.14 },
+  { date: "2026-01-13", tokens: 308178, cost: 0.37 },
+  { date: "2026-01-18", tokens: 3604913, cost: 1.65 },
+  { date: "2026-01-19", tokens: 5405896, cost: 3.98 },
+  { date: "2026-01-20", tokens: 4204933, cost: 2.21 },
+  { date: "2026-01-24", tokens: 5294085, cost: 2.41 },
+  { date: "2026-01-25", tokens: 1755714, cost: 1.32 },
+  { date: "2026-01-26", tokens: 4504807, cost: 2.02 },
+  { date: "2026-01-27", tokens: 609886, cost: 0.48 },
+  { date: "2026-01-28", tokens: 1734300, cost: 0.87 },
+  { date: "2026-02-01", tokens: 3036742, cost: 2.76 },
+  { date: "2026-02-02", tokens: 3084269, cost: 2.97 },
+  { date: "2026-02-03", tokens: 77468, cost: 0.12 },
+  { date: "2026-02-04", tokens: 1864074, cost: 0.41 },
+  { date: "2026-02-10", tokens: 448784, cost: 0.34 },
+  { date: "2026-02-11", tokens: 1326222, cost: 0.41 },
+  { date: "2026-02-12", tokens: 219134, cost: 0.06 },
+  { date: "2026-03-01", tokens: 22053342, cost: 8.38 },
+  { date: "2026-03-02", tokens: 39985651, cost: 15.85 },
+  { date: "2026-03-03", tokens: 12235509, cost: 12.67 },
+  { date: "2026-03-04", tokens: 6574916, cost: 13.35 },
+  { date: "2026-03-07", tokens: 22082108, cost: 8.59 },
+  { date: "2026-03-08", tokens: 8026348, cost: 6.08 },
+  { date: "2026-03-09", tokens: 1198117, cost: 1.26 },
+  { date: "2026-03-10", tokens: 2657108, cost: 2.51 },
+  { date: "2026-03-11", tokens: 13958965, cost: 6.06 },
+  { date: "2026-03-14", tokens: 4135, cost: 0 },
+  { date: "2026-03-15", tokens: 17944849, cost: 10.36 },
+  { date: "2026-03-16", tokens: 4732619, cost: 2.76 },
+  { date: "2026-03-18", tokens: 20103468, cost: 13.7 },
+  { date: "2026-03-21", tokens: 11943830, cost: 10.08 },
+  { date: "2026-03-22", tokens: 5416148, cost: 2.71 },
+  { date: "2026-03-23", tokens: 6978397, cost: 3.45 },
+  { date: "2026-03-24", tokens: 1012199, cost: 0.78 },
+  { date: "2026-03-25", tokens: 7294413, cost: 4.23 },
+  { date: "2026-03-28", tokens: 180520, cost: 0.03 },
+  { date: "2026-03-29", tokens: 20933572, cost: 15.59 },
+  { date: "2026-03-30", tokens: 15068960, cost: 6.77 },
+  { date: "2026-03-31", tokens: 7690387, cost: 5.42 },
+  { date: "2026-04-01", tokens: 40163298, cost: 26.08 },
+  { date: "2026-04-02", tokens: 8651335, cost: 7.11 },
+  { date: "2026-04-03", tokens: 5353205, cost: 3.82 },
+  { date: "2026-04-04", tokens: 13861974, cost: 6.57 },
+  { date: "2026-04-05", tokens: 2047337, cost: 2.83 },
+  { date: "2026-04-06", tokens: 49435244, cost: 30.78 },
+  { date: "2026-04-07", tokens: 33066924, cost: 15.92 },
+  { date: "2026-04-08", tokens: 8138334, cost: 6.7 },
+  { date: "2026-04-09", tokens: 12236829, cost: 8.28 },
+  { date: "2026-04-10", tokens: 17401812, cost: 9.47 },
+  { date: "2026-04-11", tokens: 6699160, cost: 7.11 },
+  { date: "2026-04-12", tokens: 7579658, cost: 7.44 },
+  { date: "2026-04-13", tokens: 34282751, cost: 18.15 },
+  { date: "2026-04-14", tokens: 17404921, cost: 13.17 },
+  { date: "2026-04-15", tokens: 1758444, cost: 1.91 },
+  { date: "2026-04-16", tokens: 9879428, cost: 7.48 },
+  { date: "2026-04-17", tokens: 13471324, cost: 10.77 },
+  { date: "2026-04-18", tokens: 21170906, cost: 20.55 },
+  { date: "2026-04-19", tokens: 42655426, cost: 38.64 },
+  { date: "2026-04-20", tokens: 6657814, cost: 4.48 },
+  { date: "2026-04-22", tokens: 105503257, cost: 99.47 },
+  { date: "2026-04-23", tokens: 167617997, cost: 123.64 },
+  { date: "2026-04-24", tokens: 36143427, cost: 28.43 },
+  { date: "2026-04-25", tokens: 60025603, cost: 63.79 },
+  { date: "2026-04-26", tokens: 89922091, cost: 77.47 },
+  { date: "2026-04-27", tokens: 75951781, cost: 83.96 },
+  { date: "2026-04-28", tokens: 34249314, cost: 40.06 },
+  { date: "2026-04-29", tokens: 29291782, cost: 46.38 },
+  { date: "2026-04-30", tokens: 35822999, cost: 36.65 },
+  { date: "2026-05-02", tokens: 44463385, cost: 51.18 },
+  { date: "2026-05-03", tokens: 111858822, cost: 100.64 },
+  { date: "2026-05-04", tokens: 57836737, cost: 71.46 },
+  { date: "2026-05-05", tokens: 53975791, cost: 41.91 },
+  { date: "2026-05-06", tokens: 61304287, cost: 51.09 },
+];
+
 function formatTokens(n: number): string {
   if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1) + 'B';
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
@@ -57,12 +153,24 @@ function formatCost(n: number): string {
 }
 
 const sortedByCost = [...models].sort((a, b) => b.cost - a.cost);
-const topModels = sortedByCost.filter(m => m.cost > 0).slice(0, 10);
+const topModels = sortedByCost.filter(m => m.cost > 0).slice(0, 5);
 const maxCost = topModels[0]?.cost || 1;
 
-const totalTableTokens = models.reduce((s, m) => s + m.tokens, 0);
-const totalTableCost = models.reduce((s, m) => s + m.cost, 0);
-const totalTableRecords = models.reduce((s, m) => s + m.records, 0);
+// Filter the daily trend to the last 30 calendar days from the most recent entry.
+// Active-only days are kept (gaps where no usage was logged just don't appear).
+const TREND_DAYS = 30;
+const lastEntryDate = dailyData.length > 0 ? new Date(dailyData[dailyData.length - 1].date) : new Date();
+const cutoffDate = new Date(lastEntryDate);
+cutoffDate.setUTCDate(cutoffDate.getUTCDate() - (TREND_DAYS - 1));
+const cutoffStr = cutoffDate.toISOString().slice(0, 10);
+const recentDaily = dailyData.filter(d => d.date >= cutoffStr);
+
+const maxDailyTokens = Math.max(...recentDaily.map(d => d.tokens), 1);
+const maxDailyCost = Math.max(...recentDaily.map(d => d.cost), 0.01);
+const peakTokenDay = recentDaily.find(d => d.tokens === maxDailyTokens);
+const peakCostDay = recentDaily.find(d => d.cost === maxDailyCost);
+const recentTotalTokens = recentDaily.reduce((s, d) => s + d.tokens, 0);
+const recentTotalCost = recentDaily.reduce((s, d) => s + d.cost, 0);
 ---
 <BaseLayout
   title="Token Usage — TechRex"
@@ -76,16 +184,17 @@ const totalTableRecords = models.reduce((s, m) => s + m.records, 0);
     <div class="absolute top-20 left-20 w-6 h-6 bg-[var(--color-accent)] border-2 border-[var(--color-border)] rotate-45 hidden lg:block" style="box-shadow: 2px 2px 0px 0px var(--color-border)"></div>
 
     <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
-      <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-6 shadow-hard-sm">
-        Dashboard
-      </span>
-      <h1 class="font-heading font-extrabold text-4xl sm:text-5xl text-[var(--color-text)] mb-4 tracking-tight">
+      <h1 class="font-heading font-extrabold text-4xl sm:text-5xl text-[var(--color-text)] mb-8 tracking-tight">
         Token Usage
       </h1>
-      <p class="text-[var(--color-muted)] text-lg max-w-2xl leading-relaxed mb-4">
-        AI token consumption across all models — {stats.total_records} records tracked.
-      </p>
-      <span class="text-xs text-[var(--color-muted)]">Last updated: {stats.updated_at}</span>
+      <div class="text-3xl sm:text-4xl text-[var(--color-text)] leading-snug text-center" style="font-family: 'Caveat', cursive; font-weight: 600;">
+        <p class="mb-4">
+          Jensen Huang at GTC 2026
+        </p>
+        <p>
+          Tokens are the new Commodity, the new Currency of the AI era
+        </p>
+      </div>
     </div>
   </section>
 
@@ -135,7 +244,7 @@ const totalTableRecords = models.reduce((s, m) => s + m.records, 0);
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center gap-3 mb-8">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold shadow-hard-sm text-primary">
-          Top 10
+          Top 5
         </span>
         <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Models by Cost</h2>
       </div>
@@ -160,153 +269,145 @@ const totalTableRecords = models.reduce((s, m) => s + m.records, 0);
     </div>
   </section>
 
-  <!-- Model Table -->
-  <section class="py-16 bg-[var(--color-bg)]">
+  <!-- Daily Trend -->
+  <section class="py-16 bg-[var(--color-surface)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center gap-3 mb-8">
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold shadow-hard-sm text-[var(--color-accent)]">
-          All {stats.model_count}
+          Last {TREND_DAYS} days
         </span>
-        <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Model Breakdown</h2>
+        <h2 class="font-heading font-bold text-2xl text-[var(--color-text)]">Daily Trend</h2>
+      </div>
+      <p class="text-sm text-[var(--color-muted)] mb-8 max-w-2xl">
+        {recentDaily.length} active days · {formatTokens(recentTotalTokens)} tokens · {formatCost(recentTotalCost)} spent · range {recentDaily[0]?.date} → {recentDaily[recentDaily.length - 1]?.date}
+      </p>
+
+      <!-- Daily tokens -->
+      <div data-trend-chart="tokens" class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 sm:p-7 shadow-hard mb-6 relative">
+        <div class="flex items-baseline justify-between mb-5 flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-sm bg-primary border border-[var(--color-border)]"></span>
+            <h3 class="font-heading font-bold text-base text-[var(--color-text)]">Tokens per day</h3>
+          </div>
+          <span class="text-xs text-[var(--color-muted)] font-mono">
+            peak <span class="text-[var(--color-text)] font-bold">{formatTokens(maxDailyTokens)}</span> on {peakTokenDay?.date}
+          </span>
+        </div>
+        <div data-trend-bars class="flex items-end gap-1 h-40 overflow-x-auto pb-1 relative">
+          {recentDaily.map((d) => {
+            const h = Math.max((d.tokens / maxDailyTokens) * 100, 2);
+            return (
+              <div
+                data-tt-date={d.date}
+                data-tt-tokens={d.tokens}
+                data-tt-cost={d.cost}
+                class="flex-1 min-w-[10px] bg-primary rounded-sm hover:opacity-70 transition-opacity cursor-help border-r border-[var(--color-card)]"
+                style={`height: ${h}%`}
+              ></div>
+            );
+          })}
+        </div>
+        <div class="flex justify-between mt-3 text-[10px] font-mono text-[var(--color-muted)]">
+          <span>{recentDaily[0]?.date}</span>
+          <span class="hidden sm:inline">{recentDaily[Math.floor(recentDaily.length / 2)]?.date}</span>
+          <span>{recentDaily[recentDaily.length - 1]?.date}</span>
+        </div>
+        <!-- Tooltip -->
+        <div data-trend-tooltip class="hidden absolute z-20 pointer-events-none px-3 py-2 rounded-lg bg-[var(--color-text)] text-[var(--color-bg)] text-xs font-mono shadow-hard-sm border-2 border-[var(--color-border)] whitespace-nowrap">
+          <div data-tt-out-date class="font-bold mb-0.5">—</div>
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-primary"></span><span data-tt-out-tokens>—</span> tokens</div>
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-secondary"></span><span data-tt-out-cost>—</span></div>
+        </div>
       </div>
 
-      <div class="overflow-x-auto rounded-2xl border-2 border-[var(--color-border)] shadow-hard">
-        <table class="w-full text-left">
-          <thead>
-            <tr>
-              <th class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)]">Model</th>
-              <th data-sort="tokens" class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)] cursor-pointer hover:text-primary transition-colors">
-                Tokens <span class="sort-arrow"></span>
-              </th>
-              <th data-sort="cost" class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)] cursor-pointer hover:text-primary transition-colors">
-                Cost <span class="sort-arrow">&darr;</span>
-              </th>
-              <th data-sort="records" class="px-6 py-4 text-xs font-bold text-[var(--color-muted)] uppercase tracking-wide bg-[var(--color-surface)] border-b-2 border-[var(--color-border)] cursor-pointer hover:text-primary transition-colors">
-                Records <span class="sort-arrow"></span>
-              </th>
-            </tr>
-          </thead>
-          <tbody id="model-table-body">
-            {sortedByCost.map((m) => (
-              <tr class="border-b border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-colors">
-                <td class="px-6 py-4 text-sm font-mono font-semibold text-[var(--color-text)]">{m.model}</td>
-                <td class="px-6 py-4 text-sm text-[var(--color-text)]">{formatTokens(m.tokens)}</td>
-                <td class="px-6 py-4 text-sm font-semibold text-[var(--color-text)]">{formatCost(m.cost)}</td>
-                <td class="px-6 py-4 text-sm text-[var(--color-muted)]">{m.records}</td>
-              </tr>
-            ))}
-            <tr class="bg-[var(--color-surface)] border-t-2 border-[var(--color-border)]">
-              <td class="px-6 py-4 text-sm font-bold text-[var(--color-text)]">Total ({models.length} models)</td>
-              <td class="px-6 py-4 text-sm font-bold text-[var(--color-text)]">{formatTokens(totalTableTokens)}</td>
-              <td class="px-6 py-4 text-sm font-bold text-primary">{formatCost(totalTableCost)}</td>
-              <td class="px-6 py-4 text-sm font-bold text-[var(--color-muted)]">{totalTableRecords}</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Daily cost -->
+      <div data-trend-chart="cost" class="bg-[var(--color-card)] border-2 border-[var(--color-border)] rounded-2xl p-6 sm:p-7 shadow-hard relative">
+        <div class="flex items-baseline justify-between mb-5 flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-sm bg-secondary border border-[var(--color-border)]"></span>
+            <h3 class="font-heading font-bold text-base text-[var(--color-text)]">Cost per day</h3>
+          </div>
+          <span class="text-xs text-[var(--color-muted)] font-mono">
+            peak <span class="text-[var(--color-text)] font-bold">{formatCost(maxDailyCost)}</span> on {peakCostDay?.date}
+          </span>
+        </div>
+        <div data-trend-bars class="flex items-end gap-1 h-40 overflow-x-auto pb-1 relative">
+          {recentDaily.map((d) => {
+            const h = Math.max((d.cost / maxDailyCost) * 100, 2);
+            return (
+              <div
+                data-tt-date={d.date}
+                data-tt-tokens={d.tokens}
+                data-tt-cost={d.cost}
+                class="flex-1 min-w-[10px] bg-secondary rounded-sm hover:opacity-70 transition-opacity cursor-help border-r border-[var(--color-card)]"
+                style={`height: ${h}%`}
+              ></div>
+            );
+          })}
+        </div>
+        <div class="flex justify-between mt-3 text-[10px] font-mono text-[var(--color-muted)]">
+          <span>{recentDaily[0]?.date}</span>
+          <span class="hidden sm:inline">{recentDaily[Math.floor(recentDaily.length / 2)]?.date}</span>
+          <span>{recentDaily[recentDaily.length - 1]?.date}</span>
+        </div>
+        <!-- Tooltip -->
+        <div data-trend-tooltip class="hidden absolute z-20 pointer-events-none px-3 py-2 rounded-lg bg-[var(--color-text)] text-[var(--color-bg)] text-xs font-mono shadow-hard-sm border-2 border-[var(--color-border)] whitespace-nowrap">
+          <div data-tt-out-date class="font-bold mb-0.5">—</div>
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-primary"></span><span data-tt-out-tokens>—</span> tokens</div>
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-secondary"></span><span data-tt-out-cost>—</span></div>
+        </div>
       </div>
     </div>
   </section>
 
   <script>
-  function initSortableTable() {
-    const models = [
-      { model: 'claude-opus-4-7', tokens: 965524117, cost: 944.37, records: 4438 },
-      { model: 'claude-sonnet-4-6', tokens: 325626310, cost: 182.96, records: 3408 },
-      { model: 'gpt-5.4', tokens: 149174684, cost: 90.14, records: 1252 },
-      { model: 'claude-opus-4-6', tokens: 82047587, cost: 79.37, records: 928 },
-      { model: 'claude-sonnet-4-5', tokens: 31177459, cost: 19.05, records: 762 },
-      { model: 'gpt-5-codex', tokens: 52017831, cost: 11.78, records: 509 },
-      { model: 'gpt-5', tokens: 10013034, cost: 5.49, records: 259 },
-      { model: 'gpt-5.5', tokens: 3604743, cost: 4.97, records: 60 },
-      { model: 'gpt-5.1-codex-max', tokens: 10809849, cost: 4.77, records: 341 },
-      { model: 'claude-haiku-4-5', tokens: 18741059, cost: 4.60, records: 219 },
-      { model: 'gemini-3-pro-preview', tokens: 3010170, cost: 4.49, records: 105 },
-      { model: 'gpt-5.1-codex', tokens: 3630735, cost: 1.91, records: 106 },
-      { model: 'gpt-5.1', tokens: 1701179, cost: 1.49, records: 79 },
-      { model: 'gemini-3-flash-preview', tokens: 3566842, cost: 1.24, records: 64 },
-      { model: 'claude sonnet 4-5', tokens: 716068, cost: 1.04, records: 1 },
-      { model: 'kimi-for-coding', tokens: 4029779, cost: 1.02, records: 124 },
-      { model: 'claude-opus-4-5', tokens: 146614, cost: 0.80, records: 17 },
-      { model: 'gpt-5.2-codex', tokens: 1189229, cost: 0.65, records: 40 },
-      { model: 'qwen3.6-moe', tokens: 4389902, cost: 0.56, records: 201 },
-      { model: 'qwen3.6-tq3', tokens: 1595352, cost: 0.27, records: 69 },
-      { model: 'qwen/qwen3.5-35b-a3b', tokens: 131962, cost: 0.02, records: 16 },
-      { model: 'qwen2.5-coder-7b', tokens: 15457, cost: 0.00016, records: 1 },
-      { model: 'openai/gpt-oss-20b', tokens: 0, cost: 0, records: 2 },
-      { model: 'qwen3.5:35b-a3b', tokens: 0, cost: 0, records: 2 },
-      { model: 'qwen3.6-27b', tokens: 0, cost: 0, records: 5 },
-      { model: 'glm-4.7-flash', tokens: 0, cost: 0, records: 1 },
-      { model: 'liquid/lfm2-24b-a2b', tokens: 0, cost: 0, records: 4 },
-      { model: 'gpt-5.2-chat-latest', tokens: 0, cost: 0, records: 1 },
-      { model: 'unsloth/qwen3.6-35b-a3b', tokens: 0, cost: 0, records: 2 },
-      { model: 'qwen/qwen3-30b-a3b-2507', tokens: 0, cost: 0, records: 1 },
-      { model: 'qwen3.5:27b', tokens: 8280, cost: 0, records: 2 },
-      { model: 'huihui_ai/orchestrator-abliterated:8b', tokens: 0, cost: 0, records: 1 },
-      { model: '<synthetic>', tokens: 0, cost: 0, records: 164 },
-    ];
+    function initTrendTooltips() {
+      function fmtTokens(n: number): string {
+        if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + 'B';
+        if (n >= 1_000_000) return (n / 1_000_000).toFixed(2) + 'M';
+        if (n >= 1_000) return (n / 1_000).toFixed(1) + 'K';
+        return n.toLocaleString();
+      }
+      function fmtCost(n: number): string { return '$' + n.toFixed(2); }
 
-    let currentSort = { col: 'cost', dir: 'desc' };
+      document.querySelectorAll<HTMLElement>('[data-trend-chart]').forEach((chart) => {
+        if (chart.dataset.wired === '1') return;
+        chart.dataset.wired = '1';
 
-    function formatTokens(n: number): string {
-      if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1) + 'B';
-      if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
-      if (n >= 1_000) return (n / 1_000).toFixed(1) + 'K';
-      return n.toString();
-    }
+        const tt = chart.querySelector<HTMLElement>('[data-trend-tooltip]');
+        const ttDate = tt?.querySelector<HTMLElement>('[data-tt-out-date]');
+        const ttTokens = tt?.querySelector<HTMLElement>('[data-tt-out-tokens]');
+        const ttCost = tt?.querySelector<HTMLElement>('[data-tt-out-cost]');
+        const bars = chart.querySelector<HTMLElement>('[data-trend-bars]');
+        if (!tt || !ttDate || !ttTokens || !ttCost || !bars) return;
 
-    function formatCost(n: number): string {
-      return '$' + n.toFixed(2);
-    }
-
-    function renderTable() {
-      const sorted = [...models].sort((a: any, b: any) => {
-        const dir = currentSort.dir === 'asc' ? 1 : -1;
-        return (a[currentSort.col] - b[currentSort.col]) * dir;
-      });
-
-      const totalTokens = models.reduce((s, m) => s + m.tokens, 0);
-      const totalCost = models.reduce((s, m) => s + m.cost, 0);
-      const totalRecords = models.reduce((s, m) => s + m.records, 0);
-
-      const tbody = document.getElementById('model-table-body');
-      if (!tbody) return;
-
-      tbody.innerHTML = sorted.map(m => `
-        <tr class="border-b border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-colors">
-          <td class="px-6 py-4 text-sm font-mono font-semibold text-[var(--color-text)]">${m.model}</td>
-          <td class="px-6 py-4 text-sm text-[var(--color-text)]">${formatTokens(m.tokens)}</td>
-          <td class="px-6 py-4 text-sm font-semibold text-[var(--color-text)]">${formatCost(m.cost)}</td>
-          <td class="px-6 py-4 text-sm text-[var(--color-muted)]">${m.records}</td>
-        </tr>`).join('') + `
-        <tr class="bg-[var(--color-surface)] border-t-2 border-[var(--color-border)]">
-          <td class="px-6 py-4 text-sm font-bold text-[var(--color-text)]">Total (${sorted.length} models)</td>
-          <td class="px-6 py-4 text-sm font-bold text-[var(--color-text)]">${formatTokens(totalTokens)}</td>
-          <td class="px-6 py-4 text-sm font-bold text-primary">${formatCost(totalCost)}</td>
-          <td class="px-6 py-4 text-sm font-bold text-[var(--color-muted)]">${totalRecords}</td>
-        </tr>`;
-
-      document.querySelectorAll('[data-sort]').forEach(th => {
-        const arrow = th.querySelector('.sort-arrow') as HTMLElement;
-        if (!arrow) return;
-        const col = (th as HTMLElement).dataset.sort;
-        arrow.textContent = col === currentSort.col ? (currentSort.dir === 'asc' ? ' \u2191' : ' \u2193') : '';
+        bars.querySelectorAll<HTMLElement>('[data-tt-date]').forEach((bar) => {
+          bar.addEventListener('mouseenter', () => {
+            ttDate.textContent = bar.dataset.ttDate || '';
+            ttTokens.textContent = fmtTokens(Number(bar.dataset.ttTokens || 0));
+            ttCost.textContent = fmtCost(Number(bar.dataset.ttCost || 0));
+            tt.classList.remove('hidden');
+          });
+          bar.addEventListener('mousemove', (e) => {
+            const rect = chart.getBoundingClientRect();
+            const x = (e as MouseEvent).clientX - rect.left;
+            const y = (e as MouseEvent).clientY - rect.top;
+            // Position tooltip above-and-right of cursor; flip horizontally near right edge.
+            const ttRect = tt.getBoundingClientRect();
+            const left = x + 14 + ttRect.width > rect.width ? x - ttRect.width - 14 : x + 14;
+            const top = Math.max(8, y - ttRect.height - 10);
+            tt.style.left = left + 'px';
+            tt.style.top = top + 'px';
+          });
+          bar.addEventListener('mouseleave', () => {
+            tt.classList.add('hidden');
+          });
+        });
       });
     }
 
-    document.querySelectorAll('[data-sort]').forEach(th => {
-      th.addEventListener('click', () => {
-        const col = (th as HTMLElement).dataset.sort!;
-        if (currentSort.col === col) {
-          currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
-        } else {
-          currentSort = { col, dir: 'desc' };
-        }
-        renderTable();
-      });
-    });
-  }
+    initTrendTooltips();
+    document.addEventListener('astro:page-load', initTrendTooltips);
+  </script>
 
-  initSortableTable();
-  document.addEventListener('astro:page-load', initSortableTable);
-</script>
 </BaseLayout>
