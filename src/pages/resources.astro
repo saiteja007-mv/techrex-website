@@ -1732,15 +1732,9 @@ const collectionPageSchema = {
                 <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">4</span>
                 <div class="flex-1 flex flex-col gap-2 min-w-0">
                   <p class="font-heading font-bold text-sm text-[var(--color-text)]">Launch the llama-server</p>
-                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Save the command below with a <code class="font-mono">.bat</code> or <code class="font-mono">.ps1</code> extension and double-click it, or paste it into PowerShell directly.</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Save as a <code class="font-mono">.ps1</code> file and double-click, or paste straight into PowerShell. One line — no continuation backticks to trip up your terminal.</p>
                   <div class="relative">
-                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto whitespace-pre"><code data-lm-snippet="win-launch">$model  = "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\Qwen3.6-35B-A3B-UD-IQ2_M.gguf"
-$mmproj = "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\mmproj-BF16.gguf"
-$llama  = "$env:USERPROFILE\.unsloth\llama.cpp\build\bin\Release\llama-server.exe"
-&amp; $llama -m $model --mmproj $mmproj --alias qwen3.6-moe `
-  -ngl 99 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 `
-  -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek `
-  --host 0.0.0.0 --port 8080</code></pre>
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="win-launch">&amp; "$env:USERPROFILE\.unsloth\llama.cpp\build\bin\Release\llama-server.exe" -m (Resolve-Path "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\Qwen3.6-35B-A3B-UD-IQ2_M.gguf") --mmproj (Resolve-Path "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\mmproj-BF16.gguf") --alias qwen3.6-moe -ngl 99 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek --host 0.0.0.0 --port 8080</code></pre>
                     <button type="button" data-copy-btn aria-label="Copy command"
                       class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
                       <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -1818,14 +1812,9 @@ cmake --build build --config Release -j</code></pre>
                 <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">4</span>
                 <div class="flex-1 flex flex-col gap-2 min-w-0">
                   <p class="font-heading font-bold text-sm text-[var(--color-text)]">Launch the llama-server</p>
-                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Same flags as the Windows ps1, just bash syntax.</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Same flags as the Windows version, just bash syntax. One line — paste straight into your terminal.</p>
                   <div class="relative">
-                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto whitespace-pre"><code data-lm-snippet="linux-launch">MODEL=~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/Qwen3.6-35B-A3B-UD-IQ2_M.gguf
-MMPROJ=~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/mmproj-BF16.gguf
-~/llama.cpp/build/bin/llama-server -m $MODEL --mmproj $MMPROJ --alias qwen3.6-moe \
-  -ngl 99 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 \
-  -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek \
-  --host 0.0.0.0 --port 8080</code></pre>
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="linux-launch">~/llama.cpp/build/bin/llama-server -m ~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/Qwen3.6-35B-A3B-UD-IQ2_M.gguf --mmproj ~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/mmproj-BF16.gguf --alias qwen3.6-moe -ngl 99 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek --host 0.0.0.0 --port 8080</code></pre>
                     <button type="button" data-copy-btn aria-label="Copy command"
                       class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
                       <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -2545,20 +2534,34 @@ brew install python@3.12</code></pre>
           snipLinDownload.textContent = `huggingface-cli download ${repoShort} ${fileName}${mmproj}`;
           snipMacDownload.textContent = `huggingface-cli download ${repoShort} ${fileName}${mmproj}`;
 
-          const winLaunch = `$model  = "$env:USERPROFILE\\.cache\\huggingface\\hub\\models--${repoShort.replace('/', '--')}\\snapshots\\*\\${fileName}"
-${model.arch.hasVision ? `$mmproj = "$env:USERPROFILE\\.cache\\huggingface\\hub\\models--${repoShort.replace('/', '--')}\\snapshots\\*\\mmproj-BF16.gguf"\n` : ''}$llama  = "$env:USERPROFILE\\.unsloth\\llama.cpp\\build\\bin\\Release\\llama-server.exe"
-& $llama -m $model${mmprojArg} --alias ${model.alias} \`
-  -ngl ${flags.ngl} -c ${ctx} ${fa} -ctk ${flags.ctk} -ctv ${flags.ctv} \`
-  -t ${flags.threads} -b ${flags.batch} -ub ${flags.ubatch} ${jinja} ${reasoning} \`
-  --host ${flags.host} --port ${flags.port}`;
-          snipWinLaunch.textContent = winLaunch;
+          // Single-line PowerShell — paste-friendly, no continuation backticks.
+          const repoSlug = repoShort.replace('/', '--');
+          const winModelPath = `$env:USERPROFILE\\.cache\\huggingface\\hub\\models--${repoSlug}\\snapshots\\*\\${fileName}`;
+          const winMmprojPath = `$env:USERPROFILE\\.cache\\huggingface\\hub\\models--${repoSlug}\\snapshots\\*\\mmproj-BF16.gguf`;
+          const winLlamaPath = `$env:USERPROFILE\\.unsloth\\llama.cpp\\build\\bin\\Release\\llama-server.exe`;
+          const winMmprojArg = model.arch.hasVision ? ` --mmproj (Resolve-Path "${winMmprojPath}")` : '';
+          const winFlags = [
+            `--alias ${model.alias}`,
+            `-ngl ${flags.ngl}`,
+            `-c ${ctx}`,
+            fa,
+            `-ctk ${flags.ctk}`,
+            `-ctv ${flags.ctv}`,
+            `-t ${flags.threads}`,
+            `-b ${flags.batch}`,
+            `-ub ${flags.ubatch}`,
+            jinja,
+            reasoning,
+            `--host ${flags.host}`,
+            `--port ${flags.port}`
+          ].filter(Boolean).join(' ');
+          snipWinLaunch.textContent = `& "${winLlamaPath}" -m (Resolve-Path "${winModelPath}")${winMmprojArg} ${winFlags}`;
 
-          const linLaunch = `MODEL=~/.cache/huggingface/hub/models--${repoShort.replace('/', '--')}/snapshots/*/${fileName}
-${model.arch.hasVision ? `MMPROJ=~/.cache/huggingface/hub/models--${repoShort.replace('/', '--')}/snapshots/*/mmproj-BF16.gguf\n` : ''}~/llama.cpp/build/bin/llama-server -m $MODEL${mmprojArgBash} --alias ${model.alias} \\
-  -ngl ${flags.ngl} -c ${ctx} ${fa} -ctk ${flags.ctk} -ctv ${flags.ctv} \\
-  -t ${flags.threads} -b ${flags.batch} -ub ${flags.ubatch} ${jinja} ${reasoning} \\
-  --host ${flags.host} --port ${flags.port}`;
-          snipLinLaunch.textContent = linLaunch;
+          // Single-line bash — wildcard glob expansion handles the snapshot dir.
+          const linModelPath = `~/.cache/huggingface/hub/models--${repoSlug}/snapshots/*/${fileName}`;
+          const linMmprojPath = `~/.cache/huggingface/hub/models--${repoSlug}/snapshots/*/mmproj-BF16.gguf`;
+          const linMmprojArg = model.arch.hasVision ? ` --mmproj ${linMmprojPath}` : '';
+          snipLinLaunch.textContent = `~/llama.cpp/build/bin/llama-server -m ${linModelPath}${linMmprojArg} ${winFlags}`;
         }
 
         // macOS pane always shows MLX, regardless of which OS the user picked.
