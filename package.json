@@ -2,9 +2,10 @@
   "name": "techrex-website",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@10.21.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/inject-vercel-config.mjs",
+    "build": "node scripts/fetch-models.mjs && astro build && node scripts/inject-vercel-config.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "fetch:models": "node scripts/fetch-models.mjs"
@@ -20,5 +21,11 @@
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^5.17.1",
     "tailwindcss": "^4.2.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "esbuild"
+    ]
   }
 }
