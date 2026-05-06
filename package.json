@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build && node scripts/inject-vercel-config.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "fetch:models": "node scripts/fetch-models.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",

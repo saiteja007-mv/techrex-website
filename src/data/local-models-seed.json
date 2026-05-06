@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 2,
+  "lastUpdatedNote": "Edit this file to add models. Then run: pnpm fetch:models",
+  "models": [
+    {
+      "id": "qwen2.5-coder-3b",
+      "name": "Qwen2.5-Coder-3B (Instruct)",
+      "family": "Qwen2.5-Coder",
+      "params": "3B",
+      "kind": "dense",
+      "tier": "cpu-only",
+      "useCases": ["coding", "chat"],
+      "context": 32768,
+      "defaultLaunchContext": 16384,
+      "license": "Apache-2.0",
+      "alias": "qwen2.5-coder-3b",
+      "strengths": ["fast", "lightweight", "cpu-friendly"],
+      "ggufRepo": "unsloth/Qwen2.5-Coder-3B-Instruct-GGUF",
+      "mmprojFile": null,
+      "preferredQuants": [
+        "Q4_K_M",
+        "Q5_K_M",
+        "Q6_K",
+        "Q8_0"
+      ],
+      "recommendedQuant": "Q4_K_M",
+      "arch": {
+        "numLayers": 36,
+        "kvHeads": 2,
+        "headDim": 128,
+        "hasVision": false
+      },
+      "defaultLaunchFlags": {
+        "ctx": 16384,
+        "ctk": "q8_0",
+        "ctv": "q8_0",
+        "ngl": 99,
+        "flashAttn": true,
+        "threads": 8,
+        "batch": 512,
+        "ubatch": 512,
+        "jinja": true,
+        "reasoningFormat": null,
+        "host": "0.0.0.0",
+        "port": 8080
+      },
+      "mmprojBytesEstimateGB": 0,
+      "mlx": {
+        "repos": {
+          "4bit": "mlx-community/Qwen2.5-Coder-3B-Instruct-4bit",
+          "8bit": "mlx-community/Qwen2.5-Coder-3B-Instruct-8bit",
+          "bf16": "mlx-community/Qwen2.5-Coder-3B-Instruct-bf16"
+        },
+        "recommendedQuants": {
+          "mac-8gb": "4bit",
+          "mac-16gb": "4bit"
+        },
+        "defaultLaunchFlags": {
+          "ctx": 16384,
+          "host": "0.0.0.0",
+          "port": 8080
+        }
+      },
+      "notes": "Smallest fast tier. Runs on CPU + 8 GB RAM. Great for inline coding completions when no GPU is available."
+    },
+    {
+      "id": "qwen2.5-coder-7b",
+      "name": "Qwen2.5-Coder-7B (Instruct)",
+      "family": "Qwen2.5-Coder",
+      "params": "7B",
+      "kind": "dense",
+      "tier": "low-vram",
+      "useCases": ["coding", "agentic", "chat"],
+      "context": 32768,
+      "defaultLaunchContext": 32768,
+      "license": "Apache-2.0",
+      "alias": "qwen2.5-coder-7b",
+      "strengths": ["coding", "tool-use", "balanced"],
+      "ggufRepo": "unsloth/Qwen2.5-Coder-7B-Instruct-GGUF",
+      "mmprojFile": null,
+      "preferredQuants": [
+        "Q4_K_M",
+        "Q5_K_M",
+        "Q6_K",
+        "Q8_0"
+      ],
+      "recommendedQuant": "Q4_K_M",
+      "arch": {
+        "numLayers": 28,
+        "kvHeads": 4,
+        "headDim": 128,
+        "hasVision": false
+      },
+      "defaultLaunchFlags": {
+        "ctx": 32768,
+        "ctk": "q8_0",
+        "ctv": "q8_0",
+        "ngl": 99,
+        "flashAttn": true,
+        "threads": 12,
+        "batch": 512,
+        "ubatch": 512,
+        "jinja": true,
+        "reasoningFormat": null,
+        "host": "0.0.0.0",
+        "port": 8080
+      },
+      "mmprojBytesEstimateGB": 0,
+      "mlx": {
+        "repos": {
+          "4bit": "mlx-community/Qwen2.5-Coder-7B-Instruct-4bit",
+          "8bit": "mlx-community/Qwen2.5-Coder-7B-Instruct-8bit",
+          "bf16": "mlx-community/Qwen2.5-Coder-7B-Instruct-bf16"
+        },
+        "recommendedQuants": {
+          "mac-16gb": "4bit",
+          "mac-32gb": "8bit"
+        },
+        "defaultLaunchFlags": {
+          "ctx": 32768,
+          "host": "0.0.0.0",
+          "port": 8080
+        }
+      },
+      "notes": "Sweet spot for 4–8 GB VRAM laptops. Q4_K_M (~4.4 GB) fits comfortably with KV cache."
+    },
+    {
+      "id": "qwen3.6-moe",
+      "name": "Qwen3.6-35B-A3B (MoE)",
+      "family": "Qwen3.6",
+      "params": "35B total / 3B active per token",
+      "kind": "moe",
+      "tier": "mid-vram",
+      "useCases": ["coding", "agentic", "chat", "vision"],
+      "context": 262144,
+      "defaultLaunchContext": 40960,
+      "license": "Apache-2.0",
+      "alias": "qwen3.6-moe",
+      "strengths": ["agentic-coding", "tool-use", "vision", "fast"],
+      "ggufRepo": "unsloth/Qwen3.6-35B-A3B-GGUF",
+      "mmprojFile": "mmproj-BF16.gguf",
+      "preferredQuants": [
+        "UD-IQ1_M",
+        "UD-IQ2_XXS",
+        "UD-IQ2_M",
+        "UD-Q3_K_M",
+        "UD-IQ4_XS",
+        "UD-Q4_K_M",
+        "UD-Q5_K_M",
+        "UD-Q6_K",
+        "Q8_0"
+      ],
+      "recommendedQuant": "UD-IQ2_M",
+      "arch": {
+        "numLayers": 48,
+        "kvHeads": 4,
+        "headDim": 128,
+        "hasVision": true
+      },
+      "defaultLaunchFlags": {
+        "ctx": 40960,
+        "ctk": "q4_0",
+        "ctv": "q4_0",
+        "ngl": 99,
+        "flashAttn": true,
+        "threads": 16,
+        "batch": 512,
+        "ubatch": 512,
+        "jinja": true,
+        "reasoningFormat": "deepseek",
+        "host": "0.0.0.0",
+        "port": 8080
+      },
+      "mmprojBytesEstimateGB": 1.4,
+      "mlx": {
+        "repos": {
+          "4bit": "mlx-community/Qwen3.6-35B-A3B-4bit",
+          "6bit": "mlx-community/Qwen3.6-35B-A3B-6bit",
+          "8bit": "mlx-community/Qwen3.6-35B-A3B-8bit",
+          "bf16": "mlx-community/Qwen3.6-35B-A3B-bf16"
+        },
+        "recommendedQuants": {
+          "mac-32gb": "4bit",
+          "mac-64gb": "4bit",
+          "mac-128gb": "8bit"
+        },
+        "defaultLaunchFlags": {
+          "ctx": 40960,
+          "host": "0.0.0.0",
+          "port": 8080
+        }
+      },
+      "notes": "Reference build on TechRex's 12 GB VRAM laptop. Same model, same flags as the 'Start Qwen3.6 MoE (Fast Agentic).bat' launcher."
+    },
+    {
+      "id": "qwen3.6-27b",
+      "name": "Qwen3.6-27B (Dense)",
+      "family": "Qwen3.6",
+      "params": "27B",
+      "kind": "dense",
+      "tier": "mid-vram",
+      "useCases": ["coding", "chat", "vision"],
+      "context": 131072,
+      "defaultLaunchContext": 65536,
+      "license": "Apache-2.0",
+      "alias": "qwen3.6-27b",
+      "strengths": ["coding", "reasoning", "vision"],
+      "ggufRepo": "unsloth/Qwen3.6-27B-GGUF",
+      "mmprojFile": "mmproj-BF16.gguf",
+      "preferredQuants": [
+        "UD-IQ2_XXS",
+        "UD-IQ2_M",
+        "Q3_K_M",
+        "Q4_K_M",
+        "Q5_K_M",
+        "Q6_K",
+        "Q8_0"
+      ],
+      "recommendedQuant": "UD-IQ2_XXS",
+      "arch": {
+        "numLayers": 64,
+        "kvHeads": 8,
+        "headDim": 128,
+        "hasVision": true
+      },
+      "defaultLaunchFlags": {
+        "ctx": 65536,
+        "ctk": "q8_0",
+        "ctv": "q8_0",
+        "ngl": 99,
+        "flashAttn": true,
+        "threads": 16,
+        "batch": 512,
+        "ubatch": 512,
+        "jinja": true,
+        "reasoningFormat": "deepseek",
+        "host": "0.0.0.0",
+        "port": 8080
+      },
+      "mmprojBytesEstimateGB": 1.4,
+      "mlx": {
+        "repos": {
+          "4bit": "mlx-community/Qwen3.6-27B-4bit",
+          "6bit": "mlx-community/Qwen3.6-27B-6bit",
+          "8bit": "mlx-community/Qwen3.6-27B-8bit",
+          "bf16": "mlx-community/Qwen3.6-27B-bf16"
+        },
+        "recommendedQuants": {
+          "mac-32gb": "4bit",
+          "mac-64gb": "8bit"
+        },
+        "defaultLaunchFlags": {
+          "ctx": 65536,
+          "host": "0.0.0.0",
+          "port": 8080
+        }
+      },
+      "notes": "Dense fallback. Same prompt format as the MoE — useful when you want stronger single-token quality at the cost of speed."
+    }
+  ]
+}

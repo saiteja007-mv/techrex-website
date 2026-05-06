@@ -1,8 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import channelInfo from '../data/channel-info.json';
+import localModelsData from '../data/local-models.generated.json';
 
 const { socialLinks } = channelInfo;
+
+// Local-models advisor data — full catalog ships statically.
+// Engine logic lives in the inline <script> at the bottom of this file (initLocalModels).
+const localModels = localModelsData.models;
 
 type InstallStep = {
   title: string;
@@ -446,7 +451,7 @@ const collectionPageSchema = {
         Jump to a section
       </h1>
       <p class="text-[var(--color-muted)] text-sm sm:text-base max-w-2xl leading-relaxed mb-6">
-        Open-source projects, my Claude Code setup bundle, and CLI install guides for AI agents — pick one.
+        Open-source projects, my Claude Code setup bundle, CLI install guides, and a local-model setup advisor — pick one.
       </p>
       <nav class="flex flex-wrap gap-3" aria-label="Resources sections">
         <a href="#projects" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--color-card)] border-2 border-[var(--color-border)] text-sm font-bold text-[var(--color-text)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
@@ -457,6 +462,9 @@ const collectionPageSchema = {
         </a>
         <a href="#cli-tools" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--color-card)] border-2 border-[var(--color-border)] text-sm font-bold text-[var(--color-text)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
           <span aria-hidden="true">⚙️</span> CLI Tools
+        </a>
+        <a href="#local-models" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--color-card)] border-2 border-[var(--color-border)] text-sm font-bold text-[var(--color-text)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
+          <span aria-hidden="true">🦙</span> Local Models
         </a>
       </nav>
     </div>
@@ -1353,6 +1361,575 @@ const collectionPageSchema = {
         );
       })}
 
+      <!-- ============================================================ -->
+      <!-- Local Models Setup Advisor -->
+      <!-- ============================================================ -->
+      <script type="application/json" id="lm-data" set:html={JSON.stringify({ models: localModels })}></script>
+      <section id="local-models" class="scroll-mt-24 mt-16 pt-12 border-t-2 border-[var(--color-border)]">
+        <div class="mb-10">
+          <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-4 shadow-hard-sm">
+            🦙 Local Models · Setup Advisor
+          </span>
+          <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-[var(--color-text)] mb-3">
+            Run Coding & Chat Models Locally
+          </h2>
+          <p class="text-[var(--color-muted)] leading-relaxed max-w-2xl">
+            Tell me your laptop's RAM and GPU. I'll pick a model that fits, show you the exact memory breakdown,
+            and hand you the same llama.cpp launch command I run on my own machine — or the MLX equivalent on a Mac.
+          </p>
+        </div>
+
+        <!-- Hardware input card -->
+        <div data-lm-input-card class="rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-6 sm:p-7 shadow-hard-sm flex flex-col gap-5">
+          <!-- OS toggle -->
+          <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+            <span class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">Operating system</span>
+            <div role="tablist" aria-label="Operating system" class="inline-flex border-2 border-[var(--color-border)] rounded-lg overflow-hidden bg-[var(--color-surface)] shadow-hard-sm">
+              <button type="button" data-lm-os="win-linux" role="tab" aria-selected="true"
+                class="px-4 py-2 text-xs font-bold cursor-pointer bg-[var(--color-text)] text-[var(--color-bg)]">
+                Windows / Linux
+              </button>
+              <button type="button" data-lm-os="macos" role="tab" aria-selected="false"
+                class="px-4 py-2 text-xs font-bold cursor-pointer text-[var(--color-text)] hover:bg-[var(--color-bg)] border-l-2 border-[var(--color-border)]">
+                macOS (Apple silicon)
+              </button>
+            </div>
+          </div>
+
+          <!-- Win/Linux sliders -->
+          <div data-lm-pane-win class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <label class="flex flex-col gap-2">
+              <span class="flex items-baseline justify-between text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">
+                <span>System RAM</span>
+                <span class="text-sm font-mono text-[var(--color-text)]"><span data-lm-ram-out>32</span> GB</span>
+              </span>
+              <input data-lm-ram type="range" min="8" max="128" step="4" value="32"
+                class="w-full accent-primary cursor-pointer"
+              />
+            </label>
+            <label class="flex flex-col gap-2">
+              <span class="flex items-baseline justify-between text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">
+                <span>GPU VRAM</span>
+                <span class="text-sm font-mono text-[var(--color-text)]"><span data-lm-vram-out>12</span> GB</span>
+              </span>
+              <input data-lm-vram type="range" min="0" max="48" step="1" value="12"
+                class="w-full accent-primary cursor-pointer"
+              />
+            </label>
+          </div>
+
+          <!-- macOS slider -->
+          <div data-lm-pane-mac hidden class="grid grid-cols-1 gap-5">
+            <label class="flex flex-col gap-2">
+              <span class="flex items-baseline justify-between text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">
+                <span>Unified memory</span>
+                <span class="text-sm font-mono text-[var(--color-text)]"><span data-lm-unified-out>32</span> GB</span>
+              </span>
+              <input data-lm-unified type="range" min="8" max="192" step="8" value="32"
+                class="w-full accent-primary cursor-pointer"
+              />
+              <span class="text-[11px] text-[var(--color-muted)] italic leading-relaxed">
+                Apple silicon shares one memory pool between CPU and GPU.
+                We recommend MLX models from <code class="font-mono text-[var(--color-text)]">mlx-community</code>
+                instead of GGUF — much faster on Metal.
+              </span>
+            </label>
+          </div>
+
+          <!-- Use-case chips -->
+          <div class="flex flex-col gap-2">
+            <span class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">Workloads</span>
+            <div class="flex flex-wrap gap-2">
+              {['coding', 'chat', 'agentic', 'vision'].map((uc) => (
+                <button type="button" data-lm-usecase={uc} aria-pressed={uc === 'coding' ? 'true' : 'false'}
+                  class={`px-3 py-1.5 rounded-full border-2 border-[var(--color-border)] text-xs font-bold cursor-pointer transition-all duration-200 ${uc === 'coding' ? 'bg-[var(--color-text)] text-[var(--color-bg)] shadow-hard-sm' : 'bg-[var(--color-surface)] text-[var(--color-muted)] hover:text-[var(--color-text)]'}`}>
+                  {uc === 'coding' && '⌨️'}
+                  {uc === 'chat' && '💬'}
+                  {uc === 'agentic' && '🤖'}
+                  {uc === 'vision' && '👁️'}
+                  <span class="ml-1 capitalize">{uc}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <!-- Detected tier badge -->
+          <div class="flex items-center gap-3 pt-2 border-t-2 border-dashed border-[var(--color-border)]">
+            <span class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">Detected tier</span>
+            <span data-lm-tier-badge class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] text-xs font-bold text-[var(--color-text)] shadow-hard-sm">
+              mid-vram
+            </span>
+            <span data-lm-tier-summary class="text-xs text-[var(--color-muted)] truncate">
+              32 GB RAM + 12 GB VRAM
+            </span>
+          </div>
+        </div>
+
+        <!-- Recommendation card -->
+        <div data-lm-rec-card class="mt-6 rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-7 shadow-hard-sm flex flex-col gap-5">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-primary/10 border-2 border-primary flex items-center justify-center text-xl"
+              style="box-shadow: 2px 2px 0px 0px var(--primary, #8B5CF6)">
+              🎯
+            </div>
+            <div class="flex-1 min-w-0">
+              <span class="inline-block px-2 py-0.5 rounded-full bg-[var(--color-card)] border border-[var(--color-border)] text-[10px] font-bold uppercase tracking-widest text-[var(--color-muted)] mb-2">
+                Recommended for your rig
+              </span>
+              <h3 data-lm-rec-name class="font-heading font-extrabold text-xl sm:text-2xl text-[var(--color-text)] truncate">
+                Qwen3.6-35B-A3B (MoE)
+              </h3>
+              <div class="flex flex-wrap items-center gap-2 mt-2">
+                <span data-lm-rec-quant class="inline-flex items-center px-2 py-0.5 rounded-full bg-[var(--color-bg)] border-2 border-[var(--color-border)] text-[11px] font-mono font-bold text-[var(--color-text)]">
+                  UD-IQ2_M · 11.52 GB
+                </span>
+                <span data-lm-rec-runtime class="inline-flex items-center px-2 py-0.5 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-[11px] font-bold text-[var(--color-text)]">
+                  llama.cpp
+                </span>
+                <span data-lm-rec-license class="inline-flex items-center px-2 py-0.5 rounded-full bg-[var(--color-card)] border border-[var(--color-border)] text-[11px] font-semibold text-[var(--color-muted)]">
+                  Apache-2.0
+                </span>
+                <span data-lm-rec-fits class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border-2 border-emerald-500/40 text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
+                  ✓ Fits
+                </span>
+              </div>
+              <div data-lm-rec-workloads class="flex flex-wrap items-center gap-1.5 mt-2"></div>
+            </div>
+          </div>
+
+          <!-- Memory breakdown bar -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-baseline justify-between text-[11px] font-bold uppercase tracking-widest text-[var(--color-muted)]">
+              <span>Memory breakdown at chosen context</span>
+              <span class="font-mono text-[var(--color-text)]"><span data-lm-total-out>14.4</span> GB / <span data-lm-budget-out>12</span> GB</span>
+            </div>
+            <div class="h-7 w-full rounded-md border-2 border-[var(--color-border)] bg-[var(--color-bg)] overflow-hidden flex">
+              <div data-lm-bar-model class="h-full bg-primary border-r border-[var(--color-border)]" style="width: 45%"></div>
+              <div data-lm-bar-kv class="h-full bg-amber-500 border-r border-[var(--color-border)]" style="width: 8%"></div>
+              <div data-lm-bar-vision class="h-full bg-purple-500 border-r border-[var(--color-border)]" style="width: 12%"></div>
+              <div data-lm-bar-scratch class="h-full bg-slate-400" style="width: 4%"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-primary border border-[var(--color-border)]"></span><span class="text-[var(--color-muted)]">Model</span><span data-lm-seg-model class="font-mono font-bold text-[var(--color-text)]">11.52 GB</span></div>
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-amber-500 border border-[var(--color-border)]"></span><span class="text-[var(--color-muted)]">KV cache</span><span data-lm-seg-kv class="font-mono font-bold text-[var(--color-text)]">1.01 GB</span></div>
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-purple-500 border border-[var(--color-border)]"></span><span class="text-[var(--color-muted)]">Vision</span><span data-lm-seg-vision class="font-mono font-bold text-[var(--color-text)]">1.40 GB</span></div>
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-slate-400 border border-[var(--color-border)]"></span><span class="text-[var(--color-muted)]">Scratch</span><span data-lm-seg-scratch class="font-mono font-bold text-[var(--color-text)]">0.50 GB</span></div>
+            </div>
+          </div>
+
+          <!-- Context length slider -->
+          <div class="flex flex-col gap-2 pt-2 border-t-2 border-dashed border-[var(--color-border)]">
+            <label class="flex flex-col gap-2">
+              <span class="flex items-baseline justify-between text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">
+                <span>Context length</span>
+                <span class="text-sm font-mono text-[var(--color-text)]"><span data-lm-ctx-out>40960</span> tokens</span>
+              </span>
+              <input data-lm-ctx type="range" min="2048" max="1048576" step="2048" value="40960"
+                class="w-full accent-primary cursor-pointer"
+              />
+            </label>
+          </div>
+
+          <!-- Glossary: what every number on this card means -->
+          <details class="group rounded-xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-bg)] p-4">
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-2 text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">
+              <span>What do these numbers mean?</span>
+              <svg class="w-4 h-4 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <dl class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3 text-xs leading-relaxed">
+              <div>
+                <dt class="font-bold text-[var(--color-text)] mb-0.5">Quantized version</dt>
+                <dd class="text-[var(--color-muted)]">A smaller copy of the model where each weight is stored in fewer bits. <code class="font-mono text-[var(--color-text)]">Q4_K_M</code> = 4-bit, <code class="font-mono text-[var(--color-text)]">Q8_0</code> = 8-bit, <code class="font-mono text-[var(--color-text)]">UD-IQ2_M</code> = Unsloth Dynamic 2-bit. Lower bits = smaller file + less VRAM, slightly less accuracy. Pick the biggest quant your hardware can fit.</dd>
+              </div>
+              <div>
+                <dt class="font-bold text-[var(--color-text)] mb-0.5">Context length</dt>
+                <dd class="text-[var(--color-muted)]">How many tokens the model can "see" at once — your system prompt + your messages + the model's replies all count. 1 token ≈ ¾ of an English word. Hit the limit and the oldest tokens scroll out the back.</dd>
+              </div>
+              <div>
+                <dt class="font-bold text-[var(--color-text)] mb-0.5">KV cache</dt>
+                <dd class="text-[var(--color-muted)]">Memory the model holds for every token already in its context, so it doesn't have to re-process them on every reply. <strong class="text-[var(--color-text)]">It grows the more you chat</strong> — each new message adds tokens, and KV usage scales linearly with the total. That's why long conversations eat VRAM. <code class="font-mono text-[var(--color-text)]">-ctk q4_0 -ctv q4_0</code> compresses it to a quarter of the FP16 size.</dd>
+              </div>
+              <div>
+                <dt class="font-bold text-[var(--color-text)] mb-0.5">Scratch</dt>
+                <dd class="text-[var(--color-muted)]">Working memory the GPU needs while computing one token — attention scores, intermediate activations, flash-attention buffers. It's roughly fixed and doesn't grow with conversation length.</dd>
+              </div>
+            </dl>
+          </details>
+
+          <!-- CTA + alternates -->
+          <div class="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between pt-2 border-t-2 border-dashed border-[var(--color-border)]">
+            <button type="button" data-cli-open="local-models-setup"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] text-sm font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+              Show me the setup steps →
+            </button>
+            <a data-lm-rec-repo target="_blank" rel="noopener noreferrer"
+              href="https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-bg)] text-[var(--color-text)] text-xs font-bold border-2 border-[var(--color-border)] shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200">
+              View on Hugging Face ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- API endpoint card -->
+        <div class="mt-6 rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-6 sm:p-7 shadow-hard-sm flex flex-col gap-4">
+          <div class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-emerald-500/10 border-2 border-emerald-500/60 flex items-center justify-center text-lg"
+              style="box-shadow: 2px 2px 0px 0px rgb(16 185 129)">
+              ⚡
+            </div>
+            <div class="flex-1 min-w-0">
+              <span class="inline-block px-2 py-0.5 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[10px] font-bold uppercase tracking-widest text-[var(--color-muted)] mb-2">Once it's running</span>
+              <h3 class="font-heading font-extrabold text-lg text-[var(--color-text)] mb-1">
+                OpenAI-compatible endpoint
+              </h3>
+              <p class="text-xs text-[var(--color-muted)] leading-relaxed">
+                Set the base URL on any OpenAI client. Drop in any non-empty key. Send the model alias as <code class="font-mono">model</code>.
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="flex flex-col gap-1">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--color-muted)]">Base URL</span>
+              <div class="relative">
+                <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>http://127.0.0.1:8080/v1</code></pre>
+                <button type="button" data-copy-btn aria-label="Copy base URL"
+                  class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                  <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--color-muted)]">API key</span>
+              <div class="relative">
+                <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>sk-local</code></pre>
+                <button type="button" data-copy-btn aria-label="Copy API key"
+                  class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                  <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--color-muted)]">Model alias</span>
+              <div class="relative">
+                <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-alias>qwen3.6-moe</code></pre>
+                <button type="button" data-copy-btn aria-label="Copy model alias"
+                  class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                  <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <p class="text-[11px] text-amber-700 dark:text-amber-400 italic leading-relaxed">
+            ⚠️ <code class="font-mono">--host 0.0.0.0</code> exposes the server on your LAN. Drop it to <code class="font-mono">127.0.0.1</code> if you only want local access.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- Local Models Setup Modal -->
+      <!-- ============================================================ -->
+      <div
+        id="local-models-setup-details"
+        data-cli-modal
+        data-modal-id="local-models-setup"
+        hidden
+        class="fixed inset-0 z-[100] items-center justify-center p-4 sm:p-6"
+        style="display: none;"
+      >
+        <div data-cli-backdrop class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div role="dialog" aria-modal="true" aria-labelledby="local-models-setup-modal-title"
+          class="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[var(--color-card)] rounded-2xl border-2 border-[var(--color-border)] p-6 sm:p-8 flex flex-col gap-5"
+          style="box-shadow: 6px 6px 0px 0px var(--color-border);">
+
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <div class="w-12 h-12 rounded-xl border-2 border-primary flex items-center justify-center text-2xl flex-shrink-0 bg-primary/10"
+                style="box-shadow: 3px 3px 0px 0px var(--primary, #8B5CF6)">🦙</div>
+              <div class="flex-1 min-w-0">
+                <h3 id="local-models-setup-modal-title" class="font-heading font-extrabold text-xl sm:text-2xl text-[var(--color-text)] truncate">
+                  <span data-lm-modal-title>Qwen3.6-35B-A3B (MoE)</span> — Setup
+                </h3>
+                <span class="text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider">
+                  llama.cpp + Hugging Face · OpenAI-compatible
+                </span>
+              </div>
+            </div>
+            <button type="button" data-cli-close aria-label="Close setup guide"
+              class="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:bg-[var(--color-bg)] transition-colors cursor-pointer shadow-hard-sm">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <div class="flex gap-1 border-b-2 border-[var(--color-border)] pb-0.5" role="tablist">
+            <button type="button" data-os-tab-btn data-tab-idx="0" role="tab" aria-selected="true"
+              class="px-3 py-1.5 text-xs font-bold rounded-t-lg border-2 border-b-0 cursor-pointer bg-[var(--color-text)] text-[var(--color-bg)] border-[var(--color-border)]">
+              Windows
+            </button>
+            <button type="button" data-os-tab-btn data-tab-idx="1" role="tab" aria-selected="false"
+              class="px-3 py-1.5 text-xs font-bold rounded-t-lg border-2 border-b-0 cursor-pointer bg-transparent text-[var(--color-muted)] border-transparent hover:text-[var(--color-text)]">
+              Linux
+            </button>
+            <button type="button" data-os-tab-btn data-tab-idx="2" role="tab" aria-selected="false"
+              class="px-3 py-1.5 text-xs font-bold rounded-t-lg border-2 border-b-0 cursor-pointer bg-transparent text-[var(--color-muted)] border-transparent hover:text-[var(--color-text)]">
+              macOS (MLX)
+            </button>
+          </div>
+
+          <!-- Windows pane -->
+          <div data-os-pane data-tab-idx="0" class="flex flex-col gap-4">
+            <ol class="flex flex-col gap-4">
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">1</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Install Python (for huggingface-cli) and CUDA prerequisites</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Python 3.11+ from python.org. NVIDIA driver R555+ ships CUDA 13 runtime — no separate toolkit needed for the prebuilt llama-server.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>winget install Python.Python.3.12; pip install -U huggingface_hub</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">2</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Get the prebuilt llama.cpp server</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Download Unsloth's CUDA-13 build from llama.cpp releases (or build from source). Extract to <code class="font-mono">%USERPROFILE%\.unsloth\llama.cpp\build\bin\Release\</code> to match the reference launcher.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code># Browse releases at https://github.com/ggml-org/llama.cpp/releases
+# Pick: llama-bXXXX-bin-win-cuda-12.4-x64.zip (or newer CUDA build)
+# Extract llama-server.exe + ggml-cuda.dll to ~/.unsloth/llama.cpp/build/bin/Release/</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">3</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Download the GGUF from Hugging Face</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Pulls just the picked quant + the vision adapter (when present). Gets cached in <code class="font-mono">~/.cache/huggingface/hub</code>.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="win-download">huggingface-cli download unsloth/Qwen3.6-35B-A3B-GGUF Qwen3.6-35B-A3B-UD-IQ2_M.gguf mmproj-BF16.gguf</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">4</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Launch the llama-server</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Save the command below with a <code class="font-mono">.bat</code> or <code class="font-mono">.ps1</code> extension and double-click it, or paste it into PowerShell directly.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto whitespace-pre"><code data-lm-snippet="win-launch">$model  = "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\Qwen3.6-35B-A3B-UD-IQ2_M.gguf"
+$mmproj = "$env:USERPROFILE\.cache\huggingface\hub\models--unsloth--Qwen3.6-35B-A3B-GGUF\snapshots\*\mmproj-BF16.gguf"
+$llama  = "$env:USERPROFILE\.unsloth\llama.cpp\build\bin\Release\llama-server.exe"
+&amp; $llama -m $model --mmproj $mmproj --alias qwen3.6-moe `
+  -ngl 99 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 `
+  -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek `
+  --host 0.0.0.0 --port 8080</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ol>
+            <div class="border-t-2 border-dashed border-[var(--color-border)] pt-3 flex flex-col gap-2">
+              <p class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">Verify it's live</p>
+              <div class="relative">
+                <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>curl http://127.0.0.1:8080/v1/models</code></pre>
+                <button type="button" data-copy-btn aria-label="Copy command"
+                  class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                  <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Linux pane -->
+          <div data-os-pane data-tab-idx="1" hidden class="flex flex-col gap-4">
+            <ol class="flex flex-col gap-4">
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">1</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Install build tools + CUDA toolkit</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Ubuntu/Debian shown. For RHEL/Arch swap the package manager.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>sudo apt update &amp;&amp; sudo apt install -y build-essential cmake git python3-pip nvidia-cuda-toolkit
+pip install -U huggingface_hub</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">2</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Build llama.cpp with CUDA</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Outputs <code class="font-mono">build/bin/llama-server</code>. Add it to PATH or call by full path below.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>git clone https://github.com/ggml-org/llama.cpp ~/llama.cpp
+cd ~/llama.cpp
+cmake -B build -DGGML_CUDA=ON
+cmake --build build --config Release -j</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">3</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Download the GGUF from Hugging Face</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="linux-download">huggingface-cli download unsloth/Qwen3.6-35B-A3B-GGUF Qwen3.6-35B-A3B-UD-IQ2_M.gguf mmproj-BF16.gguf</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">4</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Launch the llama-server</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">Same flags as the Windows ps1, just bash syntax.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto whitespace-pre"><code data-lm-snippet="linux-launch">MODEL=~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/Qwen3.6-35B-A3B-UD-IQ2_M.gguf
+MMPROJ=~/.cache/huggingface/hub/models--unsloth--Qwen3.6-35B-A3B-GGUF/snapshots/*/mmproj-BF16.gguf
+~/llama.cpp/build/bin/llama-server -m $MODEL --mmproj $MMPROJ --alias qwen3.6-moe \
+  -ngl 99 -c 40960 --flash-attn on -ctk q4_0 -ctv q4_0 \
+  -t 16 -b 512 -ub 512 --jinja --reasoning-format deepseek \
+  --host 0.0.0.0 --port 8080</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ol>
+            <div class="border-t-2 border-dashed border-[var(--color-border)] pt-3 flex flex-col gap-2">
+              <p class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">Verify it's live</p>
+              <div class="relative">
+                <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>curl http://127.0.0.1:8080/v1/models</code></pre>
+                <button type="button" data-copy-btn aria-label="Copy command"
+                  class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                  <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- macOS pane (MLX) -->
+          <div data-os-pane data-tab-idx="2" hidden class="flex flex-col gap-4">
+            <ol class="flex flex-col gap-4">
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">1</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Install Xcode CLT + Python</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>xcode-select --install
+brew install python@3.12</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">2</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Install MLX runtime</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed"><code class="font-mono">mlx-lm</code> ships an OpenAI-compatible server out of the box. <code class="font-mono">mlx-vlm</code> adds vision support — install it later if you need image input.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>pip install -U mlx-lm huggingface_hub</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">3</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Pre-download the MLX model (optional)</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed"><code class="font-mono">mlx_lm.server</code> will lazy-download on first run. Pre-fetching just lets you see the download progress.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="mac-download">huggingface-cli download mlx-community/Qwen3.6-35B-A3B-4bit</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="w-7 h-7 rounded-full border-2 border-[var(--color-border)] bg-[var(--color-surface)] flex items-center justify-center text-xs font-bold text-[var(--color-text)] flex-shrink-0">4</span>
+                <div class="flex-1 flex flex-col gap-2 min-w-0">
+                  <p class="font-heading font-bold text-sm text-[var(--color-text)]">Launch the MLX server</p>
+                  <p class="text-xs text-[var(--color-muted)] leading-relaxed">MLX manages KV cache + GPU offload inside unified memory automatically — no <code class="font-mono">-ngl</code>/<code class="font-mono">-ctk</code>/<code class="font-mono">--mmproj</code> flags needed.</p>
+                  <div class="relative">
+                    <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code data-lm-snippet="mac-launch">mlx_lm.server --model mlx-community/Qwen3.6-35B-A3B-4bit --host 0.0.0.0 --port 8080</code></pre>
+                    <button type="button" data-copy-btn aria-label="Copy command"
+                      class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                      <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ol>
+            <p class="text-xs text-amber-700 dark:text-amber-400 italic leading-relaxed">
+              💡 Vision (mmproj) over MLX requires <code class="font-mono">mlx-vlm</code> instead of <code class="font-mono">mlx-lm</code>. Coming as a follow-up.
+            </p>
+            <div class="border-t-2 border-dashed border-[var(--color-border)] pt-3 flex flex-col gap-2">
+              <p class="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">Verify it's live</p>
+              <div class="relative">
+                <pre class="bg-[var(--color-bg)] border-2 border-[var(--color-border)] rounded-lg px-3 py-2 pr-10 text-xs font-mono overflow-x-auto"><code>curl http://127.0.0.1:8080/v1/models</code></pre>
+                <button type="button" data-copy-btn aria-label="Copy command"
+                  class="absolute top-1.5 right-1.5 w-7 h-7 rounded-md border-2 border-[var(--color-border)] bg-[var(--color-card)] flex items-center justify-center hover:bg-[var(--color-surface)] transition-colors cursor-pointer">
+                  <svg class="copy-icon w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="check-icon w-3.5 h-3.5 text-emerald-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="mt-10 rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-hard-sm">
         <span class="inline-block px-3 py-1 rounded-full bg-[var(--color-card)] border border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] mb-4">
           Related pages
@@ -1587,5 +2164,469 @@ const collectionPageSchema = {
     }
     initBundleModal();
     document.addEventListener('astro:page-load', initBundleModal);
+
+    // ============================================================
+    // Local Models Setup Advisor
+    // ============================================================
+    function initLocalModels() {
+      const root = document.querySelector<HTMLElement>('#local-models');
+      if (!root || root.dataset.wired === '1') return;
+      root.dataset.wired = '1';
+
+      type Quant = {
+        name: string;
+        sizeGB: number;
+        kvGB: number;
+        visionGB: number;
+        scratchGB: number;
+        totalFitGB: number;
+        minVramGB: number;
+        partialOffloadRamGB: number;
+        macUnifiedMinGB: number;
+        file: string;
+        downloadUrl: string;
+        recommended?: boolean;
+      };
+      type MlxQuant = {
+        quant: string;
+        repo: string;
+        repoUrl: string;
+        sizeGB: number;
+        kvGB: number;
+        scratchGB: number;
+        totalFitGB: number;
+        minUnifiedGB: number;
+        recommendedFor: string[];
+      };
+      type Arch = { numLayers: number; kvHeads: number; headDim: number; hasVision: boolean };
+      type LocalModel = {
+        id: string;
+        name: string;
+        alias: string;
+        family: string;
+        kind: 'moe' | 'dense';
+        tier: 'cpu-only' | 'low-vram' | 'mid-vram' | 'high-vram';
+        useCases: string[];
+        license: string;
+        ggufRepo: string;
+        repoUrl: string;
+        mmprojUrl: string | null;
+        mmprojBytesEstimateGB: number;
+        defaultLaunchContext: number;
+        defaultLaunchFlags: { ctx: number; ctk: string; ctv: string; ngl: number; flashAttn: boolean; threads: number; batch: number; ubatch: number; jinja: boolean; reasoningFormat: string | null; host: string; port: number };
+        arch: Arch;
+        quants: Quant[];
+        mlxQuants: MlxQuant[];
+        mlx: { repos: Record<string, string>; recommendedQuants: Record<string, string>; defaultLaunchFlags: { ctx: number; host: string; port: number } };
+      };
+
+      const dataEl = document.getElementById('lm-data');
+      if (!dataEl?.textContent) return;
+      const allModels = (JSON.parse(dataEl.textContent) as { models: LocalModel[] }).models;
+
+      // Constants — match scripts/fetch-models.mjs
+      const CACHE_BYTES: Record<string, number> = { f32: 4, f16: 2, bf16: 2, q8_0: 1, q5_0: 0.625, q4_0: 0.5 };
+      const SCRATCH_GB = 0.5;
+      const MLX_SCRATCH_GB = 1.0;
+
+      const inputCard = root.querySelector<HTMLElement>('[data-lm-input-card]')!;
+      const paneWin = inputCard.querySelector<HTMLElement>('[data-lm-pane-win]')!;
+      const paneMac = inputCard.querySelector<HTMLElement>('[data-lm-pane-mac]')!;
+      const ramSlider = inputCard.querySelector<HTMLInputElement>('[data-lm-ram]')!;
+      const vramSlider = inputCard.querySelector<HTMLInputElement>('[data-lm-vram]')!;
+      const unifiedSlider = inputCard.querySelector<HTMLInputElement>('[data-lm-unified]')!;
+      const ramOut = inputCard.querySelector<HTMLElement>('[data-lm-ram-out]')!;
+      const vramOut = inputCard.querySelector<HTMLElement>('[data-lm-vram-out]')!;
+      const unifiedOut = inputCard.querySelector<HTMLElement>('[data-lm-unified-out]')!;
+      const tierBadge = inputCard.querySelector<HTMLElement>('[data-lm-tier-badge]')!;
+      const tierSummary = inputCard.querySelector<HTMLElement>('[data-lm-tier-summary]')!;
+
+      const ctxSlider = root.querySelector<HTMLInputElement>('[data-lm-ctx]')!;
+      const ctxOut = root.querySelector<HTMLElement>('[data-lm-ctx-out]')!;
+
+      const recName = root.querySelector<HTMLElement>('[data-lm-rec-name]')!;
+      const recQuant = root.querySelector<HTMLElement>('[data-lm-rec-quant]')!;
+      const recRuntime = root.querySelector<HTMLElement>('[data-lm-rec-runtime]')!;
+      const recLicense = root.querySelector<HTMLElement>('[data-lm-rec-license]')!;
+      const recFits = root.querySelector<HTMLElement>('[data-lm-rec-fits]')!;
+      const recRepo = root.querySelector<HTMLAnchorElement>('[data-lm-rec-repo]')!;
+      const recWorkloads = root.querySelector<HTMLElement>('[data-lm-rec-workloads]')!;
+      const aliasOut = root.querySelector<HTMLElement>('[data-lm-alias]')!;
+
+      const WORKLOAD_ICONS: Record<string, string> = {
+        coding: '⌨️',
+        chat: '💬',
+        agentic: '🤖',
+        vision: '👁️'
+      };
+
+      const segModel = root.querySelector<HTMLElement>('[data-lm-seg-model]')!;
+      const segKv = root.querySelector<HTMLElement>('[data-lm-seg-kv]')!;
+      const segVision = root.querySelector<HTMLElement>('[data-lm-seg-vision]')!;
+      const segScratch = root.querySelector<HTMLElement>('[data-lm-seg-scratch]')!;
+      const totalOut = root.querySelector<HTMLElement>('[data-lm-total-out]')!;
+      const budgetOut = root.querySelector<HTMLElement>('[data-lm-budget-out]')!;
+      const barModel = root.querySelector<HTMLElement>('[data-lm-bar-model]')!;
+      const barKv = root.querySelector<HTMLElement>('[data-lm-bar-kv]')!;
+      const barVision = root.querySelector<HTMLElement>('[data-lm-bar-vision]')!;
+      const barScratch = root.querySelector<HTMLElement>('[data-lm-bar-scratch]')!;
+
+      const setupModal = document.querySelector<HTMLElement>('#local-models-setup-details')!;
+      const modalTitle = setupModal.querySelector<HTMLElement>('[data-lm-modal-title]')!;
+      const snipWinDownload = setupModal.querySelector<HTMLElement>('[data-lm-snippet="win-download"]')!;
+      const snipWinLaunch = setupModal.querySelector<HTMLElement>('[data-lm-snippet="win-launch"]')!;
+      const snipLinDownload = setupModal.querySelector<HTMLElement>('[data-lm-snippet="linux-download"]')!;
+      const snipLinLaunch = setupModal.querySelector<HTMLElement>('[data-lm-snippet="linux-launch"]')!;
+      const snipMacDownload = setupModal.querySelector<HTMLElement>('[data-lm-snippet="mac-download"]')!;
+      const snipMacLaunch = setupModal.querySelector<HTMLElement>('[data-lm-snippet="mac-launch"]')!;
+
+      const state = {
+        os: 'win-linux' as 'win-linux' | 'macos',
+        ramGB: 32,
+        vramGB: 12,
+        unifiedGB: 32,
+        useCases: new Set<string>(['coding']),
+        ctxOverride: null as number | null
+      };
+
+      function kvCacheGB(arch: Arch, cacheType: string, ctx: number) {
+        const bytes = CACHE_BYTES[cacheType] ?? CACHE_BYTES.f16;
+        return (2 * arch.numLayers * arch.kvHeads * arch.headDim * ctx * bytes) / 1e9;
+      }
+
+      function detectTier(): string {
+        if (state.os === 'macos') {
+          if (state.unifiedGB <= 12) return 'mac-8gb';
+          if (state.unifiedGB <= 20) return 'mac-16gb';
+          if (state.unifiedGB <= 40) return 'mac-32gb';
+          if (state.unifiedGB <= 80) return 'mac-64gb';
+          return 'mac-128gb';
+        }
+        if (state.vramGB < 4) return 'cpu-only';
+        if (state.vramGB < 10) return 'low-vram';
+        if (state.vramGB < 20) return 'mid-vram';
+        return 'high-vram';
+      }
+
+      const TIER_ORDER = ['cpu-only', 'low-vram', 'mid-vram', 'high-vram'];
+
+      type Pick = {
+        model: LocalModel;
+        runtime: 'llamacpp' | 'mlx';
+        ctx: number;
+        ggufQuant?: Quant;
+        mlxQuant?: MlxQuant;
+        breakdown: { sizeGB: number; kvGB: number; visionGB: number; scratchGB: number; totalGB: number; budgetGB: number };
+        fits: boolean;
+      };
+
+      // Score a model against the selected workloads. Higher = better match.
+      // Use cases declared on each model (m.useCases) get +10. Vision matches the
+      // hasVision flag (so we don't promote non-vision models when the user wants vision).
+      // Agentic gives MoE a small bump. We do NOT hard-filter — if the highest-scoring
+      // model doesn't fit, the engine falls back to the next best fit, with a note.
+      function scoreModel(m: LocalModel): number {
+        let score = 0;
+        for (const uc of state.useCases) {
+          if (uc === 'vision') {
+            if (m.arch.hasVision) score += 30;  // strong signal — only 2 models qualify
+            continue;
+          }
+          if (m.useCases.includes(uc)) score += 10;
+          if (uc === 'agentic' && m.kind === 'moe') score += 5;
+        }
+        return score;
+      }
+
+      function rankCandidates(models: LocalModel[], maxSizeOf: (m: LocalModel) => number): LocalModel[] {
+        return [...models].sort((a, b) => {
+          const sa = scoreModel(a);
+          const sb = scoreModel(b);
+          if (sa !== sb) return sb - sa;
+          // Same workload score: prefer the bigger model (more params = more capable).
+          return maxSizeOf(b) - maxSizeOf(a);
+        });
+      }
+
+      // List the workloads the chosen model actually covers, for the UI tags.
+      function matchedWorkloads(m: LocalModel): string[] {
+        const matches: string[] = [];
+        for (const uc of state.useCases) {
+          if (uc === 'vision' && m.arch.hasVision) matches.push(uc);
+          else if (uc !== 'vision' && m.useCases.includes(uc)) matches.push(uc);
+        }
+        return matches;
+      }
+      function missedWorkloads(m: LocalModel): string[] {
+        const missed: string[] = [];
+        for (const uc of state.useCases) {
+          if (uc === 'vision' && !m.arch.hasVision) missed.push(uc);
+          else if (uc !== 'vision' && !m.useCases.includes(uc)) missed.push(uc);
+        }
+        return missed;
+      }
+
+      function pickMacOS(): Pick {
+        const tier = detectTier();
+        const budget = 0.7 * state.unifiedGB;
+        // Rank by workload-match score then by max quant size. No hard-filtering on vision —
+        // if the best-scoring model doesn't fit, we fall through to the next ranked one.
+        const candidates = rankCandidates(allModels, (m) => Math.max(...m.mlxQuants.map((q) => q.sizeGB)));
+        for (const model of candidates) {
+          const ctx = state.ctxOverride ?? model.mlx.defaultLaunchFlags.ctx;
+          const kv = kvCacheGB(model.arch, 'f16', ctx);
+          // Pick the LARGEST MLX quant that fits unified-memory budget.
+          const sorted = [...model.mlxQuants].sort((a, b) => b.sizeGB - a.sizeGB);
+          for (const q of sorted) {
+            const total = q.sizeGB + kv + MLX_SCRATCH_GB;
+            if (total <= budget) {
+              return {
+                model, runtime: 'mlx', ctx, mlxQuant: q,
+                breakdown: { sizeGB: q.sizeGB, kvGB: kv, visionGB: 0, scratchGB: MLX_SCRATCH_GB, totalGB: total, budgetGB: budget },
+                fits: true
+              };
+            }
+          }
+        }
+        // Nothing fits — show smallest and flag
+        const m = allModels[0];
+        const q = m.mlxQuants[0];
+        const ctx = state.ctxOverride ?? m.mlx.defaultLaunchFlags.ctx;
+        const kv = kvCacheGB(m.arch, 'f16', ctx);
+        const total = q.sizeGB + kv + MLX_SCRATCH_GB;
+        return {
+          model: m, runtime: 'mlx', ctx, mlxQuant: q,
+          breakdown: { sizeGB: q.sizeGB, kvGB: kv, visionGB: 0, scratchGB: MLX_SCRATCH_GB, totalGB: total, budgetGB: budget },
+          fits: total <= budget
+        };
+      }
+
+      function pickWinLinux(): Pick {
+        const tier = detectTier();
+        const userTierIdx = TIER_ORDER.indexOf(tier);
+        // Budget = VRAM if any GPU; else fall back to RAM (CPU-only)
+        const budget = state.vramGB >= 4 ? state.vramGB : state.ramGB;
+        // Filter models to tiers user can run
+        // Tier filter only — keep all useCase combinations as soft preferences via scoring.
+        let candidates = allModels.filter((m) => TIER_ORDER.indexOf(m.tier) <= userTierIdx);
+        candidates = rankCandidates(candidates, (m) => Math.max(...m.quants.map((q) => q.sizeGB)));
+
+        for (const model of candidates) {
+          const ctx = state.ctxOverride ?? model.defaultLaunchFlags.ctx;
+          const kv = kvCacheGB(model.arch, model.defaultLaunchFlags.ctk, ctx);
+          // Only count mmproj when the user actually wants vision — llama-server lazy-loads it
+          // until the first image arrives, so ignoring it for text-only matches real-world VRAM use.
+          const visionGB = model.arch.hasVision && state.useCases.has('vision') ? model.mmprojBytesEstimateGB : 0;
+          // Pick the LARGEST quant that fits. Bigger quant = better quality, and we already
+          // sorted candidates by max-size desc, so the first fit is the best fit.
+          const sorted = [...model.quants].sort((a, b) => b.sizeGB - a.sizeGB);
+          for (const q of sorted) {
+            const total = q.sizeGB + kv + visionGB + SCRATCH_GB;
+            if (total <= budget) {
+              return {
+                model, runtime: 'llamacpp', ctx, ggufQuant: q,
+                breakdown: { sizeGB: q.sizeGB, kvGB: kv, visionGB, scratchGB: SCRATCH_GB, totalGB: total, budgetGB: budget },
+                fits: true
+              };
+            }
+          }
+        }
+        // No fit — show the smallest model+quant with the not-fits flag
+        const m = allModels[0];
+        const q = m.quants[0];
+        const ctx = state.ctxOverride ?? m.defaultLaunchFlags.ctx;
+        const kv = kvCacheGB(m.arch, m.defaultLaunchFlags.ctk, ctx);
+        const visionGB = m.arch.hasVision ? m.mmprojBytesEstimateGB : 0;
+        const total = q.sizeGB + kv + visionGB + SCRATCH_GB;
+        return {
+          model: m, runtime: 'llamacpp', ctx, ggufQuant: q,
+          breakdown: { sizeGB: q.sizeGB, kvGB: kv, visionGB, scratchGB: SCRATCH_GB, totalGB: total, budgetGB: budget },
+          fits: total <= budget
+        };
+      }
+
+      function fmt(n: number) { return (Math.round(n * 100) / 100).toFixed(2); }
+
+      function render() {
+        const tier = detectTier();
+        tierBadge.textContent = tier;
+        tierSummary.textContent = state.os === 'macos'
+          ? `${state.unifiedGB} GB unified memory`
+          : `${state.ramGB} GB RAM + ${state.vramGB} GB VRAM`;
+
+        const pick = state.os === 'macos' ? pickMacOS() : pickWinLinux();
+        const { model, runtime, ctx, breakdown, fits } = pick;
+
+        // Slider stays fixed at 2k–1M so users can stress-test any context length.
+        // Only reset the value when the user hasn't manually overridden it.
+        if (state.ctxOverride === null) {
+          const defaultCtx = runtime === 'mlx' ? model.mlx.defaultLaunchFlags.ctx : model.defaultLaunchFlags.ctx;
+          ctxSlider.value = String(defaultCtx);
+        }
+        ctxOut.textContent = String(ctx);
+
+        // Recommendation card
+        recName.textContent = model.name;
+        const quantLabel = pick.ggufQuant
+          ? `${pick.ggufQuant.name} · ${fmt(pick.ggufQuant.sizeGB)} GB`
+          : `${pick.mlxQuant!.quant} · ${fmt(pick.mlxQuant!.sizeGB)} GB`;
+        recQuant.textContent = quantLabel;
+        recRuntime.textContent = runtime === 'mlx' ? 'MLX' : 'llama.cpp';
+        recLicense.textContent = model.license;
+        if (fits) {
+          recFits.textContent = '✓ Fits';
+          recFits.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border-2 border-emerald-500/40 text-[11px] font-bold text-emerald-700 dark:text-emerald-400';
+          recFits.setAttribute('data-lm-rec-fits', '');
+        } else {
+          recFits.textContent = '⚠ Too tight — reduce ctx';
+          recFits.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 border-2 border-amber-500/40 text-[11px] font-bold text-amber-700 dark:text-amber-400';
+          recFits.setAttribute('data-lm-rec-fits', '');
+        }
+        aliasOut.textContent = model.alias;
+        recRepo.href = runtime === 'mlx' ? pick.mlxQuant!.repoUrl : model.repoUrl;
+
+        // Matched/missed workload tags
+        recWorkloads.innerHTML = '';
+        if (state.useCases.size > 0) {
+          const matched = matchedWorkloads(model);
+          const missed = missedWorkloads(model);
+          for (const uc of matched) {
+            const span = document.createElement('span');
+            span.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/40 text-[10px] font-bold text-emerald-700 dark:text-emerald-400';
+            span.textContent = `${WORKLOAD_ICONS[uc] || ''} ${uc}`;
+            recWorkloads.appendChild(span);
+          }
+          for (const uc of missed) {
+            const span = document.createElement('span');
+            span.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[var(--color-bg)] border border-[var(--color-border)] text-[10px] font-semibold text-[var(--color-muted)] line-through';
+            span.title = uc === 'vision' ? 'This model has no vision adapter — pick Qwen3.6 series for image input.' : `This model is not optimized for ${uc} workloads.`;
+            span.textContent = `${WORKLOAD_ICONS[uc] || ''} ${uc}`;
+            recWorkloads.appendChild(span);
+          }
+          if (missed.length > 0) {
+            const note = document.createElement('span');
+            note.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/40 text-[10px] font-bold text-amber-700 dark:text-amber-400';
+            note.textContent = `↳ best fit for your rig — bigger model needed for ${missed.join(', ')}`;
+            recWorkloads.appendChild(note);
+          }
+        }
+
+        // Breakdown
+        segModel.textContent = `${fmt(breakdown.sizeGB)} GB`;
+        segKv.textContent = `${fmt(breakdown.kvGB)} GB`;
+        segVision.textContent = `${fmt(breakdown.visionGB)} GB`;
+        segScratch.textContent = `${fmt(breakdown.scratchGB)} GB`;
+        totalOut.textContent = fmt(breakdown.totalGB);
+        budgetOut.textContent = String(breakdown.budgetGB);
+
+        const denom = Math.max(breakdown.totalGB, breakdown.budgetGB);
+        barModel.style.width = `${(breakdown.sizeGB / denom) * 100}%`;
+        barKv.style.width = `${(breakdown.kvGB / denom) * 100}%`;
+        barVision.style.width = `${(breakdown.visionGB / denom) * 100}%`;
+        barScratch.style.width = `${(breakdown.scratchGB / denom) * 100}%`;
+
+        // Modal title
+        modalTitle.textContent = model.name;
+
+        // Setup snippets — only the ones for the active runtime get fresh values; the others stay generic
+        if (runtime === 'llamacpp' && pick.ggufQuant) {
+          const gguf = pick.ggufQuant;
+          const repoShort = model.ggufRepo;
+          const fileName = gguf.file;
+          const mmproj = model.arch.hasVision ? ' mmproj-BF16.gguf' : '';
+          const flags = model.defaultLaunchFlags;
+          const fa = flags.flashAttn ? '--flash-attn on' : '';
+          const reasoning = flags.reasoningFormat ? `--reasoning-format ${flags.reasoningFormat}` : '';
+          const mmprojArg = model.arch.hasVision ? ' --mmproj $mmproj' : '';
+          const mmprojArgBash = model.arch.hasVision ? ' --mmproj $MMPROJ' : '';
+          const jinja = flags.jinja ? '--jinja' : '';
+
+          snipWinDownload.textContent = `huggingface-cli download ${repoShort} ${fileName}${mmproj}`;
+          snipLinDownload.textContent = `huggingface-cli download ${repoShort} ${fileName}${mmproj}`;
+          snipMacDownload.textContent = `huggingface-cli download ${repoShort} ${fileName}${mmproj}`;
+
+          const winLaunch = `$model  = "$env:USERPROFILE\\.cache\\huggingface\\hub\\models--${repoShort.replace('/', '--')}\\snapshots\\*\\${fileName}"
+${model.arch.hasVision ? `$mmproj = "$env:USERPROFILE\\.cache\\huggingface\\hub\\models--${repoShort.replace('/', '--')}\\snapshots\\*\\mmproj-BF16.gguf"\n` : ''}$llama  = "$env:USERPROFILE\\.unsloth\\llama.cpp\\build\\bin\\Release\\llama-server.exe"
+& $llama -m $model${mmprojArg} --alias ${model.alias} \`
+  -ngl ${flags.ngl} -c ${ctx} ${fa} -ctk ${flags.ctk} -ctv ${flags.ctv} \`
+  -t ${flags.threads} -b ${flags.batch} -ub ${flags.ubatch} ${jinja} ${reasoning} \`
+  --host ${flags.host} --port ${flags.port}`;
+          snipWinLaunch.textContent = winLaunch;
+
+          const linLaunch = `MODEL=~/.cache/huggingface/hub/models--${repoShort.replace('/', '--')}/snapshots/*/${fileName}
+${model.arch.hasVision ? `MMPROJ=~/.cache/huggingface/hub/models--${repoShort.replace('/', '--')}/snapshots/*/mmproj-BF16.gguf\n` : ''}~/llama.cpp/build/bin/llama-server -m $MODEL${mmprojArgBash} --alias ${model.alias} \\
+  -ngl ${flags.ngl} -c ${ctx} ${fa} -ctk ${flags.ctk} -ctv ${flags.ctv} \\
+  -t ${flags.threads} -b ${flags.batch} -ub ${flags.ubatch} ${jinja} ${reasoning} \\
+  --host ${flags.host} --port ${flags.port}`;
+          snipLinLaunch.textContent = linLaunch;
+        }
+
+        // macOS pane always shows MLX, regardless of which OS the user picked.
+        // Pick the right MLX repo for the current model + tier.
+        const macTier = state.os === 'macos' ? detectTier() : 'mac-32gb';
+        const mlxRecName = model.mlx.recommendedQuants?.[macTier] || Object.keys(model.mlx.repos)[0];
+        const mlxRepo = model.mlx.repos[mlxRecName];
+        const mlxCtx = state.os === 'macos' ? ctx : model.mlx.defaultLaunchFlags.ctx;
+        snipMacDownload.textContent = `huggingface-cli download ${mlxRepo}`;
+        snipMacLaunch.textContent = `mlx_lm.server --model ${mlxRepo} --host 0.0.0.0 --port ${model.mlx.defaultLaunchFlags.port}`;
+      }
+
+      // Wire OS toggle
+      inputCard.querySelectorAll<HTMLButtonElement>('[data-lm-os]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const os = btn.dataset.lmOs as 'win-linux' | 'macos';
+          state.os = os;
+          state.ctxOverride = null;
+          inputCard.querySelectorAll<HTMLButtonElement>('[data-lm-os]').forEach((b) => {
+            const active = b === btn;
+            b.setAttribute('aria-selected', String(active));
+            if (active) {
+              b.classList.add('bg-[var(--color-text)]', 'text-[var(--color-bg)]');
+              b.classList.remove('text-[var(--color-text)]', 'hover:bg-[var(--color-bg)]');
+            } else {
+              b.classList.remove('bg-[var(--color-text)]', 'text-[var(--color-bg)]');
+              b.classList.add('text-[var(--color-text)]', 'hover:bg-[var(--color-bg)]');
+            }
+          });
+          paneWin.hidden = os !== 'win-linux';
+          paneMac.hidden = os !== 'macos';
+          // Auto-jump the modal to the matching tab
+          const tabIdx = os === 'macos' ? 2 : 0;
+          const tabBtn = setupModal.querySelector<HTMLButtonElement>(`[data-os-tab-btn][data-tab-idx="${tabIdx}"]`);
+          tabBtn?.click();
+          render();
+        });
+      });
+
+      // Wire sliders
+      ramSlider.addEventListener('input', () => { state.ramGB = Number(ramSlider.value); ramOut.textContent = ramSlider.value; render(); });
+      vramSlider.addEventListener('input', () => { state.vramGB = Number(vramSlider.value); vramOut.textContent = vramSlider.value; render(); });
+      unifiedSlider.addEventListener('input', () => { state.unifiedGB = Number(unifiedSlider.value); unifiedOut.textContent = unifiedSlider.value; render(); });
+      ctxSlider.addEventListener('input', () => { state.ctxOverride = Number(ctxSlider.value); ctxOut.textContent = ctxSlider.value; render(); });
+
+      // Wire use-case chips
+      inputCard.querySelectorAll<HTMLButtonElement>('[data-lm-usecase]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const uc = btn.dataset.lmUsecase!;
+          if (state.useCases.has(uc)) state.useCases.delete(uc); else state.useCases.add(uc);
+          const active = state.useCases.has(uc);
+          btn.setAttribute('aria-pressed', String(active));
+          if (active) {
+            btn.classList.add('bg-[var(--color-text)]', 'text-[var(--color-bg)]', 'shadow-hard-sm');
+            btn.classList.remove('bg-[var(--color-surface)]', 'text-[var(--color-muted)]');
+          } else {
+            btn.classList.remove('bg-[var(--color-text)]', 'text-[var(--color-bg)]', 'shadow-hard-sm');
+            btn.classList.add('bg-[var(--color-surface)]', 'text-[var(--color-muted)]');
+          }
+          state.ctxOverride = null;
+          render();
+        });
+      });
+
+      render();
+    }
+
+    initLocalModels();
+    document.addEventListener('astro:page-load', initLocalModels);
   </script>
 </BaseLayout>
