@@ -3,12 +3,12 @@
   "info": {
     "title": "TechRex Public API",
     "version": "1.0.0",
-    "summary": "Read-only public endpoints exposed by the TechRex website (techrex.saitejamothukuri.com).",
+    "summary": "Read-only public endpoints exposed by the TechRex website (techrex.dev).",
     "description": "Small surface — currently exposes cached YouTube channel statistics for the TechRex channel. No auth required. Responses are JSON. Backed by the YouTube Data API v3; falls back to static values on upstream failure.",
     "contact": {
       "name": "Saiteja Mothukuri",
       "url": "https://saitejamothukuri.com",
-      "email": "saiteja.techrex@gmail.com"
+      "email": "saiteja@techrex.dev"
     },
     "license": {
       "name": "Proprietary (content)"
@@ -16,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "https://techrex.saitejamothukuri.com",
+      "url": "https://techrex.dev",
       "description": "Production"
     }
   ],

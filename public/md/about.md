@@ -2,7 +2,7 @@
 
 > The people, the method, the why.
 
-**Canonical URL:** <https://techrex.saitejamothukuri.com/about/>
+**Canonical URL:** <https://techrex.dev/about/>
 
 ---
 
@@ -37,4 +37,4 @@ Every video maps to one of three buckets: **Resources** (a tool that earns a spo
 
 ## Get in touch
 
-saiteja.techrex@gmail.com
+saiteja@techrex.dev

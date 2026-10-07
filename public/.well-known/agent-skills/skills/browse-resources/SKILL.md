@@ -21,7 +21,7 @@ prompt showing how to delegate to Claude Code / Cursor / Codex.
 
 ## How to use
 
-1. Fetch `https://techrex.saitejamothukuri.com/resources/` (HTML) or request
+1. Fetch `https://techrex.dev/resources/` (HTML) or request
    `Accept: text/markdown` to get the markdown version.
 2. Pick the tool the user is asking about and read the steps for their OS.
 3. Return the commands verbatim — they're tested and signed-installer-first.

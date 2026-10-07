@@ -2,7 +2,7 @@
 
 > Install + auth guides for the CLIs that make AI coding agents (Claude Code, Cursor, Codex) actually useful. Per-OS. Copy-paste commands. No "agent integration" needed — install once, then just tell your agent "use the gh CLI to open a PR".
 
-**Canonical URL:** <https://techrex.saitejamothukuri.com/resources/>
+**Canonical URL:** <https://techrex.dev/resources/>
 
 ---
 
@@ -96,8 +96,8 @@ Docs: <https://huggingface.co/docs/huggingface_hub/en/guides/cli>
 
 My entire Claude Code config in one download — 11 plugins, 17 custom skills, 6 sub-agents, 29 slash commands, rules, hooks, and scrubbed MCP stubs. Hand the file + agent prompt to Claude Code / Cursor / Codex and it installs everything onto your machine.
 
-- Download: <https://techrex.saitejamothukuri.com/claude-code-setup/setup.md>
-- Agent prompt: <https://techrex.saitejamothukuri.com/claude-code-setup/agent-prompt.txt>
+- Download: <https://techrex.dev/claude-code-setup/setup.md>
+- Agent prompt: <https://techrex.dev/claude-code-setup/agent-prompt.txt>
 - Source repo: <https://github.com/saiteja007-mv/techrex-claude-setup>
 
 No secrets shipped — API keys, OAuth tokens, JWTs, and the n8n ngrok URL are scrubbed from the repo. The installer merges non-destructively and backs up your existing `~/.claude/` first.
@@ -106,8 +106,8 @@ No secrets shipped — API keys, OAuth tokens, JWTs, and the n8n ngrok URL are s
 
 ## Other resources on this site
 
-- **[Token Usage](https://techrex.saitejamothukuri.com/token-usage/)** — real numbers from day-to-day agent work.
-- **[Channel Stats API](https://techrex.saitejamothukuri.com/api/channel-stats)** — JSON endpoint for TechRex YouTube stats.
+- **[Token Usage](https://techrex.dev/token-usage/)** — real numbers from day-to-day agent work.
+- **[Channel Stats API](https://techrex.dev/api/channel-stats)** — JSON endpoint for TechRex YouTube stats.
 
 ## YouTube
 

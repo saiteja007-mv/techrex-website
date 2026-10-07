@@ -5,7 +5,7 @@ subscriber count, view count, or total videos.
 
 ## Endpoint
 
-`GET https://techrex.saitejamothukuri.com/api/channel-stats`
+`GET https://techrex.dev/api/channel-stats`
 
 Returns JSON:
 

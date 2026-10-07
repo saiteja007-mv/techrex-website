@@ -2,7 +2,7 @@
 
 > Real numbers from my day-to-day AI agent work — how many tokens Claude Code / Cursor / Codex actually burn through on real projects. Updated as I ship new things.
 
-**Canonical URL:** <https://techrex.saitejamothukuri.com/token-usage/>
+**Canonical URL:** <https://techrex.dev/token-usage/>
 
 ---
 
@@ -25,5 +25,5 @@ Every pricing calculator assumes you know your token usage. You don't, until you
 
 ## Related
 
-- **[Resources](https://techrex.saitejamothukuri.com/resources/)** — the CLIs these agents drive.
-- **[About](https://techrex.saitejamothukuri.com/about/)** — context on how I actually use these tools.
+- **[Resources](https://techrex.dev/resources/)** — the CLIs these agents drive.
+- **[About](https://techrex.dev/about/)** — context on how I actually use these tools.

@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  site: 'https://techrex.saitejamothukuri.com',
+  site: 'https://techrex.dev',
   trailingSlash: 'always',
   output: 'static',
   vite: {
@@ -14,7 +14,7 @@ export default defineConfig({
   integrations: [sitemap({
     serialize(item) {
       const url = item.url;
-      if (url === 'https://techrex.saitejamothukuri.com/') {
+      if (url === 'https://techrex.dev/') {
         item.changefreq = 'weekly';
         item.priority = 1.0;
         item.lastmod = new Date().toISOString();

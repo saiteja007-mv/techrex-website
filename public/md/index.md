@@ -2,7 +2,7 @@
 
 > Evolve or Get Extinct. Hands-on YouTube channel + companion site for local-first AI, hardware that runs it, and the developer tools that glue it all together.
 
-**Canonical URL:** <https://techrex.saitejamothukuri.com/>
+**Canonical URL:** <https://techrex.dev/>
 
 ---
 
@@ -23,9 +23,9 @@ Developers and tinkerers who want:
 
 ## Key pages
 
-- **[Resources](https://techrex.saitejamothukuri.com/resources/)** — curated install + auth guides for Vercel CLI, GitHub CLI, Supabase CLI, AWS CLI v2, and Google Workspace CLI. Per-OS tabs with copy-buttons.
-- **[About](https://techrex.saitejamothukuri.com/about/)** — the people, the method, the why.
-- **[Token Usage](https://techrex.saitejamothukuri.com/token-usage/)** — real numbers from my day-to-day agent work.
+- **[Resources](https://techrex.dev/resources/)** — curated install + auth guides for Vercel CLI, GitHub CLI, Supabase CLI, AWS CLI v2, and Google Workspace CLI. Per-OS tabs with copy-buttons.
+- **[About](https://techrex.dev/about/)** — the people, the method, the why.
+- **[Token Usage](https://techrex.dev/token-usage/)** — real numbers from my day-to-day agent work.
 
 ## YouTube channel
 
@@ -39,4 +39,4 @@ RSS feed: <https://www.youtube.com/feeds/videos.xml?channel_id=UCxAGlEdCHFwzComL
 
 ## Contact
 
-saiteja.techrex@gmail.com
+saiteja@techrex.dev

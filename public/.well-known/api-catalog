@@ -1,28 +1,28 @@
 {
   "linkset": [
     {
-      "anchor": "https://techrex.saitejamothukuri.com/api/channel-stats",
+      "anchor": "https://techrex.dev/api/channel-stats",
       "service-desc": [
         {
-          "href": "https://techrex.saitejamothukuri.com/.well-known/openapi.json",
+          "href": "https://techrex.dev/.well-known/openapi.json",
           "type": "application/vnd.oai.openapi+json;version=3.1"
         }
       ],
       "service-doc": [
         {
-          "href": "https://techrex.saitejamothukuri.com/resources/",
+          "href": "https://techrex.dev/resources/",
           "type": "text/html"
         }
       ],
       "status": [
         {
-          "href": "https://techrex.saitejamothukuri.com/api/channel-stats",
+          "href": "https://techrex.dev/api/channel-stats",
           "type": "application/json"
         }
       ],
       "describedby": [
         {
-          "href": "https://techrex.saitejamothukuri.com/",
+          "href": "https://techrex.dev/",
           "type": "text/html"
         }
       ],
@@ -45,10 +45,10 @@
       "title": "TechRex YouTube RSS Feed"
     },
     {
-      "anchor": "https://techrex.saitejamothukuri.com/sitemap-index.xml",
+      "anchor": "https://techrex.dev/sitemap-index.xml",
       "service-desc": [
         {
-          "href": "https://techrex.saitejamothukuri.com/sitemap-index.xml",
+          "href": "https://techrex.dev/sitemap-index.xml",
           "type": "application/xml"
         }
       ],

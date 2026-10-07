@@ -9,18 +9,18 @@ const { socialLinks } = channelInfo;
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": "https://techrex.saitejamothukuri.com/#website",
+  "@id": "https://techrex.dev/#website",
   "name": "TechRex",
   "alternateName": ["TechRex by Saiteja Mothukuri", "The TechRex"],
-  "url": "https://techrex.saitejamothukuri.com/",
+  "url": "https://techrex.dev/",
   "description": "AI tools, local models, developer workflows and hardware guides by Saiteja Mothukuri.",
-  "publisher": { "@id": "https://techrex.saitejamothukuri.com/#organization" }
+  "publisher": { "@id": "https://techrex.dev/#organization" }
 };
 
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "@id": "https://techrex.saitejamothukuri.com/#person",
+  "@id": "https://techrex.dev/#person",
   "name": "Saiteja Mothukuri",
   "alternateName": "Sai Teja Mothukuri",
   "url": "https://saitejamothukuri.com",
@@ -28,7 +28,7 @@ const personSchema = {
   "description": "AI educator and developer behind TechRex. Covers local AI models, developer tools, and hardware for AI workloads.",
   "worksFor": {
     "@type": "Organization",
-    "@id": "https://techrex.saitejamothukuri.com/#organization",
+    "@id": "https://techrex.dev/#organization",
     "name": "TechRex"
   },
   "knowsAbout": ["Local AI", "AI Tools", "Developer Workflows", "Hardware for AI", "Open Source", "Machine Learning"],
@@ -43,20 +43,21 @@ const personSchema = {
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": "https://techrex.saitejamothukuri.com/#organization",
+  "@id": "https://techrex.dev/#organization",
   "name": "TechRex",
-  "url": "https://techrex.saitejamothukuri.com/",
+  "url": "https://techrex.dev/",
   "logo": {
     "@type": "ImageObject",
-    "url": "https://techrex.saitejamothukuri.com/favicon.svg",
+    "url": "https://techrex.dev/favicon.svg",
     "width": 512,
     "height": 512
   },
-  "description": "AI tools, local models, developer workflows and hardware guides.",
+  "description": "AI tools studio building open-source, Claude-powered developer tools, with tutorials on AI tools, local models and developer workflows.",
+  "email": "saiteja@techrex.dev",
   "foundingDate": "2025-11",
   "founder": {
     "@type": "Person",
-    "@id": "https://techrex.saitejamothukuri.com/#person",
+    "@id": "https://techrex.dev/#person",
     "name": "Saiteja Mothukuri"
   },
   "sameAs": [
@@ -69,30 +70,30 @@ const organizationSchema = {
 const homepageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "@id": "https://techrex.saitejamothukuri.com/",
-  "url": "https://techrex.saitejamothukuri.com/",
+  "@id": "https://techrex.dev/",
+  "url": "https://techrex.dev/",
   "name": "TechRex — AI Tools, Local AI & Developer Workflows",
   "description": "AI tools, local models, developer workflows and hardware guides. Learn to build and launch with the latest AI technology.",
-  "isPartOf": { "@id": "https://techrex.saitejamothukuri.com/#website" },
+  "isPartOf": { "@id": "https://techrex.dev/#website" },
   "about": { "@type": "Thing", "name": "AI Tools and Local AI Models" },
-  "author": { "@id": "https://techrex.saitejamothukuri.com/#person" },
+  "author": { "@id": "https://techrex.dev/#person" },
   "hasPart": [
     {
       "@type": "WebPage",
       "name": "About",
-      "url": "https://techrex.saitejamothukuri.com/about/",
+      "url": "https://techrex.dev/about/",
       "description": "About TechRex and the REX Method"
     },
     {
       "@type": "WebPage",
       "name": "Resources",
-      "url": "https://techrex.saitejamothukuri.com/resources/",
+      "url": "https://techrex.dev/resources/",
       "description": "Open-source projects and curated AI resources"
     },
     {
       "@type": "WebPage",
       "name": "Token Usage",
-      "url": "https://techrex.saitejamothukuri.com/token-usage/",
+      "url": "https://techrex.dev/token-usage/",
       "description": "AI token usage dashboard"
     }
   ]
@@ -100,7 +101,7 @@ const homepageSchema = {
 ---
 <BaseLayout
   title="TechRex"
-  description="AI tools, local models, developer workflows and hardware guides. Learn to build and launch with the latest AI technology."
+  description="TechRex builds open-source, Claude-powered developer tools and teaches AI tools, local models and developer workflows."
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
@@ -110,6 +111,64 @@ const homepageSchema = {
   </Fragment>
   <!-- Hero -->
   <Hero />
+
+  <!-- What we build -->
+  <section id="build" class="scroll-mt-24 py-16 bg-[var(--color-surface)] border-b-2 border-[var(--color-border)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-8">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-card)] border-2 border-[var(--color-border)] text-xs font-bold text-[var(--color-muted)] shadow-hard-sm">
+          What we build
+        </span>
+        <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-[var(--color-text)] mt-4 mb-3">
+          Open-source tools for building with Claude
+        </h2>
+        <p class="text-[var(--color-muted)] leading-relaxed">
+          TechRex is a small AI tools studio. We build Claude Code skills, plugins and local-AI tooling, ship them as open source, and teach each one on the channel.
+          Get in touch at <a href="mailto:saiteja@techrex.dev" class="font-semibold text-primary hover:text-primary-hover transition-colors">saiteja@techrex.dev</a>.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          {
+            name: 'resume-forge',
+            description: 'Paste a job description or link and get an ATS-optimized resume tailored to your profile. A Claude Code skill.',
+            install: 'npx resume-forge',
+            url: 'https://github.com/saiteja007-mv/resume-forge'
+          },
+          {
+            name: 'imagegen-codex',
+            description: 'Batch image generation from Claude Code through the Codex CLI image tool. No API key needed.',
+            install: 'npx imagegen-codex',
+            url: 'https://github.com/saiteja007-mv/imagegen-codex'
+          },
+          {
+            name: 'Claude Code setup bundle',
+            description: 'One agent prompt installs a full Claude Code setup: plugins, skills, agents and slash commands.',
+            install: 'Hand AGENT_PROMPT.md to any agent',
+            url: 'https://github.com/saiteja007-mv/techrex-claude-setup'
+          },
+          {
+            name: 'local-ai-memory',
+            description: 'Long-term memory for local LLMs through an OpenAI-compatible RAG proxy for LM Studio, Ollama and llama.cpp.',
+            install: 'Self-hosted (Python)',
+            url: 'https://github.com/saiteja007-mv/local-ai-memory'
+          }
+        ].map((tool) => (
+          <a
+            href={tool.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-card)] p-6 shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <h3 class="font-heading font-bold text-xl text-[var(--color-text)] mb-2">{tool.name}</h3>
+            <p class="text-sm text-[var(--color-muted)] leading-relaxed mb-4">{tool.description}</p>
+            <code class="inline-block text-xs font-mono px-2.5 py-1 rounded-md bg-[var(--color-surface)] border-2 border-[var(--color-border)] text-[var(--color-text)]">{tool.install}</code>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <section class="py-16 bg-[var(--color-bg)] border-b-2 border-[var(--color-border)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
